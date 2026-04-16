@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Implementations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MayNghien.Infrastructures\MayNghien.Infrastructures.csproj" />
+    <ProjectReference Include="..\QuanLyPhongKham.Commons\QuanLyPhongKham.Commons.csproj" />
+    <ProjectReference Include="..\QuanLyPhongKham.DTOs\QuanLyPhongKham.DTOs.csproj" />
+    <ProjectReference Include="..\QuanLyPhongKham.Models\QuanLyPhongKham.Models.csproj" />
+  </ItemGroup>
+
+</Project>

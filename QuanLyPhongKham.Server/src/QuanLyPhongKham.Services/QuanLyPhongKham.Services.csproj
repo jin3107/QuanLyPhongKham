@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Implementations\" />
+    <Folder Include="Mapping\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore" Version="8.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.23" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MayNghien.Infrastructures\MayNghien.Infrastructures.csproj" />
+    <ProjectReference Include="..\QuanLyPhongKham.Commons\QuanLyPhongKham.Commons.csproj" />
+    <ProjectReference Include="..\QuanLyPhongKham.DTOs\QuanLyPhongKham.DTOs.csproj" />
+    <ProjectReference Include="..\QuanLyPhongKham.Models\QuanLyPhongKham.Models.csproj" />
+    <ProjectReference Include="..\QuanLyPhongKham.Repositories\QuanLyPhongKham.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>
