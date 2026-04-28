@@ -1,10 +1,29 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+import { BrowserRouter } from 'react-router-dom'
+import { ConfigProvider } from "antd";
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <ConfigProvider
+  theme={{
+    token: {
+      colorPrimary: "#0B4F84",
+    },
+  }}
+>
+  <App />
+</ConfigProvider>
+  </BrowserRouter>
 )
+// import { ConfigProvider } from "antd";
+
+{/* <ConfigProvider
+  theme={{
+    token: {
+      colorPrimary: "#0B4F84",
+    },
+  }}
+>
+  <App />
+</ConfigProvider> */}
