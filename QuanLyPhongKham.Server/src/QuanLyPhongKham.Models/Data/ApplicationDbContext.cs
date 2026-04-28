@@ -18,6 +18,15 @@ namespace QuanLyPhongKham.Models.Data
 
 
         // Add DbSet
+        public DbSet<BENHNHAN> BenhNhans { get; set; }
+        public DbSet<BACSI> BacSis { get; set; }
+        public DbSet<LICHHEN> LichHens { get; set; }
+        public DbSet<PHIEUKHAM> PhieuKhams { get; set; }
+        public DbSet<HOADON> HoaDons { get; set; }
+        public DbSet<DONTHUOC> DonThuocs { get; set; }
+        public DbSet<DANHMUCTHUOC> DanhMucThuocs { get; set; }
+        public DbSet<DANHMUCDICVU> DanhMucDichVus { get; set; }
+        public DbSet<LICHLAMVIEC> LichLamViecs { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
