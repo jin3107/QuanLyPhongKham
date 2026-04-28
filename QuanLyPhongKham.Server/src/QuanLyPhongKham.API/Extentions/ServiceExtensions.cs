@@ -14,7 +14,7 @@ namespace QuanLyPhongKham.API.Extentions
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             // Add repositories
-
+            // services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             return services;
         }
@@ -22,7 +22,7 @@ namespace QuanLyPhongKham.API.Extentions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             // Add applicaiton services
-
+            // services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 
             return services;
