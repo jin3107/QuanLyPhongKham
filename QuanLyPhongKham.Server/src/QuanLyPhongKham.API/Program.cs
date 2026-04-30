@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuanLyPhongKham.API.Extentions;
 using QuanLyPhongKham.Models.Data;
 using QuanLyPhongKham.Models.Entities;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +21,19 @@ builder.Services.AddApplicationServices().AddRepositories();
 builder.Services.AddSwaggerConfiguration();
 
 // Add Cors and JWT
-// builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 // Add Cors configuration
 builder.Services.AddCorsConfiguration(builder.Configuration);
 
 // Add Identity configuration
 builder.Services.AddIdentityConfiguration();
+
+// Add Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
@@ -41,10 +48,14 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
+app.UseSerilogRequestLogging();
+
 app.UseAuthentication();
 
-// app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllers();
+
+app.Lifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
 app.Run();

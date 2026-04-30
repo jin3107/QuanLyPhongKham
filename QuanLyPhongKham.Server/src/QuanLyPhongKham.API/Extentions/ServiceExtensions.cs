@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QuanLyPhongKham.Models.Data;
 using QuanLyPhongKham.Models.Entities;
+using QuanLyPhongKham.Repositories.Implementations;
+using QuanLyPhongKham.Repositories.Interfaces;
+using QuanLyPhongKham.Services.Implementations;
+using QuanLyPhongKham.Services.Interfaces;
 using System.Text;
 
 namespace QuanLyPhongKham.API.Extentions
@@ -14,7 +18,8 @@ namespace QuanLyPhongKham.API.Extentions
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             // Add repositories
-            // services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<INhanVienRepository, NhanVienRepository>();
 
             return services;
         }
@@ -22,7 +27,8 @@ namespace QuanLyPhongKham.API.Extentions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             // Add applicaiton services
-            // services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<INhanVienService, NhanVienService>();
 
 
             return services;
@@ -86,8 +92,6 @@ namespace QuanLyPhongKham.API.Extentions
         #region Identity configuration
         public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services)
         {
-            services.AddAuthentication();
-
             services.AddIdentityCore<ApplicationUser>(options =>
             {
                 options.User.RequireUniqueEmail = false;

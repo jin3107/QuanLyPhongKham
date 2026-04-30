@@ -13,6 +13,7 @@ namespace QuanLyPhongKham.Models.Entities
         public string? TrangThai { get; set; }
 
         public Role? Role { get; set; }
+        public string? FullName { get; set; }
 
         public BACSI? BacSi { get; set; }
     }

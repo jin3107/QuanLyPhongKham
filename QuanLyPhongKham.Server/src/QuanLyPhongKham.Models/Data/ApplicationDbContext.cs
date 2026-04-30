@@ -27,6 +27,7 @@ namespace QuanLyPhongKham.Models.Data
         public DbSet<DANHMUCTHUOC> DanhMucThuocs { get; set; }
         public DbSet<DANHMUCDICVU> DanhMucDichVus { get; set; }
         public DbSet<LICHLAMVIEC> LichLamViecs { get; set; }
+        public DbSet<NHANVIEN> NhanViens { get; set; }
         public DbSet<RefreshTokenModel> RefreshTokenModels { get; set; }
 
 

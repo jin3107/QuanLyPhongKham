@@ -14,6 +14,8 @@ namespace QuanLyPhongKham.Services.Interfaces
         Task<AppResponse<LoginResponse>> LoginAsync(LoginRequest request);
         Task<AppResponse<RegisterResponse>> RegisterAsync(RegisterRequest request);
 
+        Task<AppResponse<ProfileResponse>> GetProfileAsync();
+
         Task<AppResponse<RefreshTokenResponse>> RefreshTokenAsync(string refreshToken);
         Task<AppResponse<ChangePasswordResponse>> ChangePasswordAsync(ChangePasswordRequest request);
         Task LogoutAsync(string refreshToken);

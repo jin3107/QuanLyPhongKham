@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './layout/Layout'
 import Booking from './pages/Appointment/Booking/Booking'
 import Cancellation from './pages/Appointment/Cancellation/Cancellation'
@@ -12,28 +12,39 @@ import Logout from './pages/Auth/Logout/Logout'
 import AdminDashboard from './pages/Admin/Dashboard/Dashboard'
 import AdminUserRoles from './pages/Admin/UserRoles/UserRoles'
 import AdminDoctors from './pages/Admin/Doctors/Doctors'
+import DoctorDashboard from './pages/Doctor/Dashboard/Dashboard'
+import DoctorPatientInfo from './pages/Doctor/PatientInfo/PatientInfo'
+import DoctorPatientView from './pages/Doctor/PatientView/PatientView'
+import DoctorPrescription from './pages/Doctor/Prescription/Prescription'
+import DoctorServiceRequest from './pages/Doctor/ServiceRequest/ServiceRequest'
+import ReceptionistDashboard from './pages/Receptionist/Dashboard/Dashboard'
+import ReceptionistPatientIntake from './pages/Receptionist/PatientIntake/PatientIntake'
 
 
 function App() {
   return (
     <Routes>
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/logout" element={<Logout />} />
+      <Route path="/Login" element={<Login />} />
+      <Route path="/Register" element={<Register />} />
+      <Route path="/Logout" element={<Logout />} />
       <Route path="/" element={<Layout />}>
-        <Route index element={<Booking />} />
-        <Route path="/ScheduleView" element={<ScheduleView />} />
+        <Route index element={<Navigate to="/Login" replace />} />
+        <Route path="/Scheduleview" element={<ScheduleView />} />
         <Route path="/Cancellation" element={<Cancellation />} />
         <Route path="/Reschedule" element={<Reschedule />} />
         <Route path="/Billing" element={<Billing />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/user-roles" element={<AdminUserRoles />} />
-        <Route path="/admin/doctors" element={<AdminDoctors />} />
-
+        <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
+        <Route path="/Admin/User-roles" element={<AdminUserRoles />} />
+        <Route path="/Admin/Doctors" element={<AdminDoctors />} />
+        <Route path="/Doctor/Dashboard" element={<DoctorDashboard />} />
+        <Route path="/Doctor/Patient-info" element={<DoctorPatientInfo />} />
+        <Route path="/doctor/Patient-view" element={<DoctorPatientView />} />
+        <Route path="/Doctor/Prescription" element={<DoctorPrescription />} />
+        <Route path="/Doctor/Service-request" element={<DoctorServiceRequest />} />
+        <Route path="/Receptionist/Dashboard" element={<ReceptionistDashboard />} />
+        <Route path="/Receptionist/Patient-intake" element={<ReceptionistPatientIntake />} />
       </Route>
     </Routes>
   )
 }
 export default App
-
-

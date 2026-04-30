@@ -1,9 +1,67 @@
 import "./login.scss";
 import heroImage from "../../../assets/image/img1.png";
 import logo from "../../../assets/image/LogoBYT.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { login as loginApi } from "../../../apis";
 
 export default function Login() {
+	const navigate = useNavigate();
+	const [form, setForm] = useState({ userName: "", password: "" });
+	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
+
+	const handleChange = (field) => (event) => {
+		setForm((prev) => ({ ...prev, [field]: event.target.value }));
+	};
+
+	const getRoleKey = (value) =>
+		String(value || "")
+			.toLowerCase()
+			.replace(/[_\s-]+/g, "");
+
+	const getDefaultRoute = (roleValue) => {
+		const key = getRoleKey(roleValue);
+		if (["superadmin", "admin", "quanly", "manager"].includes(key))
+			return "/admin/dashboard";
+		if (["bacsi", "doctor"].includes(key)) return "/doctor/dashboard";
+		if (["letan", "receptionist"].includes(key))
+			return "/receptionist/dashboard";
+		return "/";
+	};
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		setError("");
+		setLoading(true);
+		try {
+			const response = await loginApi({
+				UserName: form.userName,
+				Password: form.password,
+			});
+			const result = response?.data;
+			if (!result?.isSuccess) {
+				setError(result?.message || "Đăng nhập thất bại.");
+				return;
+			}
+			const data = result.data || {};
+			const accessToken = data.accessToken || data.AccessToken;
+			const role = data.role || data.Role;
+			const name =
+				data.userName || data.UserName || data.email || data.Email || form.userName;
+
+			if (accessToken) sessionStorage.setItem("accessToken", accessToken);
+			if (role) sessionStorage.setItem("role", role);
+			if (name) sessionStorage.setItem("userName", name);
+
+			navigate(getDefaultRoute(role));
+		} catch (err) {
+			setError("Không thể kết nối máy chủ.");
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<div className="auth-page login-page">
 			<div className="auth-shell">
@@ -37,14 +95,26 @@ export default function Login() {
 						<h1>Đăng nhập</h1>
 						<p>Nhập thông tin tài khoản để tiếp tục làm việc.</p>
 					</div>
-					<form className="auth-form">
+					<form className="auth-form" onSubmit={handleSubmit}>
 						<label className="auth-field">
 							<span>Tài khoản</span>
-							<input type="text" placeholder="Email hoặc số điện thoại" />
+							<input
+								type="text"
+								placeholder="Email hoặc số điện thoại"
+								value={form.userName}
+								onChange={handleChange("userName")}
+								required
+							/>
 						</label>
 						<label className="auth-field">
 							<span>Mật khẩu</span>
-							<input type="password" placeholder="Nhập mật khẩu" />
+							<input
+								type="password"
+								placeholder="Nhập mật khẩu"
+								value={form.password}
+								onChange={handleChange("password")}
+								required
+							/>
 						</label>
 						<div className="auth-row">
 							<label className="auth-check">
@@ -55,8 +125,9 @@ export default function Login() {
 								Quên mật khẩu?
 							</button>
 						</div>
-						<button className="auth-button" type="button">
-							Đăng nhập
+						{error && <p className="auth-error">{error}</p>}
+						<button className="auth-button" type="submit" disabled={loading}>
+							{loading ? "Đang đăng nhập..." : "Đăng nhập"}
 						</button>
 					</form>
 					<div className="auth-footer">

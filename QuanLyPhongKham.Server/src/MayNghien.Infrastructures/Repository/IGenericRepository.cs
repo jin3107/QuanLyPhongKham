@@ -6,7 +6,8 @@ using System.Linq.Expressions;
 
 namespace MayNghien.Infrastructures.Repository
 {
-    public interface IGenericRepository<T> where T : BaseEntity
+    public interface IGenericRepository<T, C, TUser> where T : BaseEntity
+        where C : BaseContext<TUser> where TUser : IdentityUser
     {
         void ClearTracker();
         DbSet<T> GetSet();

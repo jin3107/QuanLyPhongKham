@@ -1,94 +1,310 @@
-import "./userroles.scss";
+import { useCallback, useEffect, useState } from "react";
+import { Table, Button, Form, Input, Select, Tag, Space,
+  Popconfirm, Card, Typography, message,
+} from "antd";
+import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { createNhanVien, searchNhanVien, updateNhanVien, deleteNhanVien } from "../../../apis";
+import { normalizeNhanVien } from "../../../models/NhanVien";
+
+const { Title, Text } = Typography;
+
+const ROLE_LABELS = {
+  SuperAdmin: "Quản lý",
+  BacSi: "Bác sĩ",
+  LeTan: "Lễ tân",
+  BenhNhan: "Bệnh nhân",
+};
+
+const ROLE_COLORS = {
+  SuperAdmin: "blue",
+  BacSi: "green",
+  LeTan: "orange",
+  BenhNhan: "default",
+};
+
+const ROLE_OPTIONS = [
+  { value: "SuperAdmin", label: "Quản lý" },
+  { value: "BacSi", label: "Bác sĩ" },
+  { value: "LeTan", label: "Lễ tân" },
+];
+
+const DEFAULT_FORM = {
+  maNV: "",
+  hoTen: "",
+  email: "",
+  soDienThoai: "",
+  password: "",
+  role: "LeTan",
+};
 
 export default function UserRoles() {
-	return (
-		<div className="admin-page user-roles-page">
-			<header className="admin-header">
-				<div>
-					<h1 className="admin-title">Quản lý phân quyền</h1>
-					<p className="admin-subtitle">
-						Thiết lập vai trò và phạm vi truy cập cho từng nhóm người dùng.
-					</p>
-				</div>
-				<div className="admin-actions">
-					<button className="admin-btn" type="button">
-						Thêm vai trò
-					</button>
-					<button className="admin-btn ghost" type="button">
-						Cập nhật quyền
-					</button>
-				</div>
-			</header>
+  const [nhanViens, setNhanViens] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalRows, setTotalRows] = useState(0);
+  const pageSize = 10;
+  const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
 
-			<section className="admin-split">
-				<div className="admin-card">
-					<div className="admin-card-head">
-						<h3>Danh sách vai trò</h3>
-						<div className="admin-input-group">
-							<input
-								className="admin-input"
-								type="text"
-								placeholder="Tìm vai trò"
-							/>
-						</div>
-					</div>
-					<div className="admin-list">
-						<div className="admin-list-item">
-							<div>
-								<h4>Quản lý</h4>
-								<p>Quản lý nhân sự, phân quyền, thống kê</p>
-							</div>
-							<span className="admin-pill">4 người dùng</span>
-						</div>
-						<div className="admin-list-item">
-							<div>
-								<h4>Bác sĩ</h4>
-								<p>Khám bệnh, kê thuốc, yêu cầu dịch vụ</p>
-							</div>
-							<span className="admin-pill">18 người dùng</span>
-						</div>
-						<div className="admin-list-item">
-							<div>
-								<h4>Lễ tân</h4>
-								<p>Tiếp nhận, đặt lịch, thanh toán</p>
-							</div>
-							<span className="admin-pill">6 người dùng</span>
-						</div>
-						<div className="admin-list-item">
-							<div>
-								<h4>Bệnh nhân</h4>
-								<p>Đặt lịch, hủy lịch, đổi lịch</p>
-							</div>
-							<span className="admin-pill">120 người dùng</span>
-						</div>
-					</div>
-				</div>
+  const loadNhanViens = useCallback(
+    async (page = 1) => {
+      setLoading(true);
+      try {
+        const response = await searchNhanVien(null, page, pageSize);
+				console.log("raw:", JSON.stringify(response?.data));
+        const payload = response?.data ?? {};
+        const searchData = payload?.data ?? {};
+        const data = Array.isArray(searchData.data) ? searchData.data : [];
+        setNhanViens(data.map(normalizeNhanVien));
+        setCurrentPage(searchData.currentPage ?? page);
+        setTotalRows(searchData.totalRows ?? 0);
+      } catch {
+        messageApi.error("Không tải được danh sách nhân viên.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [messageApi],
+  );
 
-				<div className="admin-card">
-					<div className="admin-card-head">
-						<h3>Chi tiết vai trò</h3>
-						<span className="admin-pill">Quản lý</span>
-					</div>
-					<div className="role-grid">
-						<div className="role-item">
-							<h4>Quản lý thông tin bác sĩ</h4>
-							<p>Thêm, chỉnh sửa, cập nhật hồ sơ bác sĩ</p>
-						</div>
-						<div className="role-item">
-							<h4>Quản lý phân quyền</h4>
-							<p>Cập nhật vai trò theo tài khoản</p>
-						</div>
-						<div className="role-item">
-							<h4>Phân công lịch làm việc</h4>
-							<p>Phân công ca trực theo lichlamviecs</p>
-						</div>
-						<div className="role-item">
-							<h4>Thống kê</h4>
-							<p>Báo cáo bệnh nhân, doanh thu, hoạt động bác sĩ</p>
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
-	);
+  useEffect(() => {
+    loadNhanViens(1);
+  }, [loadNhanViens]);
+
+  const handleSelect = (record) => {
+    setSelected(record);
+    form.setFieldsValue({ ...record, password: "" });
+  };
+
+  const handleClear = () => {
+    setSelected(null);
+    form.resetFields();
+    form.setFieldsValue(DEFAULT_FORM);
+  };
+
+  const handleSubmit = async (values) => {
+    setSubmitting(true);
+    try {
+      const payload = {
+        HoTen: values.hoTen,
+        Email: values.email,
+        SoDienThoai: values.soDienThoai,
+        Password: values.password,
+        Role: values.role,
+      };
+
+      let response;
+      if (selected) {
+        payload.MaNV = selected.maNV;
+        response = await updateNhanVien(payload);
+      } else {
+        response = await createNhanVien(payload);
+      }
+
+      const res = response?.data ?? {};
+      const isSuccess = res?.isSuccess ?? res?.IsSuccess;
+      const msg = res?.message ?? res?.Message;
+
+      if (!isSuccess) {
+        messageApi.error(msg || "Không thể lưu nhân viên.");
+        return;
+      }
+
+      messageApi.success(msg || (selected ? "Đã cập nhật." : "Đã thêm mới."));
+      await loadNhanViens(currentPage);
+      handleClear();
+    } catch (err) {
+      const msg = err?.response?.data?.message ?? err?.response?.data?.Message;
+      messageApi.error(msg || "Không thể lưu nhân viên.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (record) => {
+    setLoading(true);
+    try {
+      const response = await deleteNhanVien(record.maNV);
+      const res = response?.data ?? {};
+      const isSuccess = res?.isSuccess ?? res?.IsSuccess;
+      const msg = res?.message ?? res?.Message;
+
+      if (!isSuccess) {
+        messageApi.error(msg || "Không thể xóa.");
+        return;
+      }
+
+      messageApi.success("Đã xóa nhân viên.");
+      if (selected?.maNV === record.maNV) handleClear();
+      await loadNhanViens(currentPage);
+    } catch (err) {
+      const msg = err?.response?.data?.message ?? err?.response?.data?.Message;
+      messageApi.error(msg || "Không thể xóa.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const columns = [
+    {
+      title: "Họ tên",
+      dataIndex: "hoTen",
+      key: "hoTen",
+      render: (text, record) => (
+        <div>
+          <div style={{ fontWeight: 600 }}>{text}</div>
+          <Text type="secondary" style={{ fontSize: 12 }}>
+            {record.email}
+          </Text>
+        </div>
+      ),
+    },
+    {
+      title: "SĐT",
+      dataIndex: "soDienThoai",
+      key: "soDienThoai",
+      render: (v) => v || <Text type="secondary">—</Text>,
+    },
+    {
+      title: "Vai trò",
+      dataIndex: "role",
+      key: "role",
+      render: (role) => (
+        <Tag color={ROLE_COLORS[role] ?? "default"}>
+          {ROLE_LABELS[role] ?? role}
+        </Tag>
+      ),
+    },
+    {
+      title: "",
+      key: "actions",
+      align: "right",
+      render: (_, record) => (
+        <Space>
+          <Button
+            size="small"
+            icon={<EditOutlined />}
+            onClick={() => handleSelect(record)}
+          />
+          <Popconfirm
+            title={`Xóa nhân viên ${record.hoTen}?`}
+            onConfirm={() => handleDelete(record)}
+            okText="Xóa"
+            cancelText="Hủy"
+            okButtonProps={{ danger: true }}
+          >
+            <Button size="small" danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <>
+      {contextHolder}
+      <div style={{ padding: "24px 28px" }}>
+        <div style={{ marginBottom: 24 }}>
+          <Title level={3} style={{ margin: 0 }}>
+            Quản lý phân quyền
+          </Title>
+          <Text type="secondary">
+            Phân quyền nhân viên theo tài khoản đăng nhập.
+          </Text>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.2fr 0.8fr",
+            gap: 20,
+            alignItems: "start",
+          }}
+        >
+          <Card title="Danh sách nhân viên" variant="outlined">
+            <Table
+              rowKey={(r) => r.maNV || r.email}
+              columns={columns}
+              dataSource={nhanViens}
+              loading={loading}
+              pagination={{
+                current: currentPage,
+                pageSize,
+                total: totalRows,
+                onChange: (page) => loadNhanViens(page),
+                showTotal: (total) => `${total} nhân viên`,
+              }}
+              size="small"
+            />
+          </Card>
+
+          <Card
+            title={selected ? "Cập nhật nhân viên" : "Thêm nhân viên"}
+            variant="outlined"
+          >
+            <Form
+              form={form}
+              layout="vertical"
+              initialValues={DEFAULT_FORM}
+              onFinish={handleSubmit}
+              autoComplete="off"
+            >
+              <Form.Item
+                label="Họ tên"
+                name="hoTen"
+                rules={[{ required: true, message: "Nhập họ tên" }]}
+              >
+                <Input placeholder="Họ tên" />
+              </Form.Item>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Email không hợp lệ",
+                  },
+                ]}
+              >
+                <Input placeholder="Email" />
+              </Form.Item>
+              <Form.Item label="Số điện thoại" name="soDienThoai">
+                <Input placeholder="Số điện thoại" />
+              </Form.Item>
+              <Form.Item
+                label="Mật khẩu"
+                name="password"
+                rules={
+                  selected ? [] : [{ required: true, message: "Nhập mật khẩu" }]
+                }
+              >
+                <Input.Password
+                  placeholder={selected ? "Để trống nếu không đổi" : "Mật khẩu"}
+                />
+              </Form.Item>
+              <Form.Item label="Vai trò" name="role">
+                <Select options={ROLE_OPTIONS} />
+              </Form.Item>
+              <Form.Item style={{ marginBottom: 0 }}>
+                <Space>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={submitting}
+                    icon={<PlusOutlined />}
+                  >
+                    {selected ? "Cập nhật" : "Thêm mới"}
+                  </Button>
+                  {selected && <Button onClick={handleClear}>Hủy</Button>}
+                </Space>
+              </Form.Item>
+            </Form>
+          </Card>
+        </div>
+      </div>
+    </>
+  );
 }

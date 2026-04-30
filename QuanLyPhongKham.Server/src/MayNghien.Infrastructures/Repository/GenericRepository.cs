@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace MayNghien.Infrastructures.Repository
 {
-    public class GenericRepository<TEntity, TContext, TUser> : IGenericRepository<TEntity>
+    public class GenericRepository<TEntity, TContext, TUser> : IGenericRepository<TEntity, TContext, TUser>
         where TEntity : BaseEntity where TContext : BaseContext<TUser> where TUser : IdentityUser
     {
         #region Properties

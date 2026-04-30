@@ -226,6 +226,41 @@
 	color: #5b6a74;
 }
 
+.user-roles-form {
+	display: grid;
+	gap: 12px;
+}
+
+.user-roles-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.user-roles-actions {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.user-roles-status {
+	border-radius: 10px;
+	padding: 10px 12px;
+	font-size: 13px;
+	border: 1px solid transparent;
+}
+
+.user-roles-status.success {
+	background: #e6f5ee;
+	color: #1e7c4b;
+	border-color: #cfe9dc;
+}
+
+.user-roles-status.error {
+	background: #feecec;
+	color: #b42318;
+	border-color: #f7c7c7;
+}
+
 .role-grid {
 	display: grid;
 	gap: 12px;
@@ -266,5 +301,9 @@
 	.admin-header {
 		flex-direction: column;
 		align-items: flex-start;
+	}
+
+	.user-roles-grid {
+		grid-template-columns: 1fr;
 	}
 }

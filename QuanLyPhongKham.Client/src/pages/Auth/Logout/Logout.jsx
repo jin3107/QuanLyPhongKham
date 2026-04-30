@@ -1,8 +1,28 @@
 import "./logout.scss";
 import heroImage from "../../../assets/image/Hospital.jpg";
 import logo from "../../../assets/image/LogoBYT.png";
+import { useNavigate } from "react-router-dom";
+import { logout as logoutApi } from "../../../apis";
+import { useState } from "react";
 
 export default function Logout() {
+	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
+
+	const handleLogout = async () => {
+		setError("");
+		setLoading(true);
+		try {
+			await logoutApi();
+		} catch {
+			// ignore when backend is not ready
+		}
+		sessionStorage.clear();
+		setLoading(false);
+		navigate("/login");
+	};
+
 	return (
 		<div className="auth-page logout-page">
 			<div className="auth-shell">
@@ -34,13 +54,23 @@ export default function Logout() {
 						</div>
 					</div>
 					<div className="auth-actions">
-						<button className="auth-button" type="button">
-							Xác nhận đăng xuất
+						<button
+							className="auth-button"
+							type="button"
+							onClick={handleLogout}
+							disabled={loading}
+						>
+							{loading ? "Đang đăng xuất..." : "Xác nhận đăng xuất"}
 						</button>
-						<button className="auth-button secondary" type="button">
+						<button
+							className="auth-button secondary"
+							type="button"
+							onClick={() => navigate(-1)}
+						>
 							Quay lại
 						</button>
 					</div>
+					{error && <p className="auth-error">{error}</p>}
 					<p className="auth-note">Bạn có thể đăng nhập lại bất cứ lúc nào.</p>
 				</section>
 			</div>

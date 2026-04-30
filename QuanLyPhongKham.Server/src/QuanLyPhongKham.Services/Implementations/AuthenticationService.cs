@@ -17,6 +17,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using MayNghien.Infrastructures.Helpers;
 
 namespace QuanLyPhongKham.Services.Implementations
 {
@@ -114,6 +115,49 @@ namespace QuanLyPhongKham.Services.Implementations
             catch (Exception ex)
             {
                 return result.BuildError(ex.Message + " " + ex.StackTrace);
+            }
+        }
+
+        public Task<AppResponse<ProfileResponse>> GetProfileAsync()
+        {
+            var result = new AppResponse<ProfileResponse>();
+            try
+            {
+                var context = _contextAccessor.HttpContext;
+                if (context == null)
+                    return Task.FromResult(result.BuildError("Missing http context."));
+
+                var token = ClaimHelper.GetTokenFromHeader(context) ?? context.Request.Cookies["AuthToken"];
+                if (string.IsNullOrWhiteSpace(token))
+                    return Task.FromResult(result.BuildError("Missing access token."));
+
+                var handler = new JwtSecurityTokenHandler();
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = _config["Jwt:Issuer"],
+                    ValidAudience = _config["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? string.Empty))
+                };
+
+                var principal = handler.ValidateToken(token, validationParameters, out _);
+                var role = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? string.Empty;
+                var name = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? string.Empty;
+
+                return Task.FromResult(result.BuildResult(new ProfileResponse
+                {
+                    UserName = name,
+                    Role = role,
+                }));
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(result.BuildError(ex.Message + " " + ex.StackTrace));
             }
         }
 

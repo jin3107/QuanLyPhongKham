@@ -12,7 +12,7 @@ using QuanLyPhongKham.Models.Data;
 namespace QuanLyPhongKham.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260428032412_DbInit")]
+    [Migration("20260429161551_DbInit")]
     partial class DbInit
     {
         /// <inheritdoc />
@@ -191,6 +191,9 @@ namespace QuanLyPhongKham.Models.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("FullName")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -213,6 +216,9 @@ namespace QuanLyPhongKham.Models.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
@@ -573,6 +579,53 @@ namespace QuanLyPhongKham.Models.Migrations
                     b.ToTable("LichLamViecs");
                 });
 
+            modelBuilder.Entity("QuanLyPhongKham.Models.Entities.NHANVIEN", b =>
+                {
+                    b.Property<Guid>("MaNV")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("HoTen")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SoDienThoai")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.HasKey("MaNV");
+
+                    b.ToTable("NhanViens");
+                });
+
             modelBuilder.Entity("QuanLyPhongKham.Models.Entities.PHIEUKHAM", b =>
                 {
                     b.Property<Guid>("MaPK")
@@ -627,6 +680,44 @@ namespace QuanLyPhongKham.Models.Migrations
                         .IsUnique();
 
                     b.ToTable("PhieuKhams");
+                });
+
+            modelBuilder.Entity("QuanLyPhongKham.Models.Entities.RefreshTokenModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RefreshTokenModels");
                 });
 
             modelBuilder.Entity("DANHMUCTHUOCDONTHUOC", b =>

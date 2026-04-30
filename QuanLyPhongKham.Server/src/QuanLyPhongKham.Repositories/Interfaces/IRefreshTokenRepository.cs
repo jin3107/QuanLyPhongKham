@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyPhongKham.Repositories.Interfaces
 {
-    public interface IRefreshTokenRepository : IGenericRepository<RefreshTokenModel>
+    public interface IRefreshTokenRepository : IGenericRepository<RefreshTokenModel, ApplicationDbContext, ApplicationUser>
     {
         Task<RefreshTokenModel?> FindByTokenAsync(string token);
         Task RevokeByUserIdAsync(Guid userId);
