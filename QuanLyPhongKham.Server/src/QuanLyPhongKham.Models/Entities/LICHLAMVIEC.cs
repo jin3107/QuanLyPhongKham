@@ -14,7 +14,6 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaLLV { get; set; }
-
         public DateTime NgayLamViec { get; set; }
         public DateTime GioBatDau { get; set; }
         public DateTime GioKetThuc { get; set; }

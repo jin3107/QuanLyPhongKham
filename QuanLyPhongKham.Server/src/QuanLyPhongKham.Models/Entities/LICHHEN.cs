@@ -13,10 +13,7 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaLH { get; set; }
-
         public DateTime ThoiGianKham { get; set; }
-
-        [MaxLength(30)]
         public string TrangThai { get; set; }
 
         [ForeignKey("BenhNhan")]

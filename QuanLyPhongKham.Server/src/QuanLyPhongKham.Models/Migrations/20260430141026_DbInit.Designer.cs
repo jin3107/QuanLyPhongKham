@@ -12,7 +12,7 @@ using QuanLyPhongKham.Models.Data;
 namespace QuanLyPhongKham.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260429161551_DbInit")]
+    [Migration("20260430141026_DbInit")]
     partial class DbInit
     {
         /// <inheritdoc />
@@ -252,8 +252,7 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ChuyenKhoa")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
@@ -263,8 +262,7 @@ namespace QuanLyPhongKham.Models.Migrations
 
                     b.Property<string>("HoTen")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
@@ -279,8 +277,7 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("SoDienThoai")
-                        .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("MaBS");
 
@@ -303,16 +300,14 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("DiaChi")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("GioiTinh")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("HoTen")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
@@ -327,16 +322,13 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("SoBHYT")
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("SoDienThoai")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("TienSuDiUng")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("MaBN");
 
@@ -369,8 +361,7 @@ namespace QuanLyPhongKham.Models.Migrations
 
                     b.Property<string>("TenDV")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("MaDV");
 
@@ -384,8 +375,7 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ChongChiDinh")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
@@ -407,8 +397,7 @@ namespace QuanLyPhongKham.Models.Migrations
 
                     b.Property<string>("TenThuoc")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("MaThuoc");
 
@@ -465,8 +454,7 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("MaLeTan")
-                        .HasMaxLength(450)
-                        .HasColumnType("varchar(450)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid?>("MaPK")
                         .HasColumnType("char(36)");
@@ -484,8 +472,7 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("TrangThaiThanhToan")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("MaHD");
 
@@ -527,8 +514,7 @@ namespace QuanLyPhongKham.Models.Migrations
 
                     b.Property<string>("TrangThai")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("MaLH");
 
@@ -597,8 +583,7 @@ namespace QuanLyPhongKham.Models.Migrations
 
                     b.Property<string>("HoTen")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
@@ -618,8 +603,7 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("SoDienThoai")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("MaNV");
 
@@ -633,8 +617,7 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ChuanDoan")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("longtext");
@@ -643,8 +626,7 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("HuongDieuTri")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
@@ -665,12 +647,10 @@ namespace QuanLyPhongKham.Models.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("TrangThaiTiepNhan")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("TrieuChung")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("MaPK");
 

@@ -13,19 +13,10 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaPK { get; set; }
-
         public DateTime NgayKham { get; set; }
-
-        [MaxLength(500)]
         public string? TrieuChung { get; set; }
-
-        [MaxLength(500)]
         public string? ChuanDoan { get; set; }
-
-        [MaxLength(500)]
         public string? HuongDieuTri { get; set; }
-
-        [MaxLength(30)]
         public string? TrangThaiTiepNhan { get; set; }
 
         [ForeignKey("LichHen")]

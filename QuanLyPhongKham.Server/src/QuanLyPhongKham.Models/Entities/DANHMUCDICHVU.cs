@@ -12,10 +12,7 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaDV { get; set; }
-
-        [MaxLength(100)]
         public string TenDV { get; set; }
-
         public decimal DonGia { get; set; }
     }
 }

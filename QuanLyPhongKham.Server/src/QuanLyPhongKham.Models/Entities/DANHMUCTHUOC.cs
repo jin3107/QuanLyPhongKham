@@ -12,13 +12,8 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaThuoc { get; set; }
-
-        [MaxLength(100)]
         public string TenThuoc { get; set; }
-
         public decimal DonGia { get; set; }
-
-        [MaxLength(500)]
         public string? ChongChiDinh { get; set; }
 
         public ICollection<DONTHUOC>? DonThuocs { get; set; }

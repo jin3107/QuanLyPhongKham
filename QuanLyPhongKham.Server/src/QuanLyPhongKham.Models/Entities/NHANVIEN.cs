@@ -10,17 +10,10 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaNV { get; set; }
-
-        [MaxLength(100)]
         public string HoTen { get; set; }
-
-        [MaxLength(10)]
         public string? SoDienThoai { get; set; }
-
         public string Email { get; set; }
-
         public string Password { get; set; }
-
         public string Role { get; set; }
     }
 }

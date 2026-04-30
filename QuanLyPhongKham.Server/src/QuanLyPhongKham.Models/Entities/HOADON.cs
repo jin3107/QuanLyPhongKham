@@ -13,14 +13,9 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaHD { get; set; }
-
         public DateTime NgayThanhToan { get; set; }
         public decimal TongTien { get; set; }
-
-        [MaxLength(30)]
         public string? TrangThaiThanhToan { get; set; }
-
-        [MaxLength(450)]
         public string? MaLeTan { get; set; }
 
         [ForeignKey("PhieuKham")]

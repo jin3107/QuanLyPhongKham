@@ -13,7 +13,6 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaDT { get; set; }
-
         public DateTime NgayKe { get; set; }
 
         [ForeignKey("PhieuKham")]

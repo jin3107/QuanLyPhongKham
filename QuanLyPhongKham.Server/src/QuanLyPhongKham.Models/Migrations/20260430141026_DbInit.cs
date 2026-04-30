@@ -79,17 +79,17 @@ namespace QuanLyPhongKham.Models.Migrations
                 columns: table => new
                 {
                     MaBN = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    HoTen = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    HoTen = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NgaySinh = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     GioiTinh = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    SoDienThoai = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true)
+                    SoDienThoai = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DiaChi = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                    DiaChi = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    SoBHYT = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
+                    SoBHYT = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TienSuDiUng = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                    TienSuDiUng = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedBy = table.Column<string>(type: "longtext", nullable: true)
@@ -110,7 +110,7 @@ namespace QuanLyPhongKham.Models.Migrations
                 columns: table => new
                 {
                     MaDV = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    TenDV = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    TenDV = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DonGia = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -132,10 +132,10 @@ namespace QuanLyPhongKham.Models.Migrations
                 columns: table => new
                 {
                     MaThuoc = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    TenThuoc = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    TenThuoc = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DonGia = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    ChongChiDinh = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                    ChongChiDinh = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedBy = table.Column<string>(type: "longtext", nullable: true)
@@ -156,9 +156,9 @@ namespace QuanLyPhongKham.Models.Migrations
                 columns: table => new
                 {
                     MaNV = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    HoTen = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    HoTen = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    SoDienThoai = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true)
+                    SoDienThoai = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -336,11 +336,11 @@ namespace QuanLyPhongKham.Models.Migrations
                 columns: table => new
                 {
                     MaBS = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    HoTen = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    HoTen = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ChuyenKhoa = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                    ChuyenKhoa = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    SoDienThoai = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: true)
+                    SoDienThoai = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MaTK = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -370,7 +370,7 @@ namespace QuanLyPhongKham.Models.Migrations
                 {
                     MaLH = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ThoiGianKham = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    TrangThai = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
+                    TrangThai = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MaBN = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     MaBS = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
@@ -435,13 +435,13 @@ namespace QuanLyPhongKham.Models.Migrations
                 {
                     MaPK = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     NgayKham = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    TrieuChung = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                    TrieuChung = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ChuanDoan = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                    ChuanDoan = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    HuongDieuTri = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                    HuongDieuTri = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TrangThaiTiepNhan = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                    TrangThaiTiepNhan = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MaLH = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     MaBS = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
@@ -505,9 +505,9 @@ namespace QuanLyPhongKham.Models.Migrations
                     MaHD = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     NgayThanhToan = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     TongTien = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    TrangThaiThanhToan = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                    TrangThaiThanhToan = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    MaLeTan = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: true)
+                    MaLeTan = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MaPK = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true),

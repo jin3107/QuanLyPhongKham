@@ -13,14 +13,8 @@ namespace QuanLyPhongKham.Models.Entities
     {
         [Key]
         public Guid MaBS { get; set; }
-
-        [MaxLength(100)]
         public string HoTen { get; set; }
-
-        [MaxLength(100)]
         public string? ChuyenKhoa { get; set; }
-
-        [MaxLength(15)]
         public string? SoDienThoai { get; set; }
 
         [ForeignKey("TaiKhoan")]
