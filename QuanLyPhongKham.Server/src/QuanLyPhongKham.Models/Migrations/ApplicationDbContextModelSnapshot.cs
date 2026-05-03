@@ -278,8 +278,7 @@ namespace QuanLyPhongKham.Models.Migrations
 
                     b.HasKey("MaBS");
 
-                    b.HasIndex("MaTK")
-                        .IsUnique();
+                    b.HasIndex("MaTK");
 
                     b.ToTable("BacSis");
                 });
@@ -766,8 +765,8 @@ namespace QuanLyPhongKham.Models.Migrations
             modelBuilder.Entity("QuanLyPhongKham.Models.Entities.BACSI", b =>
                 {
                     b.HasOne("QuanLyPhongKham.Models.Entities.ApplicationUser", "TaiKhoan")
-                        .WithOne("BacSi")
-                        .HasForeignKey("QuanLyPhongKham.Models.Entities.BACSI", "MaTK")
+                        .WithMany()
+                        .HasForeignKey("MaTK")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("TaiKhoan");
@@ -835,11 +834,6 @@ namespace QuanLyPhongKham.Models.Migrations
                     b.Navigation("BacSi");
 
                     b.Navigation("LichHen");
-                });
-
-            modelBuilder.Entity("QuanLyPhongKham.Models.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("BacSi");
                 });
 
             modelBuilder.Entity("QuanLyPhongKham.Models.Entities.BACSI", b =>

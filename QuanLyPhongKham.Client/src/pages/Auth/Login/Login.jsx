@@ -1,19 +1,19 @@
+import "../auth.scss";
 import "./login.scss";
 import heroImage from "../../../assets/image/img1.png";
 import logo from "../../../assets/image/LogoBYT.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Alert, Button, Card, Checkbox, Form, Input, Typography } from "antd";
 import { login as loginApi } from "../../../apis";
+import { createLoginRequest, normalizeLoginResponse } from "../../../interfaces";
+
+const { Title, Paragraph, Text } = Typography;
 
 export default function Login() {
 	const navigate = useNavigate();
-	const [form, setForm] = useState({ userName: "", password: "" });
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
-
-	const handleChange = (field) => (event) => {
-		setForm((prev) => ({ ...prev, [field]: event.target.value }));
-	};
 
 	const getRoleKey = (value) =>
 		String(value || "")
@@ -30,32 +30,27 @@ export default function Login() {
 		return "/";
 	};
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
+	const handleSubmit = async (values) => {
 		setError("");
 		setLoading(true);
 		try {
-			const response = await loginApi({
-				UserName: form.userName,
-				Password: form.password,
-			});
+			const response = await loginApi(createLoginRequest(
+				values.userName,
+				values.password
+			));
 			const result = response?.data;
 			if (!result?.isSuccess) {
 				setError(result?.message || "Đăng nhập thất bại.");
 				return;
 			}
-			const data = result.data || {};
-			const accessToken = data.accessToken || data.AccessToken;
-			const role = data.role || data.Role;
-			const name =
-				data.userName || data.UserName || data.email || data.Email || form.userName;
+			const data = normalizeLoginResponse(result.data ?? {});
+			
+			if (data.accessToken) sessionStorage.setItem("accessToken", data.accessToken);
+			if (data.role) sessionStorage.setItem("role", data.role);
+			if (data.userName) sessionStorage.setItem("userName", data.userName);
 
-			if (accessToken) sessionStorage.setItem("accessToken", accessToken);
-			if (role) sessionStorage.setItem("role", role);
-			if (name) sessionStorage.setItem("userName", name);
-
-			navigate(getDefaultRoute(role));
-		} catch (err) {
+			navigate(getDefaultRoute(data.role));
+		} catch {
 			setError("Không thể kết nối máy chủ.");
 		} finally {
 			setLoading(false);
@@ -73,70 +68,60 @@ export default function Login() {
 							<span className="auth-badge-subtitle">Đăng nhập nhanh, thao tác gọn</span>
 						</div>
 					</div>
-					<h1>Chào mừng trở lại</h1>
-					<p>
+					<Title level={2}>Chào mừng trở lại</Title>
+					<Paragraph>
 						Quản lý lịch hẹn, bệnh nhân và tài chính trong một không gian làm việc
 						thống nhất.
-					</p>
+					</Paragraph>
 					<img className="auth-illustration" src={heroImage} alt="Bác sĩ" />
 					<div className="auth-highlights">
-						<div>
-							<h4>Lịch hẹn rõ ràng</h4>
-							<span>Tập trung vào ca khám quan trọng nhất.</span>
-						</div>
-						<div>
-							<h4>Báo cáo nhanh</h4>
-							<span>Thống kê được gom gọn trong một bước.</span>
-						</div>
+						<Card size="small">
+							<Title level={4}>Lịch hẹn rõ ràng</Title>
+							<Text type="secondary">Tập trung vào ca khám quan trọng nhất.</Text>
+						</Card>
+						<Card size="small">
+							<Title level={4}>Báo cáo nhanh</Title>
+							<Text type="secondary">Thống kê được gom gọn trong một bước.</Text>
+						</Card>
 					</div>
 				</aside>
-				<section className="auth-card">
+				<Card className="auth-card" variant="borderless">
 					<div className="auth-card-header">
-						<h1>Đăng nhập</h1>
-						<p>Nhập thông tin tài khoản để tiếp tục làm việc.</p>
+						<Title level={2}>Đăng nhập</Title>
+						<Paragraph>Nhập thông tin tài khoản để tiếp tục làm việc.</Paragraph>
 					</div>
-					<form className="auth-form" onSubmit={handleSubmit}>
-						<label className="auth-field">
-							<span>Tài khoản</span>
-							<input
-								type="text"
-								placeholder="Email hoặc số điện thoại"
-								value={form.userName}
-								onChange={handleChange("userName")}
-								required
-							/>
-						</label>
-						<label className="auth-field">
-							<span>Mật khẩu</span>
-							<input
-								type="password"
-								placeholder="Nhập mật khẩu"
-								value={form.password}
-								onChange={handleChange("password")}
-								required
-							/>
-						</label>
+					<Form className="auth-form" layout="vertical" onFinish={handleSubmit}>
+						<Form.Item
+							label="Tài khoản"
+							name="userName"
+							rules={[{ required: true, message: "Nhập tài khoản" }]}
+						>
+							<Input placeholder="Email hoặc số điện thoại" autoComplete="username" />
+						</Form.Item>
+						<Form.Item
+							label="Mật khẩu"
+							name="password"
+							rules={[{ required: true, message: "Nhập mật khẩu" }]}
+						>
+							<Input.Password placeholder="Nhập mật khẩu" autoComplete="current-password" />
+						</Form.Item>
 						<div className="auth-row">
-							<label className="auth-check">
-								<input type="checkbox" />
-								Ghi nhớ đăng nhập
-							</label>
-							<button className="auth-link" type="button">
+							<Link className="auth-link-button" to="/forgotpassword">
 								Quên mật khẩu?
-							</button>
+							</Link>
 						</div>
-						{error && <p className="auth-error">{error}</p>}
-						<button className="auth-button" type="submit" disabled={loading}>
-							{loading ? "Đang đăng nhập..." : "Đăng nhập"}
-						</button>
-					</form>
+						{error && <Alert message={error} type="error" showIcon />}
+						<Button type="primary" htmlType="submit" loading={loading} block>
+							Đăng nhập
+						</Button>
+					</Form>
 					<div className="auth-footer">
-						<span>Chưa có tài khoản?</span>
+						<Text type="secondary">Chưa có tài khoản?</Text>
 						<Link className="auth-link" to="/register">
 							Đăng ký
 						</Link>
 					</div>
-				</section>
+				</Card>
 			</div>
 		</div>
 	);

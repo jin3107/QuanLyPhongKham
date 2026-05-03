@@ -173,8 +173,6 @@ namespace QuanLyPhongKham.Services.Implementations
                     await _refreshTokenRepository.EditAsync(tokenEntity);
                 }
             }
-
-            await _signInManager.SignOutAsync();
         }
 
         public async Task<AppResponse<RefreshTokenResponse>> RefreshTokenAsync(string refreshToken)

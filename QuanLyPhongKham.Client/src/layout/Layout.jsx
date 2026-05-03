@@ -29,23 +29,33 @@ export default function AppLayout() {
 
   const normalizeRole = (value) => {
     if (!value) return null;
-    const key = String(value).toLowerCase().replace(/[_\s-]+/g, "");
-    if (["superadmin", "admin", "quanly", "manager"].includes(key)) return "admin";
+    const key = String(value)
+      .toLowerCase()
+      .replace(/[_\s-]+/g, "");
+    if (["superadmin", "admin", "quanly", "manager"].includes(key))
+      return "admin";
     if (["bacsi", "doctor"].includes(key)) return "doctor";
     if (["letan", "receptionist"].includes(key)) return "receptionist";
     if (["benhnhan", "patient"].includes(key)) return "patient";
     return null;
   };
 
-  const sessionRole = normalizeRole(
-    sessionStorage.getItem("role") ||
-      sessionStorage.getItem("userRole") ||
-      sessionStorage.getItem("user_role") ||
-      sessionStorage.getItem("Role")
+  const sessionRole = useMemo(
+    () =>
+      normalizeRole(
+        sessionStorage.getItem("role") ||
+          sessionStorage.getItem("userRole") ||
+          sessionStorage.getItem("user_role") ||
+          sessionStorage.getItem("Role"),
+      ),
+    [],
   );
 
-  const sessionName =
-    sessionStorage.getItem("userName") || sessionStorage.getItem("UserName");
+  const sessionName = useMemo(
+    () =>
+      sessionStorage.getItem("userName") || sessionStorage.getItem("UserName"),
+    [],
+  );
 
   const authRole = apiRole || sessionRole;
   const role = authRole || "patient";
@@ -66,6 +76,17 @@ export default function AppLayout() {
   };
 
   useEffect(() => {
+    const storedRole =
+      sessionStorage.getItem("role") ||
+      sessionStorage.getItem("userRole") ||
+      sessionStorage.getItem("user_role") ||
+      sessionStorage.getItem("Role");
+    const storedName =
+      sessionStorage.getItem("userName") || sessionStorage.getItem("UserName");
+
+    // có session rồi thì skip
+    if (storedRole && storedName) return;
+
     const token =
       sessionStorage.getItem("accessToken") ||
       sessionStorage.getItem("AccessToken");
@@ -81,13 +102,16 @@ export default function AppLayout() {
         if (!raw) return;
         if (raw?.isSuccess === false || raw?.IsSuccess === false) return;
         const payload = raw?.data || raw?.Data || raw;
-        const apiRole = normalizeRole(payload?.role || payload?.Role);
-        if (apiRole) setApiRole(apiRole);
-        const apiName =
-          payload?.userName || payload?.UserName || payload?.name || payload?.Name;
-        if (apiName) setApiUserName(apiName);
+        const resolvedRole = normalizeRole(payload?.role || payload?.Role);
+        if (resolvedRole) setApiRole(resolvedRole);
+        const resolvedName =
+          payload?.userName ||
+          payload?.UserName ||
+          payload?.name ||
+          payload?.Name;
+        if (resolvedName) setApiUserName(resolvedName);
       } catch {
-        // ignore when auth is not ready
+        // ignore
       }
     };
 
@@ -137,17 +161,49 @@ export default function AppLayout() {
     ];
 
     const adminMenu = [
-      { path: "/admin/dashboard", icon: <DashboardOutlined />, label: "Bảng điều khiển" },
-      { path: "/admin/user-roles", icon: <TeamOutlined />, label: "Phân quyền" },
-      { path: "/admin/doctors", icon: <UserOutlined />, label: "Quản lý bác sĩ" },
+      {
+        path: "/admin/dashboard",
+        icon: <DashboardOutlined />,
+        label: "Bảng điều khiển",
+      },
+      {
+        path: "/admin/user-roles",
+        icon: <TeamOutlined />,
+        label: "Quản lý Phân quyền",
+      },
+      {
+        path: "/admin/doctors",
+        icon: <UserOutlined />,
+        label: "Quản lý bác sĩ",
+      },
     ];
 
     const doctorMenu = [
-      { path: "/doctor/dashboard", icon: <DashboardOutlined />, label: "Bảng điều khiển" },
-      { path: "/doctor/patient-info", icon: <UserOutlined />, label: "Thông tin bệnh nhân" },
-      { path: "/doctor/prescription", icon: <ScheduleOutlined />, label: "Kê thuốc" },
-      { path: "/doctor/service-request", icon: <SwapOutlined />, label: "Yêu cầu dịch vụ" },
-      { path: "/doctor/patient-view", icon: <CalendarOutlined />, label: "Lịch sử khám" },
+      {
+        path: "/doctor/dashboard",
+        icon: <DashboardOutlined />,
+        label: "Bảng điều khiển",
+      },
+      {
+        path: "/doctor/patient-info",
+        icon: <UserOutlined />,
+        label: "Thông tin bệnh nhân",
+      },
+      {
+        path: "/doctor/prescription",
+        icon: <ScheduleOutlined />,
+        label: "Kê thuốc",
+      },
+      {
+        path: "/doctor/service-request",
+        icon: <SwapOutlined />,
+        label: "Yêu cầu dịch vụ",
+      },
+      {
+        path: "/doctor/patient-view",
+        icon: <CalendarOutlined />,
+        label: "Lịch sử khám",
+      },
     ];
 
     if (role === "admin") return adminMenu;
@@ -161,7 +217,8 @@ export default function AppLayout() {
     return pathname.startsWith(itemPath);
   };
 
-  const activeItem = menuItems.find((item) => isActive(item.path)) || menuItems[0];
+  const activeItem =
+    menuItems.find((item) => isActive(item.path)) || menuItems[0];
 
   // lấy chữ cái đầu tiên của tên user
   const getInitial = (name) => {
@@ -177,62 +234,64 @@ export default function AppLayout() {
   ];
 
   return (
-    <Layout className="layout">
+    <Layout className="app-layout">
       {/* SIDEBAR */}
       <Sider
         collapsed={collapsed}
-        className="sider"
+        className="app-sider"
         breakpoint="lg" // tự collapse khi màn nhỏ
         collapsedWidth="60" // ẩn hẳn menu
       >
         {/* TOP: TOGGLE */}
-        <div className="top">
+        <div className="app-sider-top">
           <Button
             type="text"
-            className="toggle-btn"
+            className="app-toggle-btn"
             onClick={() => setCollapsed(!collapsed)}
             icon={<MenuOutlined />}
           />
-          {!collapsed && <span className="logo">{roleLabels[role]}</span>}
+          {!collapsed && (
+            <span className="app-role-label">{roleLabels[role]}</span>
+          )}
         </div>
 
         {/* MENU */}
-        <div className="menu">
+        <div className="app-menu">
           {menuItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`menu-item ${isActive(item.path) ? "active" : ""}`}
+              className={`app-menu-item ${isActive(item.path) ? "active" : ""}`}
             >
-              {item.icon && <span className="icon">{item.icon}</span>}
+              {item.icon && <span className="app-menu-icon">{item.icon}</span>}
               {!collapsed && item.label}
             </Link>
           ))}
         </div>
 
         {/* LOGOUT BOTTOM */}
-        <div className="logout">
+        <div className="app-logout">
           {!collapsed && <Link to="/logout">Đăng xuất</Link>}
         </div>
       </Sider>
 
       {/* MAIN */}
-      <Layout className="main">
-        <Header className="header">
-          <div className="left">
-            <div className="logo">
+      <Layout className="app-main">
+        <Header className="app-header">
+          <div className="app-header-left">
+            <div className="app-header-logo">
               <img src={logo} alt="" />
             </div>
-            <div className="selected-label">
+            <div className="app-selected-label">
               {(activeItem?.label || roleLabels[role]).toLocaleUpperCase()}
             </div>
           </div>
 
-          <div className="right">
+          <div className="app-header-right">
             <Dropdown menu={{ items }} placement="bottomRight">
-              <div className="user">
-                <span className="name">{userName}</span>
-                <Avatar size="medium" className="avatar">
+              <div className="app-user">
+                <span className="app-user-name">{userName}</span>
+                <Avatar size="medium" className="app-avatar">
                   {getInitial(userName)}
                 </Avatar>
               </div>
@@ -240,26 +299,25 @@ export default function AppLayout() {
           </div>
         </Header>
 
-        <Content className="content">
+        <Content className="app-content">
           <Outlet />
-          <Footer className="footer">
-            <div className="footer-container">
-
+          <Footer className="app-footer">
+            <div className="app-footer-container">
               {/* LEFT */}
-              <div className="footer-col">
+              <div className="app-footer-col">
                 <h3>Hệ thống quản lý phòng khám</h3>
                 <p>Hỗ trợ đặt lịch và khám bệnh.</p>
               </div>
 
               {/* CENTER */}
-              <div className="footer-col">
+              <div className="app-footer-col">
                 <h4>Liên hệ</h4>
                 <p>Email: htglpk@gmail.com</p>
                 <p>Hotline: 0123 456 789</p>
               </div>
 
               {/* RIGHT */}
-              <div className="footer-col">
+              <div className="app-footer-col">
                 <h4>Thông tin</h4>
                 <p>Phiên bản: v1.0.0</p>
                 <p>© 2026 Hệ thống quản lý phòm khám</p>

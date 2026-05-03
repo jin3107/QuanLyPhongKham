@@ -595,8 +595,7 @@ namespace QuanLyPhongKham.Models.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BacSis_MaTK",
                 table: "BacSis",
-                column: "MaTK",
-                unique: true);
+                column: "MaTK");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DANHMUCTHUOCDONTHUOC_DonThuocsMaDT",

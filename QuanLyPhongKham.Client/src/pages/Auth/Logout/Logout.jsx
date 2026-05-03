@@ -1,9 +1,14 @@
+import "../auth.scss";
 import "./logout.scss";
 import heroImage from "../../../assets/image/Hospital.jpg";
 import logo from "../../../assets/image/LogoBYT.png";
 import { useNavigate } from "react-router-dom";
 import { logout as logoutApi } from "../../../apis";
 import { useState } from "react";
+import { Alert, Button, Card, Space, Typography } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
+const { Title, Paragraph, Text } = Typography;
 
 export default function Logout() {
 	const navigate = useNavigate();
@@ -34,45 +39,38 @@ export default function Logout() {
 							<span className="auth-badge-subtitle">Kết thúc phiên làm việc</span>
 						</div>
 					</div>
-					<h1>Hoàn tất phiên làm việc</h1>
-					<p>
+					<Title level={2}>Hoàn tất phiên làm việc</Title>
+					<Paragraph>
 						Bạn có thể đăng xuất ngay hoặc quay lại để tiếp tục xử lý các yêu cầu
 						còn dở.
-					</p>
+					</Paragraph>
 					<img className="auth-illustration" src={heroImage} alt="Bệnh viện" />
 				</aside>
-				<section className="auth-card">
+				<Card className="auth-card" variant="borderless">
 					<div className="auth-card-header">
-						<h1>Đăng xuất</h1>
-						<p>Xác nhận đăng xuất để bảo vệ dữ liệu phòng khám.</p>
+						<Title level={2}>Đăng xuất</Title>
+						<Paragraph>Xác nhận đăng xuất để bảo vệ dữ liệu phòng khám.</Paragraph>
 					</div>
-					<div className="logout-panel">
-						<div className="logout-icon">!</div>
-						<div>
-							<h2>Bạn muốn đăng xuất?</h2>
-							<p>Lưu lại mọi thay đổi trước khi kết thúc phiên.</p>
-						</div>
-					</div>
-					<div className="auth-actions">
-						<button
-							className="auth-button"
-							type="button"
-							onClick={handleLogout}
-							disabled={loading}
-						>
-							{loading ? "Đang đăng xuất..." : "Xác nhận đăng xuất"}
-						</button>
-						<button
-							className="auth-button secondary"
-							type="button"
-							onClick={() => navigate(-1)}
-						>
-							Quay lại
-						</button>
-					</div>
-					{error && <p className="auth-error">{error}</p>}
-					<p className="auth-note">Bạn có thể đăng nhập lại bất cứ lúc nào.</p>
-				</section>
+					<Card className="logout-panel" size="small">
+						<Space align="start">
+							<div className="logout-icon">
+								<ExclamationCircleOutlined />
+							</div>
+							<div>
+								<Title level={4}>Bạn muốn đăng xuất?</Title>
+								<Text type="secondary">Lưu lại mọi thay đổi trước khi kết thúc phiên.</Text>
+							</div>
+						</Space>
+					</Card>
+					<Space className="auth-actions" wrap>
+						<Button type="primary" onClick={handleLogout} loading={loading}>
+							Xác nhận đăng xuất
+						</Button>
+						<Button onClick={() => navigate(-1)}>Quay lại</Button>
+					</Space>
+					{error && <Alert message={error} type="error" showIcon />}
+					<Paragraph className="auth-note">Bạn có thể đăng nhập lại bất cứ lúc nào.</Paragraph>
+				</Card>
 			</div>
 		</div>
 	);

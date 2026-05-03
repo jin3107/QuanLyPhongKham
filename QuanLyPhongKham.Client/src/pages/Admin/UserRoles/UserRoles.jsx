@@ -1,3 +1,5 @@
+import "../admin.scss";
+import "./userroles.scss";
 import { useCallback, useEffect, useState } from "react";
 import { Table, Button, Form, Input, Select, Tag, Space,
   Popconfirm, Card, Typography, message,
@@ -53,7 +55,6 @@ export default function UserRoles() {
       setLoading(true);
       try {
         const response = await searchNhanVien(null, page, pageSize);
-				console.log("raw:", JSON.stringify(response?.data));
         const payload = response?.data ?? {};
         const searchData = payload?.data ?? {};
         const data = Array.isArray(searchData.data) ? searchData.data : [];
@@ -154,8 +155,8 @@ export default function UserRoles() {
       key: "hoTen",
       render: (text, record) => (
         <div>
-          <div style={{ fontWeight: 600 }}>{text}</div>
-          <Text type="secondary" style={{ fontSize: 12 }}>
+          <div className="user-roles-name">{text}</div>
+          <Text type="secondary" className="user-roles-email">
             {record.email}
           </Text>
         </div>
@@ -205,90 +206,73 @@ export default function UserRoles() {
   return (
     <>
       {contextHolder}
-      <div style={{ padding: "24px 28px" }}>
-        <div style={{ marginBottom: 24 }}>
-          <Title level={3} style={{ margin: 0 }}>
-            Quản lý phân quyền
-          </Title>
-          <Text type="secondary">
-            Phân quyền nhân viên theo tài khoản đăng nhập.
-          </Text>
-        </div>
+      <div className="admin-page user-roles-page">
+        <header className="admin-header">
+          <div>
+            {/* <Title level={3} className="admin-title">
+              Quản lý phân quyền
+            </Title> */}
+            <Text type="secondary" className="admin-subtitle">
+              Phân quyền nhân viên theo tài khoản đăng nhập.
+            </Text>
+          </div>
+        </header>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.2fr 0.8fr",
-            gap: 20,
-            alignItems: "start",
-          }}
-        >
-          <Card title="Danh sách nhân viên" variant="outlined">
-            <Table
-              rowKey={(r) => r.maNV || r.email}
-              columns={columns}
-              dataSource={nhanViens}
-              loading={loading}
-              pagination={{
-                current: currentPage,
-                pageSize,
-                total: totalRows,
-                onChange: (page) => loadNhanViens(page),
-                showTotal: (total) => `${total} nhân viên`,
-              }}
-              size="small"
-            />
-          </Card>
-
+        <div className="user-roles-layout">
           <Card
+            className="user-roles-form-card"
             title={selected ? "Cập nhật nhân viên" : "Thêm nhân viên"}
             variant="outlined"
           >
             <Form
+              className="user-roles-form"
               form={form}
               layout="vertical"
               initialValues={DEFAULT_FORM}
               onFinish={handleSubmit}
               autoComplete="off"
             >
-              <Form.Item
-                label="Họ tên"
-                name="hoTen"
-                rules={[{ required: true, message: "Nhập họ tên" }]}
-              >
-                <Input placeholder="Họ tên" />
-              </Form.Item>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    type: "email",
-                    message: "Email không hợp lệ",
-                  },
-                ]}
-              >
-                <Input placeholder="Email" />
-              </Form.Item>
-              <Form.Item label="Số điện thoại" name="soDienThoai">
-                <Input placeholder="Số điện thoại" />
-              </Form.Item>
-              <Form.Item
-                label="Mật khẩu"
-                name="password"
-                rules={
-                  selected ? [] : [{ required: true, message: "Nhập mật khẩu" }]
-                }
-              >
-                <Input.Password
-                  placeholder={selected ? "Để trống nếu không đổi" : "Mật khẩu"}
-                />
-              </Form.Item>
-              <Form.Item label="Vai trò" name="role">
-                <Select options={ROLE_OPTIONS} />
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 0 }}>
+              <div className="user-roles-form-grid">
+                <Form.Item
+                  label="Họ tên"
+                  name="hoTen"
+                  rules={[{ required: true, message: "Nhập họ tên" }]}
+                >
+                  <Input placeholder="Họ tên" />
+                </Form.Item>
+                <Form.Item label="Số điện thoại" name="soDienThoai">
+                  <Input placeholder="Số điện thoại" />
+                </Form.Item>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      type: "email",
+                      message: "Email không hợp lệ",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Email" />
+                </Form.Item>
+                <Form.Item label="Vai trò" name="role">
+                  <Select options={ROLE_OPTIONS} />
+                </Form.Item>
+                <Form.Item
+                  className="user-roles-form-full"
+                  label="Mật khẩu"
+                  name="password"
+                  rules={
+                    selected ? [] : [{ required: true, message: "Nhập mật khẩu" }]
+                  }
+                >
+                  <Input.Password
+                    placeholder={selected ? "Để trống nếu không đổi" : "Mật khẩu"}
+                  />
+                </Form.Item>
+              </div>
+              <Form.Item className="user-roles-form-actions">
                 <Space>
                   <Button
                     type="primary"
@@ -302,6 +286,28 @@ export default function UserRoles() {
                 </Space>
               </Form.Item>
             </Form>
+          </Card>
+
+          <Card
+            className="user-roles-table-card"
+            title="Danh sách nhân viên"
+            variant="outlined"
+          >
+            <Table
+              rowKey={(r) => r.maNV || r.email}
+              columns={columns}
+              dataSource={nhanViens}
+              loading={loading}
+              pagination={{
+                current: currentPage,
+                pageSize,
+                total: totalRows,
+                onChange: (page) => loadNhanViens(page),
+                showTotal: (total) => `${total} nhân viên`,
+              }}
+              scroll={{ x: 720 }}
+              size="small"
+            />
           </Card>
         </div>
       </div>

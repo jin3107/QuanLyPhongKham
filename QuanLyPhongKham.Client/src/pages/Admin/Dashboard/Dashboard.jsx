@@ -1,113 +1,137 @@
+import "../admin.scss";
 import "./dashboard.scss";
+import { Button, Card, Col, Row, Space, Statistic, Table, Tag, Typography } from "antd";
+
+const { Title, Text } = Typography;
+
+const metricCards = [
+	{
+		title: "Lịch hẹn hôm nay",
+		value: 64,
+		note: "Theo bảng lichhens (trạng thái: Đã đặt)",
+	},
+	{
+		title: "Bệnh nhân chờ khám",
+		value: 18,
+		note: "TrangThaiTiepNhan: Chờ khám",
+	},
+	{
+		title: "Doanh thu tạm tính",
+		value: "86.500.000đ",
+		note: "Từ hoadons đã thanh toán hôm nay",
+	},
+];
+
+const schedules = [
+	{
+		title: "Phòng Nội tổng quát",
+		description: "LLV-240428-01 · Phạm Thu Hà · 08:00 - 11:30",
+		status: "Đang trực",
+		color: "success",
+	},
+	{
+		title: "Phòng Tim mạch",
+		description: "LLV-240428-02 · Trần Minh Châu · 09:00 - 12:00",
+		status: "Đủ lịch",
+		color: "processing",
+	},
+	{
+		title: "Phòng Nhi",
+		description: "LLV-240428-03 · Nguyễn Tuấn Anh · 13:00 - 16:30",
+		status: "Cần bổ sung",
+		color: "warning",
+	},
+];
+
+const doctorColumns = [
+	{ title: "Bác sĩ", dataIndex: "doctor", key: "doctor" },
+	{ title: "Chuyên khoa", dataIndex: "department", key: "department" },
+	{ title: "Lượt khám", dataIndex: "visits", key: "visits" },
+];
+
+const topDoctors = [
+	{
+		key: "BS001",
+		doctor: "BS001 - Nguyễn Huy Hoàng",
+		department: "Nội tổng quát",
+		visits: 18,
+	},
+	{
+		key: "BS005",
+		doctor: "BS005 - Lê Thảo Vy",
+		department: "Nhi",
+		visits: 15,
+	},
+	{
+		key: "BS011",
+		doctor: "BS011 - Trần Quốc Bảo",
+		department: "Tim mạch",
+		visits: 12,
+	},
+];
 
 export default function Dashboard() {
 	return (
 		<div className="admin-page dashboard-page">
 			<header className="admin-header">
 				<div>
-					<h1 className="admin-title">Bảng điều khiển</h1>
-					<p className="admin-subtitle">
+					{/* <Title level={3} className="admin-title">
+						Bảng điều khiển
+					</Title> */}
+					<Text type="secondary" className="admin-subtitle">
 						Tổng quan nhanh tình hình hoạt động phòng khám hôm nay.
-					</p>
+					</Text>
 				</div>
-				<div className="admin-actions">
-					<button className="admin-btn" type="button">
-						Tạo báo cáo
-					</button>
-					<button className="admin-btn ghost" type="button">
-						Xuất dữ liệu
-					</button>
-				</div>
+				<Space wrap>
+					<Button type="primary">Tạo báo cáo</Button>
+					<Button>Xuất dữ liệu</Button>
+				</Space>
 			</header>
 
-			<section className="admin-grid">
-				<article className="admin-card">
-					<h3>Lịch hẹn hôm nay</h3>
-					<div className="metric">64</div>
-					<p className="metric-note">Theo bảng lichhens (trạng thái: Đã đặt)</p>
-				</article>
-				<article className="admin-card">
-					<h3>Bệnh nhân chờ khám</h3>
-					<div className="metric">18</div>
-					<p className="metric-note">TrangThaiTiepNhan: Chờ khám</p>
-				</article>
-				<article className="admin-card">
-					<h3>Doanh thu tạm tính</h3>
-					<div className="metric">86.500.000đ</div>
-					<p className="metric-note">Từ hoadons đã thanh toán hôm nay</p>
-				</article>
-			</section>
+			<Row gutter={[16, 16]}>
+				{metricCards.map((item) => (
+					<Col key={item.title} xs={24} md={8}>
+						<Card>
+							<Statistic title={item.title} value={item.value} />
+							<Text type="secondary" className="admin-metric-note">
+								{item.note}
+							</Text>
+						</Card>
+					</Col>
+				))}
+			</Row>
 
-			<section className="admin-section">
-				<div className="admin-split">
-					<div className="admin-card">
-						<div className="admin-card-head">
-							<h3>Lịch làm việc gần đây</h3>
-							<span className="admin-pill">Trong ngày</span>
-						</div>
+			<Row className="admin-section" gutter={[16, 16]}>
+				<Col xs={24} lg={11}>
+					<Card
+						title="Lịch làm việc gần đây"
+						extra={<Tag color="processing">Trong ngày</Tag>}
+					>
 						<div className="admin-list">
-							<div className="admin-list-item">
-								<div>
-									<h4>Phòng Nội tổng quát</h4>
-									<p>LLV-240428-01 · Phạm Thu Hà · 08:00 - 11:30</p>
+							{schedules.map((item) => (
+								<div className="admin-list-item" key={item.title}>
+									<div>
+										<h4>{item.title}</h4>
+										<p>{item.description}</p>
+									</div>
+									<Tag color={item.color}>{item.status}</Tag>
 								</div>
-								<span className="admin-pill success">Đang trực</span>
-							</div>
-							<div className="admin-list-item">
-								<div>
-									<h4>Phòng Tim mạch</h4>
-									<p>LLV-240428-02 · Trần Minh Châu · 09:00 - 12:00</p>
-								</div>
-								<span className="admin-pill">Đủ lịch</span>
-							</div>
-							<div className="admin-list-item">
-								<div>
-									<h4>Phòng Nhi</h4>
-									<p>LLV-240428-03 · Nguyễn Tuấn Anh · 13:00 - 16:30</p>
-								</div>
-								<span className="admin-pill warn">Cần bổ sung</span>
-							</div>
+							))}
 						</div>
-					</div>
+					</Card>
+				</Col>
 
-					<div className="admin-card">
-						<div className="admin-card-head">
-							<h3>Top bác sĩ theo lượt khám</h3>
-							<button className="admin-link" type="button">
-								Xem tất cả
-							</button>
-						</div>
-						<div className="admin-table-wrap">
-							<table className="admin-table">
-								<thead>
-									<tr>
-										<th>Bác sĩ</th>
-										<th>Chuyên khoa</th>
-										<th>Lượt khám</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>BS001 - Nguyễn Huy Hoàng</td>
-										<td>Nội tổng quát</td>
-										<td>18</td>
-									</tr>
-									<tr>
-										<td>BS005 - Lê Thảo Vy</td>
-										<td>Nhi</td>
-										<td>15</td>
-									</tr>
-									<tr>
-										<td>BS011 - Trần Quốc Bảo</td>
-										<td>Tim mạch</td>
-										<td>12</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</section>
+				<Col xs={24} lg={13}>
+					<Card title="Top bác sĩ theo lượt khám" extra={<Button type="link">Xem tất cả</Button>}>
+						<Table
+							columns={doctorColumns}
+							dataSource={topDoctors}
+							pagination={false}
+							size="small"
+						/>
+					</Card>
+				</Col>
+			</Row>
 		</div>
 	);
 }

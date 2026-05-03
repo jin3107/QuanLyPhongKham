@@ -1,12 +1,17 @@
-import apiClient from "../config/axios";
+import axios from "../config/axios";
 
 export const login = async (payload) =>
-	await apiClient.post("/authentication/login", payload);
+	await axios.post("/authentication/login", payload);
 
 export const register = async (payload) =>
-	await apiClient.post("/authentication/register", payload);
+	await axios.post("/authentication/register", payload);
 
-export const logout = async () => await apiClient.post("/authentication/logout");
+export const logout = async () => await axios.post("/authentication/logout");
 
 export const getProfile = async () =>
-	await apiClient.get("/authentication/me");
+	await axios.get("/authentication/me");
+
+export const refreshToken = async () => 
+	await axios.post("/authentication/refresh-token");
+
+export const changePassword = async (payload) => await axios.post("/authentication/change-password", payload);

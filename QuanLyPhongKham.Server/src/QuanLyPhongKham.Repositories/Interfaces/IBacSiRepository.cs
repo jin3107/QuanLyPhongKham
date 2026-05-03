@@ -1,5 +1,4 @@
 ﻿using MayNghien.Infrastructures.Repository;
-using QuanLyPhongKham.DTOs.Responses;
 using QuanLyPhongKham.Models.Data;
 using QuanLyPhongKham.Models.Entities;
 using System;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyPhongKham.Repositories.Interfaces
 {
-    public interface INhanVienRepository : IGenericRepository<NHANVIEN, ApplicationDbContext, ApplicationUser>
+    public interface IBacSiRepository : IGenericRepository<BACSI, ApplicationDbContext, ApplicationUser>
     {
     }
 }

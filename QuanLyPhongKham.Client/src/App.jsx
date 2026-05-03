@@ -19,6 +19,7 @@ import DoctorPrescription from './pages/Doctor/Prescription/Prescription'
 import DoctorServiceRequest from './pages/Doctor/ServiceRequest/ServiceRequest'
 import ReceptionistDashboard from './pages/Receptionist/Dashboard/Dashboard'
 import ReceptionistPatientIntake from './pages/Receptionist/PatientIntake/PatientIntake'
+import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Route path="/Login" element={<Login />} />
       <Route path="/Register" element={<Register />} />
       <Route path="/Logout" element={<Logout />} />
+      <Route path="/ForgotPassword" element={<ForgotPassword />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<Navigate to="/Login" replace />} />
         <Route path="/Scheduleview" element={<ScheduleView />} />

@@ -1,5 +1,4 @@
 ﻿using MayNghien.Infrastructures.Repository;
-using Microsoft.EntityFrameworkCore;
 using QuanLyPhongKham.Models.Data;
 using QuanLyPhongKham.Models.Entities;
 using QuanLyPhongKham.Repositories.Interfaces;
@@ -11,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace QuanLyPhongKham.Repositories.Implementations
 {
-    public class NhanVienRepository : GenericRepository<NHANVIEN, ApplicationDbContext, ApplicationUser>, INhanVienRepository
+    public class BacSiRepository : GenericRepository<BACSI, ApplicationDbContext, ApplicationUser>, IBacSiRepository
     {
-        public NhanVienRepository(ApplicationDbContext unitOfWork) : base(unitOfWork)
+        public BacSiRepository(ApplicationDbContext unitOfWork) : base(unitOfWork)
         {
         }
     }

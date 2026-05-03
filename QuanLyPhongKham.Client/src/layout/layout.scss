@@ -9,22 +9,22 @@ html,
   overflow: hidden;
 }
 
-.main {
+.app-main {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-.layout {
+.app-layout {
   min-height: 100vh;
 }
 
-.ant-layout {
+.app-layout.ant-layout,
+.app-main.ant-layout {
   height: 100%;
 }
 
-/* SIDEBAR */
-.sider {
+.app-sider {
   height: 100vh;
   background: $primary !important;
   display: flex;
@@ -32,8 +32,7 @@ html,
   transition: all 0.9s ease;
 }
 
-/* TOP */
-.top {
+.app-sider-top {
   height: 60px;
   display: flex;
   align-items: center;
@@ -43,24 +42,23 @@ html,
   white-space: nowrap;
   overflow: hidden;
 
-  .toggle-btn {
+  .app-toggle-btn {
     color: white;
     font-size: 16px;
   }
 
-  .logo {
+  .app-role-label {
     font-weight: 600;
     font-size: 16px;
   }
 }
 
-/* MENU */
-.menu {
+.app-menu {
   display: flex;
   flex-direction: column;
 }
 
-.menu-item {
+.app-menu-item {
   color: white;
   padding: 12px 22px;
   text-decoration: none;
@@ -82,8 +80,7 @@ html,
   }
 }
 
-/* LOGOUT */
-.logout {
+.app-logout {
   padding: 14px 16px;
   color: white;
   cursor: pointer;
@@ -94,10 +91,14 @@ html,
   &:hover {
     background: rgba(255, 255, 255, 0.2);
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
-/* HEADER */
-.header {
+.app-header {
   background: white !important;
   display: flex;
   justify-content: space-between;
@@ -106,12 +107,12 @@ html,
   padding: 0 22px;
   height: 60px;
 
-  .left {
+  .app-header-left {
     display: flex;
     align-items: center;
     gap: 10px;
 
-    .logo {
+    .app-header-logo {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -123,7 +124,7 @@ html,
       }
     }
 
-    .selected-label {
+    .app-selected-label {
       font-size: 28px;
       font-weight: 700;
       color: #00a8ff;
@@ -140,19 +141,19 @@ html,
     }
   }
 
-  .right {
-    .user {
+  .app-header-right {
+    .app-user {
       display: flex;
       align-items: center;
       gap: 10px;
       cursor: pointer;
 
-      .avatar {
+      .app-avatar {
         border: 3px solid #eee;
         background-color: $primary;
       }
 
-      .name {
+      .app-user-name {
         font-weight: 500;
         color: #333;
       }
@@ -164,33 +165,26 @@ html,
   }
 }
 
-/* CONTENT */
-.content {
+.app-content {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   background: #f5f7fa;
 }
 
-.content-inner {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.footer {
+.app-footer {
   margin-top: auto;
   background: #fff;
   border-top: 1px solid #eaeaea;
   padding: 20px 40px;
 
-  .footer-container {
+  .app-footer-container {
     display: flex;
     justify-content: space-between;
     gap: 20px;
   }
 
-  .footer-col {
+  .app-footer-col {
     flex: 1;
 
     h3 {
@@ -212,39 +206,34 @@ html,
 }
 
 @media (max-width: 768px) {
-  /* HEADER */
-  .header {
+  .app-header {
     padding: 0 12px;
 
-    .left h1 {
+    .app-header-left h1 {
       font-size: 18px;
     }
   }
 
-  /* USER */
-  .right .user {
-    .name {
-      display: none; // ẩn tên, chỉ giữ avatar
+  .app-header-right .app-user {
+    .app-user-name {
+      display: none;
     }
   }
 
-  /* CONTENT */
-  .content {
+  .app-content {
     padding: 12px;
   }
 
-  /* FOOTER */
-  .footer {
+  .app-footer {
     padding: 16px;
 
-    .footer-container {
-      flex-direction: column; // xếp dọc
+    .app-footer-container {
+      flex-direction: column;
       gap: 12px;
     }
   }
 
-  /* MENU */
-  .menu-item {
+  .app-menu-item {
     padding: 12px 16px;
   }
 }
