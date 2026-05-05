@@ -10,6 +10,8 @@ import {
   SwapOutlined,
   DollarOutlined,
   LogoutOutlined,
+  UserAddOutlined,
+  FileSearchOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 
@@ -21,16 +23,15 @@ export default function AppLayout() {
 
   const menuItems = [
     { path: "/scheduleView", icon: <CalendarOutlined />, label: "Xem lịch" },
-    { path: "/", icon: <ScheduleOutlined />, label: "Đặt lịch" },
-    { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
-    { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
-    { path: "/billing", icon: <DollarOutlined />, label: "Tính chi phí" },
+    { path: "/patientIntake", icon: <UserAddOutlined />, label: "Đăng ký hồ sơ bệnh án" },
+    { path: "/historyView", icon: <FileSearchOutlined />, label: "Lịch sử bệnh án" },
+    { path: "/patientCount", icon: <FileSearchOutlined />, label: "Quản lý số lượng bệnh nhân" },
   ];
 
-  const [activeItem, setActiveItem] = useState(menuItems[0]);
+  const activeItem = menuItems.find((item) => item.path === location.pathname) || menuItems[0];
 
   // lấy chữ cái đầu tiên của tên user
-  const userName = "Huỳnh Như";
+  const userName = "Phước Minh";
   const getInitial = (name) => {
     return name?.trim().split(" ").pop().charAt(0).toUpperCase();
   };
@@ -69,7 +70,6 @@ export default function AppLayout() {
             <Link
               key={item.path}
               to={item.path}
-              onClick={() => setActiveItem(item)}
               className={`menu-item ${
                 location.pathname === item.path ? "active" : ""
               }`}
