@@ -10,6 +10,11 @@ import {
   SwapOutlined,
   DollarOutlined,
   LogoutOutlined,
+  DashboardOutlined,
+  FileAddOutlined,
+  FileSearchOutlined,
+  ExperimentOutlined,
+  MedicineBoxOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 
@@ -19,18 +24,44 @@ export default function AppLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
-  const menuItems = [
+  const patientMenuItems = [
     { path: "/scheduleView", icon: <CalendarOutlined />, label: "Xem lịch" },
     { path: "/", icon: <ScheduleOutlined />, label: "Đặt lịch" },
-    { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
+    { path: "/cancellation", icon: <StopOutlined />, label: "Hủy lịch" },
     { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
     { path: "/billing", icon: <DollarOutlined />, label: "Tính chi phí" },
   ];
 
-  const [activeItem, setActiveItem] = useState(menuItems[0]);
+  const doctorMenuItems = [
+    { path: "/doctor", icon: <DashboardOutlined />, label: "Tổng quan" },
+    {
+      path: "/doctor/patient-info",
+      icon: <FileAddOutlined />,
+      label: "Ghi thông tin bệnh nhân",
+    },
+    {
+      path: "/doctor/patient-view",
+      icon: <FileSearchOutlined />,
+      label: "Xem thông tin bệnh nhân",
+    },
+    {
+      path: "/doctor/service-request",
+      icon: <ExperimentOutlined />,
+      label: "Yêu cầu dịch vụ",
+    },
+    {
+      path: "/doctor/prescription",
+      icon: <MedicineBoxOutlined />,
+      label: "Kê thuốc",
+    },
+  ];
 
-  // lấy chữ cái đầu tiên của tên user
-  const userName = "Huỳnh Như";
+  const isDoctorArea = location.pathname.toLowerCase().startsWith("/doctor");
+  const menuItems = isDoctorArea ? doctorMenuItems : patientMenuItems;
+  const activeItem =
+    menuItems.find((item) => location.pathname === item.path) || menuItems[0];
+
+  const userName = isDoctorArea ? "BS Nguyễn Minh An" : "Huỳnh Như";
   const getInitial = (name) => {
     return name?.trim().split(" ").pop().charAt(0).toUpperCase();
   };
@@ -45,14 +76,12 @@ export default function AppLayout() {
 
   return (
     <Layout className="layout">
-      {/* SIDEBAR */}
       <Sider
         collapsed={collapsed}
         className="sider"
-        breakpoint="lg" // tự collapse khi màn nhỏ
-        collapsedWidth="60" // ẩn hẳn menu
+        breakpoint="lg"
+        collapsedWidth="60"
       >
-        {/* TOP: TOGGLE */}
         <div className="top">
           <Button
             type="text"
@@ -60,16 +89,16 @@ export default function AppLayout() {
             onClick={() => setCollapsed(!collapsed)}
             icon={<MenuOutlined />}
           />
-          {!collapsed && <span className="logo">Bệnh nhân</span>}
+          {!collapsed && (
+            <span className="logo">{isDoctorArea ? "Bác sĩ" : "Bệnh nhân"}</span>
+          )}
         </div>
 
-        {/* MENU */}
         <div className="menu">
           {menuItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              onClick={() => setActiveItem(item)}
               className={`menu-item ${
                 location.pathname === item.path ? "active" : ""
               }`}
@@ -80,19 +109,17 @@ export default function AppLayout() {
           ))}
         </div>
 
-        {/* LOGOUT BOTTOM */}
         <div className="logout">{!collapsed && "Đăng xuất"}</div>
       </Sider>
 
-      {/* MAIN */}
       <Layout className="main">
         <Header className="header">
           <div className="left">
             <div className="logo">
-              <img src={logo} alt="" />
+              <img src={logo} alt="Logo Bộ Y tế" />
             </div>
             <div className="selected-label">
-              {activeItem?.label.toLocaleUpperCase()}
+              {activeItem?.label.toLocaleUpperCase("vi-VN")}
             </div>
           </div>
 
@@ -112,25 +139,21 @@ export default function AppLayout() {
           <Outlet />
           <Footer className="footer">
             <div className="footer-container">
-
-              {/* LEFT */}
               <div className="footer-col">
                 <h3>Hệ thống quản lý phòng khám</h3>
-                <p>Hỗ trợ đặt lịch và khám bệnh.</p>
+                <p>Hỗ trợ tiếp nhận, khám bệnh, kê đơn và thanh toán.</p>
               </div>
 
-              {/* CENTER */}
               <div className="footer-col">
                 <h4>Liên hệ</h4>
                 <p>Email: htglpk@gmail.com</p>
                 <p>Hotline: 0123 456 789</p>
               </div>
 
-              {/* RIGHT */}
               <div className="footer-col">
                 <h4>Thông tin</h4>
                 <p>Phiên bản: v1.0.0</p>
-                <p>© 2026 Hệ thống quản lý phòm khám</p>
+                <p>© 2026 Hệ thống quản lý phòng khám</p>
               </div>
             </div>
           </Footer>

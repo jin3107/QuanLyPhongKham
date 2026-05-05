@@ -1,0 +1,46 @@
+@use "../doctor-common";
+
+.patient-view-page {
+  .medicine-list {
+    display: grid;
+    gap: 10px;
+
+    div {
+      padding: 12px;
+      background: #f8fbff;
+      border: 1px solid #dbe6f1;
+      border-radius: 8px;
+    }
+
+    strong,
+    span {
+      display: block;
+    }
+
+    strong {
+      color: #0b4f84;
+    }
+
+    span {
+      margin-top: 4px;
+      color: #64748b;
+    }
+  }
+
+  .result-box {
+    padding: 16px;
+    background: #f8fbff;
+    border: 1px solid #dbe6f1;
+    border-radius: 8px;
+
+    strong {
+      color: #0b4f84;
+    }
+
+    p {
+      margin: 8px 0 0;
+      color: #64748b;
+      line-height: 1.6;
+    }
+  }
+}

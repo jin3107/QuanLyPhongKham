@@ -110,6 +110,7 @@ html,
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
 
     .logo {
       display: flex;
@@ -124,7 +125,11 @@ html,
     }
 
     .selected-label {
-      font-size: 28px;
+      max-width: min(56vw, 680px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 22px;
       font-weight: 700;
       color: #00a8ff;
       position: relative;
@@ -218,6 +223,19 @@ html,
 
     .left h1 {
       font-size: 18px;
+    }
+
+    .left {
+      .logo img {
+        width: 66px;
+      }
+
+      .selected-label {
+        max-width: 48vw;
+        font-size: 16px;
+        border-bottom-width: 3px;
+        padding-right: 10px;
+      }
     }
   }
 
