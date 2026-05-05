@@ -23,8 +23,12 @@ export default function AppLayout() {
 
   const menuItems = [
     { path: "/scheduleView", icon: <CalendarOutlined />, label: "Xem lịch" },
+    { path: "/", icon: <ScheduleOutlined />, label: "Đặt lịch" },
     { path: "/patientIntake", icon: <UserAddOutlined />, label: "Đăng ký hồ sơ bệnh án" },
     { path: "/historyView", icon: <FileSearchOutlined />, label: "Lịch sử bệnh án" },
+    { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
+    { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
+    { path: "/billing", icon: <DollarOutlined />, label: "Tính chi phí" },
     { path: "/patientCount", icon: <FileSearchOutlined />, label: "Quản lý số lượng bệnh nhân" },
   ];
 
