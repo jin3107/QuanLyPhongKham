@@ -1,0 +1,10 @@
+@use "../doctor-common";
+
+.patient-info-page {
+  .ant-tag {
+    margin-top: 6px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+  }
+}

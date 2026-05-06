@@ -17,10 +17,10 @@ import AdminDashboard from './pages/Admin/Dashboard/Dashboard'
 import AdminUserRoles from './pages/Admin/UserRoles/UserRoles'
 import AdminDoctors from './pages/Admin/Doctors/Doctors'
 import DoctorDashboard from './pages/Doctor/Dashboard/Dashboard'
-import DoctorPatientInfo from './pages/Doctor/PatientInfo/PatientInfo'
-import DoctorPatientView from './pages/Doctor/PatientView/PatientView'
-import DoctorPrescription from './pages/Doctor/Prescription/Prescription'
-import DoctorServiceRequest from './pages/Doctor/ServiceRequest/ServiceRequest'
+import PatientInfo from './pages/Doctor/PatientInfo/PatientInfo'
+import PatientView from './pages/Doctor/PatientView/PatientView'
+import Prescription from './pages/Doctor/Prescription/Prescription'
+import ServiceRequest from './pages/Doctor/ServiceRequest/ServiceRequest'
 import ReceptionistDashboard from './pages/Receptionist/Dashboard/Dashboard'
 import PatientIntake from './pages/Receptionist/PatientIntake/PatientIntake'
 import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword'
@@ -37,16 +37,18 @@ function App() {
         <Route index element={<Navigate to="/Login" replace />} />
         <Route path="/Scheduleview" element={<ScheduleView />} />
         <Route path="/Cancellation" element={<Cancellation />} />
+        <Route path="/cancellation" element={<Cancellation />} />
         <Route path="/Reschedule" element={<Reschedule />} />
+        <Route path="/reschedule" element={<Reschedule />} />
         <Route path="/Billing" element={<Billing />} />
         <Route path="/Admin/Dashboard" element={<AdminDashboard />} />
         <Route path="/Admin/User-roles" element={<AdminUserRoles />} />
         <Route path="/Admin/Doctors" element={<AdminDoctors />} />
         <Route path="/Doctor/Dashboard" element={<DoctorDashboard />} />
-        <Route path="/Doctor/Patient-info" element={<DoctorPatientInfo />} />
-        <Route path="/doctor/Patient-view" element={<DoctorPatientView />} />
-        <Route path="/Doctor/Prescription" element={<DoctorPrescription />} />
-        <Route path="/Doctor/Service-request" element={<DoctorServiceRequest />} />
+        <Route path="/Doctor/Patient-info" element={<PatientInfo />} />
+        <Route path="/doctor/Patient-view" element={<PatientView />} />
+        <Route path="/Doctor/Prescription" element={<Prescription />} />
+        <Route path="/Doctor/Service-request" element={<ServiceRequest />} />
         <Route path="/Receptionist/Dashboard" element={<ReceptionistDashboard />} />
         <Route path="/Receptionist/Patient-intake" element={<PatientIntake />} />
         <Route path="/WorkingSchedule" element={<WorkingSchedule />} />
@@ -55,6 +57,6 @@ function App() {
         <Route path="/Payment" element={<Payment/>} />
       </Route>
     </Routes>
-  )
+  );
 }
 export default App

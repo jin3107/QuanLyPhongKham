@@ -109,6 +109,7 @@ html,
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
 
     .app-header-logo {
       display: flex;

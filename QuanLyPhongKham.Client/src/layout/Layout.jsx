@@ -21,6 +21,9 @@ import {
   UserAddOutlined,
   HistoryOutlined,
   CreditCardOutlined,
+  FileSearchOutlined,
+  ExperimentOutlined,
+  MedicineBoxOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 import apiClient from "../config/axios";
@@ -314,7 +317,7 @@ export default function AppLayout() {
               {/* LEFT */}
               <div className="app-footer-col">
                 <h3>Hệ thống quản lý phòng khám</h3>
-                <p>Hỗ trợ đặt lịch và khám bệnh.</p>
+                <p>Hỗ trợ tiếp nhận, khám bệnh, kê đơn và thanh toán.</p>
               </div>
 
               {/* CENTER */}
@@ -328,7 +331,7 @@ export default function AppLayout() {
               <div className="app-footer-col">
                 <h4>Thông tin</h4>
                 <p>Phiên bản: v1.0.0</p>
-                <p>© 2026 Hệ thống quản lý phòm khám</p>
+                <p>© 2026 Hệ thống quản lý phòng khám</p>
               </div>
             </div>
           </Footer>
