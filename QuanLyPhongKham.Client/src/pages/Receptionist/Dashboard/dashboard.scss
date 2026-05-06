@@ -1,0 +1,62 @@
+.receptionist-dashboard {
+  background: $background;
+  min-height: 100vh;
+}
+.dashboard-banner {
+
+background: url("/src/assets/image/img3.jpg") no-repeat center 65%;
+background-size: cover;
+    padding: 40px 24px;
+  margin-bottom: 40px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.menu-grid {
+  margin: 24px 200px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  justify-content: start;     // 👈 quan trọng
+  justify-items: start;       // 👈 card nằm sát trái từng ô
+}
+
+.menu-card {
+  width: 180px;       // 👈 fix width
+  height: 180px;      // 👈 fix height
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;   // 👈 quan trọng: chặn tràn
+  border: $border;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  }
+
+  // :global(.ant-card-body) {
+  //   display: none; // 👈 bỏ luôn phần body
+  // }
+}
+
+/* wrapper để ảnh fit đẹp */
+.card-image-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // 👈 ảnh luôn full card, không méo
+    transition: transform 0.4s ease;
+  }
+}
+
+/* hover zoom nhẹ cho xịn */
+.menu-card:hover img {
+  transform: scale(1.05);
+}

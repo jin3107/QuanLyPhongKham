@@ -1,0 +1,517 @@
+$primary: #0b4f84;
+$background: #f4f7f9;
+$text-primary: #333;
+
+.cancellation-page {
+  font-family: "Segoe UI", sans-serif;
+  min-height: 100vh;
+  background: $background;
+  width: 100%;
+  padding-bottom: 10px;
+
+  background: url("/src/assets/image/img3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
+
+  // ========== BANNER==========
+  .cancellation-banner {
+    // background: url("/src/assets/image/img4.jpg") no-repeat center;
+    // background-size: cover;
+    padding: 20px;
+    margin-bottom: 16px;
+    width: 100%;
+    height: 300px; 
+    display: flex;
+    align-items: center;
+
+    .banner-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      box-sizing: border-box;
+
+      .banner-left {
+        flex: 1;
+        background: white;
+        padding: 16px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+
+        h1 {
+          margin: 0 0 24px;
+          font-size: 28px;
+          font-weight: 700;
+          color: $primary;
+          line-height: 0.5;
+        }
+
+        .banner-features {
+          list-style: none;
+          padding: 0;
+          margin-bottom: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+            color: $text-primary;
+            line-height: 1;
+
+            .banner-icon {
+              margin-top: 4px;
+              color: #52c41a;
+              font-size: 18px;
+            }
+          }
+        }
+
+        .banner-btn {
+          background: $primary;
+          border-radius: 10px;
+          font-weight: 600;
+          height: auto;
+          padding: 12px 14px;
+          &:hover { transform: translateY(-2px); }
+        }
+      }
+
+      .banner-right {
+        flex: 1;
+        img {
+          width: 60%;
+          // border-radius: 20px;
+          // box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+      }
+    }
+  }
+
+  // ========== MAIN CONTENT ==========
+  .main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 8px;
+  }
+
+  .instruction-card {
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    .ant-card-head-title { color: $primary; font-weight: 700; }
+  }
+
+  .table-container-card {
+    background: white;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      h4 { margin: 0; color: $primary; font-weight: 700; }
+    }
+
+    // Nút xác nhận hủy sáng mờ (Glassmorphism)
+    .glass-button {
+      border: none;
+      background: rgba(255, 77, 79, 0.1);
+      color: #ff4d4f;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+      
+      &.active {
+        background: #ff4d4f;
+        color: white;
+        box-shadow: 0 5px 15px rgba(255, 77, 79, 0.3);
+      }
+    }
+  }
+
+  .custom-table {
+    .ant-table-thead > tr > th {
+      background: #f8fafc;
+      color: $primary;
+      font-weight: 700;
+    }
+  }
+}
+
+
+
+// .cancel-page {
+//   background: #f5f7fa;
+//   padding: 24px;
+// }
+
+// .cancel-card {
+//   border-radius: 12px;
+//   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+// }
+
+// .header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 16px;
+
+//   h2 {
+//     margin: 0;
+//     color: #0b4f84;
+//     font-weight: 700;
+//   }
+// }
+
+// // table
+// .cancel-table {
+//   .ant-table {
+//     border-radius: 10px;
+//     overflow: hidden;
+//   }
+
+//   .ant-table-thead > tr > th {
+//     background: #f0f7ff;
+//     color: #0b4f84;
+//     font-weight: 600;
+//   }
+
+//   .ant-table-tbody > tr:hover > td {
+//     background: #e6f4ff;
+//   }
+// }
+
+// // button
+// .ant-btn-primary {
+//   background: #0b4f84;
+//   border: none;
+
+//   &:hover {
+//     background: #1677ff;
+//   }
+
+// }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// * {
+// 	box-sizing: border-box;
+// }
+
+// .cancellation-page {
+// 	font-family: "Segoe UI", sans-serif;
+// 	min-height: 100%;
+// 	background: $background;
+// 	width: 100%;
+// 	overflow-x: hidden;
+// 	box-sizing: border-box;
+// 	padding: 0;
+// 	margin: 0;
+// }
+
+// // ========== HEADER ==========
+// .cancellation-header {
+// 	display: flex;
+// 	align-items: flex-end;
+// 	justify-content: space-between;
+// 	gap: 12px;
+// 	margin-bottom: 24px;
+// 	padding: 24px;
+// 	box-sizing: border-box;
+// 	width: 100%;
+// }
+
+// .cancellation-title {
+// 	margin: 0;
+// 	font-size: 24px;
+// 	font-weight: 700;
+// 	color: $text-primary;
+// 	box-sizing: border-box;
+// }
+
+// .cancellation-subtitle {
+// 	margin: 6px 0 0;
+// 	font-size: 14px;
+// 	color: $text-secondary;
+// 	box-sizing: border-box;
+// }
+
+// .cancellation-actions {
+// 	display: flex;
+// 	gap: 10px;
+// 	flex-wrap: wrap;
+// 	box-sizing: border-box;
+// 	width: 100%;
+// }
+
+// .cancellation-btn {
+// 	border: none;
+// 	border-radius: 8px;
+// 	padding: 10px 14px;
+// 	font-size: 14px;
+// 	font-weight: 600;
+// 	cursor: pointer;
+// 	background: $primary;
+// 	color: white;
+// 	height: auto;
+// 	box-sizing: border-box;
+
+// 	&:hover {
+// 		background: $primary, 5%;
+// 	}
+// }
+
+// // ========== CARD ==========
+// .cancellation-card {
+// 	background: white;
+// 	border: 1px solid $border;
+// 	border-radius: 12px;
+// 	padding: 16px;
+// 	box-shadow: 0 6px 16px rgba(12, 32, 52, 0.08);
+// 	margin-bottom: 16px;
+// 	box-sizing: border-box;
+
+// 	&:last-child {
+// 		margin-bottom: 0;
+// 	}
+// }
+
+// .cancellation-card-title {
+// 	margin: 0 0 16px;
+// 	font-size: 16px;
+// 	font-weight: 600;
+// 	color: $text-primary;
+// 	box-sizing: border-box;
+// }
+
+// // ========== FORM ==========
+// .form-section {
+// 	margin-bottom: 24px;
+// 	box-sizing: border-box;
+
+// 	&:last-child {
+// 		margin-bottom: 0;
+// 	}
+// }
+
+// .form-section-title {
+// 	margin: 0 0 16px;
+// 	font-size: 14px;
+// 	font-weight: 600;
+// 	color: $text-primary;
+// 	text-transform: uppercase;
+// 	letter-spacing: 0.05em;
+// 	padding-bottom: 8px;
+// 	border-bottom: 1px solid $border;
+// 	box-sizing: border-box;
+// }
+
+// // Ant Design Form Overrides
+// .ant-form-item {
+// 	margin-bottom: 16px;
+// 	box-sizing: border-box;
+
+// 	.ant-form-item-label {
+// 		label {
+// 			font-size: 14px;
+// 			font-weight: 500;
+// 			color: $text-primary;
+// 		}
+// 	}
+
+// 	.ant-input,
+// 	.ant-picker,
+// 	.ant-select-selector {
+// 		border-radius: 8px;
+// 		border-color: $border;
+// 		font-size: 14px;
+// 		box-sizing: border-box;
+
+// 		&:hover {
+// 			border-color: $primary;
+// 		}
+
+// 		&:focus,
+// 		&.ant-picker-focused .ant-picker-input {
+// 			border-color: $primary;
+// 			box-shadow: 0 0 0 2px rgba(11, 79, 132, 0.1);
+// 		}
+// 	}
+
+// 	.ant-input-textarea-show-count::after {
+// 		color: $text-secondary;
+// 	}
+// }
+
+// .ant-form-item-label > label {
+// 	height: auto;
+// 	box-sizing: border-box;
+// }
+
+// // ========== FORM ACTIONS ==========
+// .form-actions {
+// 	display: flex;
+// 	gap: 10px;
+// 	margin-top: 24px;
+// 	padding-top: 16px;
+// 	border-top: 1px solid $border;
+// 	box-sizing: border-box;
+
+// 	.submit-btn {
+// 		// background: #ff4d4f;
+// 		// border-color: #ff4d4f;
+// 		font-weight: 600;
+// 		height: 36px;
+// 		min-width: 120px;
+// 		font-size: 14px;
+// 		box-sizing: border-box;
+
+// 		// &:hover {
+// 		// 	background: #ff7875;
+// 		// 	border-color: #ff7875;
+// 		// }
+// 	}
+
+// 	.cancel-btn {
+// 		border-color: $border;
+// 		color: $text-primary;
+// 		font-weight: 600;
+// 		height: 36px;
+// 		min-width: 120px;
+// 		font-size: 14px;
+// 		box-sizing: border-box;
+
+// 		&:hover {
+// 			border-color: $primary;
+// 			color: $primary;
+// 		}
+// 	}
+// }
+
+// // ========== TABLE ==========
+// .cancellation-table {
+// 	box-sizing: border-box;
+// 	width: 100%;
+
+// 	.ant-table {
+// 		font-size: 14px;
+// 		background: transparent;
+// 		box-sizing: border-box;
+// 	}
+
+// 	.ant-table-thead > tr > th {
+// 		background: #f9fbfd;
+// 		border-color: $border;
+// 		font-weight: 600;
+// 		font-size: 12px;
+// 		text-transform: uppercase;
+// 		letter-spacing: 0.05em;
+// 		color: $text-secondary;
+// 		box-sizing: border-box;
+// 	}
+
+// 	.ant-table-tbody > tr {
+// 		&:hover > td {
+// 			background: #f9fbfd;
+// 		}
+
+// 		> td {
+// 			border-color: $border;
+// 			font-size: 14px;
+// 			color: $text-primary;
+// 			box-sizing: border-box;
+// 		}
+// 	}
+// }
+
+// // ========== NOTES ==========
+// .cancellation-notes {
+// 	box-sizing: border-box;
+
+// 	.notes-list {
+// 		list-style: none;
+// 		padding: 0;
+// 		margin: 0;
+// 		display: flex;
+// 		flex-direction: column;
+// 		gap: 12px;
+// 		box-sizing: border-box;
+
+// 		li {
+// 			font-size: 14px;
+// 			color: $text-primary;
+// 			padding-left: 24px;
+// 			position: relative;
+// 			box-sizing: border-box;
+
+// 			&:before {
+// 				content: "•";
+// 				position: absolute;
+// 				left: 0;
+// 				color: $primary;
+// 				font-weight: bold;
+// 				font-size: 16px;
+// 			}
+// 		}
+// 	}
+// }
+
+// // ========== NOTICE BOX ==========
+// .notice-box {
+// 	background: $background-wanning;
+// 	border: 1px solid $wanning;
+// 	border-radius: 8px;
+// 	padding: 12px 16px;
+// 	margin-bottom: 16px;
+// 	box-sizing: border-box;
+
+// 	.notice-title {
+// 		font-weight: 600;
+// 		color: $wanning;
+// 		margin-bottom: 8px;
+// 	}
+
+// 	.notice-text {
+// 		font-size: 13px;
+// 		color: $wanning;
+// 		line-height: 1.6;
+// 	}
+// }
+
+// // ========== ROW WRAPPER ==========
+// .ant-row {
+// 	padding: 0 24px;
+// 	box-sizing: border-box;
+// 	width: 100%;
+// }

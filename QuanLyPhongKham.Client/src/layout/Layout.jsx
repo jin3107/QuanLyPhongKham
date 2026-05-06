@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Layout, Button, Dropdown, Avatar } from "antd";
 import {
+  HomeOutlined,
   MenuOutlined,
   DashboardOutlined,
   CalendarOutlined,
@@ -13,6 +14,10 @@ import {
   TeamOutlined,
   UserOutlined,
   LogoutOutlined,
+  FileAddOutlined,
+  UserAddOutlined,
+  HistoryOutlined,
+  CreditCardOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 import apiClient from "../config/axios";
@@ -240,7 +245,8 @@ export default function AppLayout() {
         collapsed={collapsed}
         className="app-sider"
         breakpoint="lg" // tự collapse khi màn nhỏ
-        collapsedWidth="60" // ẩn hẳn menu
+          width={240}
+  collapsedWidth={60}
       >
         {/* TOP: TOGGLE */}
         <div className="app-sider-top">

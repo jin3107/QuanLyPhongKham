@@ -18,7 +18,7 @@ import DoctorPatientView from './pages/Doctor/PatientView/PatientView'
 import DoctorPrescription from './pages/Doctor/Prescription/Prescription'
 import DoctorServiceRequest from './pages/Doctor/ServiceRequest/ServiceRequest'
 import ReceptionistDashboard from './pages/Receptionist/Dashboard/Dashboard'
-import ReceptionistPatientIntake from './pages/Receptionist/PatientIntake/PatientIntake'
+import PatientIntake from './pages/Receptionist/PatientIntake/PatientIntake'
 import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword'
 
 
@@ -44,7 +44,7 @@ function App() {
         <Route path="/Doctor/Prescription" element={<DoctorPrescription />} />
         <Route path="/Doctor/Service-request" element={<DoctorServiceRequest />} />
         <Route path="/Receptionist/Dashboard" element={<ReceptionistDashboard />} />
-        <Route path="/Receptionist/Patient-intake" element={<ReceptionistPatientIntake />} />
+        <Route path="/Receptionist/Patient-intake" element={<PatientIntake />} />
       </Route>
     </Routes>
   )
