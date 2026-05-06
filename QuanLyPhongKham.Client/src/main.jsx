@@ -16,14 +16,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 </ConfigProvider>
   </BrowserRouter>
 )
-// import { ConfigProvider } from "antd";
-
-{/* <ConfigProvider
-  theme={{
-    token: {
-      colorPrimary: "#0B4F84",
-    },
-  }}
->
-  <App />
-</ConfigProvider> */}

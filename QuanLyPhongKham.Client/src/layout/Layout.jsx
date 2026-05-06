@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Layout, Button, Dropdown, Avatar } from "antd";
 import {
+  HomeOutlined,
   MenuOutlined,
   CalendarOutlined,
   ScheduleOutlined,
@@ -10,6 +11,10 @@ import {
   SwapOutlined,
   DollarOutlined,
   LogoutOutlined,
+  FileAddOutlined,
+  UserAddOutlined,
+  HistoryOutlined,
+  CreditCardOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 
@@ -20,17 +25,22 @@ export default function AppLayout() {
   const location = useLocation();
 
   const menuItems = [
-    { path: "/scheduleView", icon: <CalendarOutlined />, label: "Xem lịch" },
+    { path: "/Receptionist/Dashboard", icon: <HomeOutlined />, label: "Màn hình chính bệnh nhân" },
+    { path: "/scheduleView", icon: <CalendarOutlined />, label: "Xem lịch khám" },
     { path: "/", icon: <ScheduleOutlined />, label: "Đặt lịch" },
-    { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
     { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
-    { path: "/billing", icon: <DollarOutlined />, label: "Tính chi phí" },
+    { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
+
+  // { path: "/register", icon: <FileAddOutlined />, label: "Đăng ký hồ sơ bệnh án" },
+  // { path: "/Receptionist/PatientIntake", icon: <UserAddOutlined />, label: "Tiếp nhận bệnh nhân" },
+  // { path: "/history", icon: <HistoryOutlined />, label: "Xem lịch sử khám" },
+  // { path: "/payment", icon: <CreditCardOutlined />, label: "Thanh toán" },
   ];
 
   const [activeItem, setActiveItem] = useState(menuItems[0]);
 
   // lấy chữ cái đầu tiên của tên user
-  const userName = "Huỳnh Như";
+  const userName = "Trần Phước Minh";
   const getInitial = (name) => {
     return name?.trim().split(" ").pop().charAt(0).toUpperCase();
   };
@@ -50,7 +60,8 @@ export default function AppLayout() {
         collapsed={collapsed}
         className="sider"
         breakpoint="lg" // tự collapse khi màn nhỏ
-        collapsedWidth="60" // ẩn hẳn menu
+          width={240}
+  collapsedWidth={60}
       >
         {/* TOP: TOGGLE */}
         <div className="top">

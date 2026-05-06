@@ -1,0 +1,149 @@
+$background: #f5f7fa;
+$primary: #0b4f84;
+$tick: #52c41a;
+
+$text-primary: #293018;
+$text-secondary: #384b56;
+$text-title-large: #00a8ff;
+
+$border: 1px solid #dde4ec;
+$box-shadow: rgba(12, 32, 52, 0.1);
+
+$wanning: #b86815;
+$background-wanning: #fff7e6;
+
+$selectd-menu: #e6f0fa;
+$border-top-menu: 1px solid rgba(255, 255, 255, 0.2);
+
+.form-section-title {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed $primary;
+  box-sizing: border-box;
+}
+
+.notice-box {
+  background: $background-wanning;
+  border: 1px solid $wanning;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+
+  .notice-title {
+    font-weight: 600;
+    color: $wanning;
+    margin-bottom: 8px;
+  }
+
+  .notice-text {
+    font-size: 13px;
+    color: $wanning;
+    line-height: 1.6;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+
+  .submit-btn {
+    background: $primary;
+    border-color: $primary;
+    font-weight: 600;
+    height: 36px;
+    min-width: 100px;
+    font-size: 14px;
+    box-sizing: border-box;
+
+    &:hover {
+      background: $primary, 5%;
+      border-color: $primary, 5%;
+    }
+  }
+
+  .reset-btn {
+    border-color: $border;
+    color: $text-primary;
+    font-weight: 600;
+    height: 36px;
+    min-width: 120px;
+    font-size: 14px;
+    box-sizing: border-box;
+
+    &:hover {
+      border-color: $primary;
+      color: $primary;
+    }
+  }
+}
+
+.ant-table {
+  font-size: 14px;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.ant-table-thead > tr > th {
+  background: #f9fbfd;
+  border-color: $border;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $text-secondary;
+  box-sizing: border-box;
+}
+
+.ant-table-tbody > tr {
+  &:hover > td {
+    background: #f9fbfd;
+  }
+
+  > td {
+    border-color: $border;
+    font-size: 14px;
+    color: $text-primary;
+    box-sizing: border-box;
+  }
+}
+
+// ========== ROW WRAPPER ==========
+.ant-row {
+  padding: 0 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.notes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+
+  li {
+    font-size: 14px;
+    color: $text-primary;
+    padding-left: 24px;
+    position: relative;
+    box-sizing: border-box;
+
+    &:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #52c41a;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  }
+}

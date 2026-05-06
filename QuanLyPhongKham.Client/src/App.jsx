@@ -12,6 +12,8 @@ import Logout from './pages/Auth/Logout/Logout'
 import AdminDashboard from './pages/Admin/Dashboard/Dashboard'
 import AdminUserRoles from './pages/Admin/UserRoles/UserRoles'
 import AdminDoctors from './pages/Admin/Doctors/Doctors'
+import ReceptionistDashboard from './pages/Receptionist/Dashboard/Dashboard'
+import PatientIntake from './pages/Receptionist/PatientIntake/PatientIntake'
 
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/user-roles" element={<AdminUserRoles />} />
         <Route path="/admin/doctors" element={<AdminDoctors />} />
+        <Route path="/receptionist/dashboard" element={<ReceptionistDashboard />} />
+        <Route path="/receptionist/PatientIntake" element={<PatientIntake />} />
 
       </Route>
     </Routes>

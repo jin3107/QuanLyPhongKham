@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+
+.reschedule-page {
+  font-family: "Segoe UI", sans-serif;
+  min-height: 100%;
+  background: $background;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+	  	background: url("/src/assets/image/img5.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
+
+  // ========== CARD ==========
+  .reschedule-card {
+    background: white;
+    border: 1px solid $border;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 16px rgba(12, 32, 52, 0.08);
+    margin: 16px 0 16px 16px;
+    box-sizing: border-box;
+
+    &:first-child {
+      margin-right: 0;
+    }
+
+    .reschedule-card-title {
+      text-align: center;
+      color: $primary;
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin: 8px;
+    }
+  }
+
+  // ========== FORM ==========
+  .ant-form-item {
+    margin-bottom: 16px;
+    box-sizing: border-box;
+
+    .ant-form-item-label {
+      label {
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-primary;
+      }
+    }
+
+    .ant-input,
+    .ant-picker,
+    .ant-select-selector {
+      border-radius: 8px;
+      border-color: $border;
+      font-size: 14px;
+      box-sizing: border-box;
+
+      &:hover {
+        border-color: $primary;
+      }
+
+      &:focus,
+      &.ant-picker-focused .ant-picker-input {
+        border-color: $primary;
+        box-shadow: 0 0 0 2px rgba(11, 79, 132, 0.1);
+      }
+    }
+
+    .ant-input-textarea-show-count::after {
+      color: $text-secondary;
+    }
+  }
+
+  .ant-form-item-label > label {
+    height: auto;
+    box-sizing: border-box;
+  }
+
+  // ========== TABLE ==========
+  .reschedule-table {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  // ========== NOTES ==========
+  .reschedule-notes {
+    box-sizing: border-box;
+  }
+}

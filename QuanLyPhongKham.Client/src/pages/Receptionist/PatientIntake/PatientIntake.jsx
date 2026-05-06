@@ -1,0 +1,165 @@
+import { Form, Input, Button, Row, Col, DatePicker, Select, Radio, Card } from 'antd';
+import { useState } from 'react';
+import './patientintake.scss';
+
+export default function PatientIntake() {
+  const [form] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = (values) => {
+    setIsSubmitting(true);
+    console.log('Form values:', values);
+    // TODO: Call API to submit patient data
+    setTimeout(() => {
+      setIsSubmitting(false);
+      form.resetFields();
+      // Show success message
+    }, 1000);
+  };
+
+  const handleReset = () => {
+    form.resetFields();
+  };
+
+  return (
+    <div className="patient-intake-page">
+      <div className="intake-container">
+        {/* PAGE HEADER */}
+        <div className="page-header">
+          <h1>Tiếp nhận bệnh nhân</h1>
+          <p>Vui lòng nhập đầy đủ thông tin cá nhân của bệnh nhân</p>
+        </div>
+
+        {/* FORM CARD */}
+					<div className="patient-intake-card">
+						<h2 className="patient-intake-card-title">Nhập thông tin bệnh nhân</h2>
+
+						<Form
+							form={form}
+							layout="vertical"
+							autoComplete="off"
+						>
+							{/* PATIENT INFO */}
+							<div className="form-section">
+								<h3 className="form-section-title">Thông tin bệnh nhân</h3>
+
+								<Row gutter={16}>
+									<Col xs={24} sm={12}>
+										<Form.Item
+											label="Họ tên"
+											name="name"
+											rules={[
+												{
+													required: true,
+													message: "Vui lòng nhập họ tên",
+												},
+											]}
+										>
+											<Input placeholder="Nhập họ tên" />
+										</Form.Item>
+									</Col>
+
+									<Col xs={24} sm={12}>
+										<Form.Item
+											label="Giới tính"
+											name="gender"
+											rules={[
+												{
+													required: true,
+													message: "Vui lòng chọn giới tính",
+												},
+											]}
+										>
+											<Radio.Group>
+												<Radio value="male">Nam</Radio>
+												<Radio value="female">Nữ</Radio>
+											</Radio.Group>
+										</Form.Item>
+									</Col>
+
+									<Col xs={24} sm={12}>
+										<Form.Item
+											label="Ngày sinh"
+											name="dob"
+											placeholder="Ngày sinh"
+											rules={[
+												{
+													required: true,
+													message: "Vui lòng chọn ngày sinh",
+												},
+											]}
+										>
+											<DatePicker style={{ width: "100%" }} />
+										</Form.Item>
+									</Col>
+
+									<Col xs={24} sm={12}>
+										<Form.Item
+											label="Số điện thoại"
+											name="phone"
+											rules={[
+												{
+													required: true,
+													message: "Vui lòng nhập số điện thoại",
+												},
+											]}
+										>
+											<Input placeholder="Nhập số điện thoại" />
+										</Form.Item>
+									</Col>
+
+									<Col xs={24} sm={12}>
+										<Form.Item
+											label="CCCD/BHYT"
+											name="cccd"
+											rules={[
+												{
+													required: true,
+													message: "Vui lòng nhập CCCD/BHYT",
+												},
+											]}
+										>
+											<Input placeholder="Nhập CCCD/BHYT" />
+										</Form.Item>
+									</Col>
+
+									<Col xs={24} sm={12}>
+										<Form.Item
+											label="Địa chỉ"
+											name="address"
+											rules={[
+												{
+													required: true,
+													message: "Vui lòng nhập địa chỉ",
+												},
+											]}
+										>
+											<Input placeholder="Nhập địa chỉ" />
+										</Form.Item>
+									</Col>
+
+									<Col xs={24}>
+										<Form.Item label="Triệu chứng/Dị ứng" name="symptoms">
+											<Input.TextArea
+												autoSize={{ minRows: 1, maxRows: 5 }}
+												placeholder="Mô tả triệu chứng hoặc dị ứng"
+											/>
+										</Form.Item>
+									</Col>
+								</Row>
+							</div>
+
+							<div className="form-actions">
+								<Button type="primary" htmlType="submit" className="submit-btn">
+									Xác nhận thêm bệnh nhân
+								</Button>
+								<Button type="default" className="reset-btn">
+									Xóa
+								</Button>
+							</div>
+						</Form>
+					</div>
+      </div>
+    </div>
+  );
+}

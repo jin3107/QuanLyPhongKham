@@ -1,0 +1,89 @@
+.patient-intake-page {
+  min-height: 100%;
+  background: $background;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+    	background: url("https://i.pinimg.com/736x/6c/0e/2b/6c0e2b026ad04dd6b5bd67be174897d1.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
+}
+
+.intake-container {
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+// ========== PAGE HEADER ==========
+.page-header {
+  margin-bottom: 32px;
+  text-align: left;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: $primary;
+    margin: 0 0 8px;
+  }
+
+  p {
+    font-size: 14px;
+    color: $text-secondary;
+    margin: 0;
+  }
+}
+
+.patient-intake-card {
+  background: white;
+  border: 1px solid $border;
+  max-width: 900px;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 16px rgba(12, 32, 52, 0.08);
+  margin: 0 auto 16px;
+  box-sizing: border-box;
+
+  .patient-intake-card-title {
+    text-align: center;
+    color: $primary;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 8px;
+  }
+}
+
+// ========== FORM ==========
+.form-section {
+  .ant-form-item {
+    margin-bottom: 12px;
+
+    .ant-form-item-label {
+      padding-bottom: 2px;
+    }
+
+    .ant-form-item-control {
+      margin-top: 0px;
+    }
+  }
+  .ant-radio-group {
+    display: flex;
+    gap: 30px;
+    box-sizing: border-box;
+
+    .ant-radio {
+      box-sizing: border-box;
+
+      .ant-radio-inner {
+        border-color: $border;
+      }
+
+      &.ant-radio-checked .ant-radio-inner {
+        border-color: $primary;
+      }
+    }
+  }
+}
