@@ -1,0 +1,139 @@
+.patientCountPage {
+  min-height: 100vh;
+  padding: 30px 24px;
+  background: #f5f7fa;
+  color: #1f2d3d;
+
+  .pageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 24px 28px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(11, 79, 132, 0.08);
+    margin-bottom: 24px;
+
+    .pageTitle {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pageIcon {
+      font-size: 36px;
+      color: #0b4f84;
+      background: rgba(11, 79, 132, 0.1);
+      border-radius: 50%;
+      padding: 14px;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      color: #0b4f84;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+      color: #5e6c7f;
+      font-size: 14px;
+    }
+  }
+
+  .summaryRow {
+    margin-bottom: 24px;
+
+    .summaryCard {
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid rgba(11, 79, 132, 0.12);
+      min-height: 140px;
+      padding: 24px;
+
+      .ant-statistic-content {
+        margin-bottom: 12px;
+      }
+
+      .summaryNote {
+        color: #7a8a9f;
+        font-size: 13px;
+      }
+    }
+  }
+
+  .filterCard {
+    padding: 22px 24px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(11, 79, 132, 0.08);
+    margin-bottom: 24px;
+
+    .filterLabel {
+      display: block;
+      color: #5e6c7f;
+      font-size: 13px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .ant-input,
+    .ant-picker,
+    .ant-select-selector {
+      border-radius: 12px;
+    }
+  }
+
+  .tableCard {
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 28px rgba(11, 79, 132, 0.06);
+    padding: 24px;
+
+    .tableHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+
+      h3 {
+        margin: 0;
+        font-size: 22px;
+        color: #0b4f84;
+      }
+
+      p {
+        margin: 4px 0 0;
+        color: #6f7d8c;
+      }
+    }
+
+    .ant-table {
+      background: transparent;
+    }
+
+    .ant-table-thead > tr > th {
+      background: #f0f4f8;
+      color: #0b4f84;
+      font-weight: 700;
+      border-bottom: 2px solid rgba(11, 79, 132, 0.12);
+    }
+
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid #edf1f7;
+      vertical-align: middle;
+    }
+
+    .tableRow:hover {
+      background: rgba(11, 79, 132, 0.04);
+    }
+
+    .ant-btn {
+      border-radius: 10px;
+    }
+  }
+}
