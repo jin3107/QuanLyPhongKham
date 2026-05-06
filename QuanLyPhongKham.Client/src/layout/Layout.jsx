@@ -13,7 +13,10 @@ import {
   DollarOutlined,
   TeamOutlined,
   UserOutlined,
-  LogoutOutlined,
+  LogoutOutlined,   
+  BarChartOutlined,   
+  LineChartOutlined,  
+  WalletOutlined,
   FileAddOutlined,
   UserAddOutlined,
   HistoryOutlined,
@@ -236,8 +239,7 @@ export default function AppLayout() {
       icon: <LogoutOutlined />,
       label: <Link to="/logout">Đăng xuất</Link>,
     },
-  ];
-
+  ]; 
   return (
     <Layout className="app-layout">
       {/* SIDEBAR */}

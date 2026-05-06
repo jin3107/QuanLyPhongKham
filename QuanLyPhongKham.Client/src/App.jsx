@@ -6,6 +6,10 @@ import Cancellation from './pages/Appointment/Cancellation/Cancellation'
 import Reschedule from './pages/Appointment/Reschedule/Reschedule'
 import ScheduleView from './pages/Appointment/ScheduleView/ScheduleView'
 import Billing from './pages/Finance/Billing/Billing'
+import WorkingSchedule from './pages/Admin/WorkingSchedule/WorkingSchedule'
+import Revenue from './pages/Reports/Revenue/Revenue'
+import DoctorActivity from './pages/Reports/DoctorActivity/DoctorActivity'
+import Payment from './pages/Finance/Payment/Payment'
 import Register from './pages/Auth/Register/Register'
 import Login from './pages/Auth/Login/Login'
 import Logout from './pages/Auth/Logout/Logout'
@@ -45,6 +49,10 @@ function App() {
         <Route path="/Doctor/Service-request" element={<DoctorServiceRequest />} />
         <Route path="/Receptionist/Dashboard" element={<ReceptionistDashboard />} />
         <Route path="/Receptionist/Patient-intake" element={<PatientIntake />} />
+        <Route path="/WorkingSchedule" element={<WorkingSchedule />} />
+        <Route path="/Revenue" element={<Revenue />} />
+        <Route path="/DoctorActivity" element={<DoctorActivity />} />
+        <Route path="/Payment" element={<Payment/>} />
       </Route>
     </Routes>
   )
