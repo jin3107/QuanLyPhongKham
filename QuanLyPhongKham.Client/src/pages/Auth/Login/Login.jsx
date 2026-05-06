@@ -27,7 +27,8 @@ export default function Login() {
 		if (["bacsi", "doctor"].includes(key)) return "/doctor/dashboard";
 		if (["letan", "receptionist"].includes(key))
 			return "/receptionist/dashboard";
-		return "/";
+		// Đường dẫn cũ: "/". Theo tài liệu, bệnh nhân có màn hình chính riêng.
+		return "/patient/dashboard";
 	};
 
 	const handleSubmit = async (values) => {
@@ -62,7 +63,7 @@ export default function Login() {
 			<div className="auth-shell">
 				<aside className="auth-visual">
 					<div className="auth-badge">
-						<img src={logo} alt="Bộ Y tế" />
+						<img src={logo} alt="Bộ Y tế" loading="eager" decoding="async" />
 						<div>
 							<span className="auth-badge-title">Hệ thống quản lý phòng khám</span>
 							<span className="auth-badge-subtitle">Đăng nhập nhanh, thao tác gọn</span>
@@ -73,7 +74,7 @@ export default function Login() {
 						Quản lý lịch hẹn, bệnh nhân và tài chính trong một không gian làm việc
 						thống nhất.
 					</Paragraph>
-					<img className="auth-illustration" src={heroImage} alt="Bác sĩ" />
+					<img className="auth-illustration" src={heroImage} alt="Bác sĩ" loading="eager" decoding="async" />
 					<div className="auth-highlights">
 						<Card size="small">
 							<Title level={4}>Lịch hẹn rõ ràng</Title>

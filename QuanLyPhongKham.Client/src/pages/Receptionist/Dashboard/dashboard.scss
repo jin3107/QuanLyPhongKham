@@ -1,62 +1,90 @@
 .receptionist-dashboard {
-  background: $background;
   min-height: 100vh;
-}
-.dashboard-banner {
+  background: $background;
 
-background: url("/src/assets/image/img3.jpg") no-repeat center 65%;
-background-size: cover;
+  .dashboard-banner {
+    background: url("../../../assets/image/img3.jpg") no-repeat center 65%;
+    background-size: cover;
     padding: 40px 24px;
-  margin-bottom: 40px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.menu-grid {
-  margin: 24px 200px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-
-  justify-content: start;     // 👈 quan trọng
-  justify-items: start;       // 👈 card nằm sát trái từng ô
-}
-
-.menu-card {
-  width: 180px;       // 👈 fix width
-  height: 180px;      // 👈 fix height
-  margin: 0 auto;
-  border-radius: 12px;
-  overflow: hidden;   // 👈 quan trọng: chặn tràn
-  border: $border;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    margin-bottom: 40px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
-  // :global(.ant-card-body) {
-  //   display: none; // 👈 bỏ luôn phần body
-  // }
-}
-
-/* wrapper để ảnh fit đẹp */
-.card-image-wrapper {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // 👈 ảnh luôn full card, không méo
-    transition: transform 0.4s ease;
+  .banner-content {
+    max-width: 1120px;
+    margin: 0 auto;
   }
-}
 
-/* hover zoom nhẹ cho xịn */
-.menu-card:hover img {
-  transform: scale(1.05);
+  .banner-left {
+    max-width: 560px;
+    padding: 28px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(221, 228, 236, 0.9);
+  }
+
+  h1 {
+    margin: 0 0 8px;
+    color: $primary;
+    font-size: 28px;
+  }
+
+  p {
+    margin: 0;
+    color: $text-secondary;
+  }
+
+  .menu-grid {
+    width: min(1120px, calc(100% - 48px));
+    margin: 24px auto 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  .menu-card {
+    min-height: 224px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: $border;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .ant-card-body {
+      padding: 12px;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ant-card-meta-title {
+      color: $primary;
+      font-size: 14px;
+      white-space: normal;
+      line-height: 1.35;
+      margin: 0;
+    }
+  }
+
+  .card-image-wrapper {
+    height: 168px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  .menu-card:hover img {
+    transform: scale(1.04);
+  }
 }

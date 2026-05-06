@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./cancellation.scss";
+import doctorImage from "../../../assets/image/doctor.jpg";
 import { Table, Tag, Row, Col, Button, Popconfirm, message, Typography, Card, Steps } from "antd";
 import { 
   ExclamationCircleFilled, 
@@ -71,7 +72,7 @@ const columns = [
             </div>
           </div>
           <div className="banner-right">
-            <img src="/src/assets/image/doctor.jpg" alt="Minh họa bệnh viện" />
+            <img src={doctorImage} alt="Minh họa bệnh viện" loading="eager" decoding="async" />
           </div>
         </div>
       </section>

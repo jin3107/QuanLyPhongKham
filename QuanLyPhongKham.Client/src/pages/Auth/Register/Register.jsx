@@ -57,7 +57,7 @@ export default function Register() {
       <div className="auth-shell">
         <aside className="auth-visual">
           <div className="auth-badge">
-            <img src={logo} alt="Bộ Y tế" />
+            <img src={logo} alt="Bộ Y tế" loading="eager" decoding="async" />
             <div>
               <span className="auth-badge-title">
                 Hệ thống quản lý phòng khám
@@ -72,7 +72,7 @@ export default function Register() {
             Bắt đầu quản lý phòng khám với đầy đủ thông tin bác sĩ, phân quyền
             và lịch làm việc.
           </Paragraph>
-          <img className="auth-illustration" src={heroImage} alt="Phòng khám" />
+          <img className="auth-illustration" src={heroImage} alt="Phòng khám" loading="lazy" decoding="async" />
           <div className="auth-highlights">
             <Card size="small">
               <Title level={4}>Quản lý rõ ràng</Title>

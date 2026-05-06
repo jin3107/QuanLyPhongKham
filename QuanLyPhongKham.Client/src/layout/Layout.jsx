@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Layout, Button, Dropdown, Avatar } from "antd";
 import {
-  HomeOutlined,
   MenuOutlined,
   DashboardOutlined,
   CalendarOutlined,
@@ -14,16 +13,15 @@ import {
   TeamOutlined,
   UserOutlined,
   LogoutOutlined,   
-  BarChartOutlined,   
-  LineChartOutlined,  
-  WalletOutlined,
   FileAddOutlined,
-  UserAddOutlined,
   HistoryOutlined,
-  CreditCardOutlined,
   FileSearchOutlined,
   ExperimentOutlined,
   MedicineBoxOutlined,
+  BarChartOutlined,
+  LineChartOutlined,
+  UsergroupAddOutlined,
+  CreditCardOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 import apiClient from "../config/axios";
@@ -83,7 +81,7 @@ export default function AppLayout() {
     if (roleValue === "admin") return "/admin/dashboard";
     if (roleValue === "doctor") return "/doctor/dashboard";
     if (roleValue === "receptionist") return "/receptionist/dashboard";
-    return "/";
+    return "/patient/dashboard";
   };
 
   useEffect(() => {
@@ -156,19 +154,40 @@ export default function AppLayout() {
 
   const menuItems = useMemo(() => {
     const patientMenu = [
+      {
+        path: "/patient/dashboard",
+        icon: <DashboardOutlined />,
+        label: "Trang chính",
+      },
       { path: "/scheduleview", icon: <CalendarOutlined />, label: "Xem lịch" },
-      { path: "/", icon: <ScheduleOutlined />, label: "Đặt lịch" },
+      // Đường dẫn cũ: "/". Theo tài liệu, đặt lịch là một màn hình chức năng riêng.
+      { path: "/booking", icon: <ScheduleOutlined />, label: "Đặt lịch" },
       { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
-      { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
-      { path: "/billing", icon: <DollarOutlined />, label: "Tính chi phí" },
+      { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" }
     ];
 
     const receptionistMenu = [
-      { path: "/scheduleview", icon: <CalendarOutlined />, label: "Xem lịch" },
-      { path: "/", icon: <ScheduleOutlined />, label: "Đặt lịch" },
-      { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
-      { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
-      { path: "/billing", icon: <DollarOutlined />, label: "Thanh toán" },
+      {
+        path: "/receptionist/dashboard",
+        icon: <DashboardOutlined />,
+        label: "Trang chính",
+      },
+      {
+        path: "/receptionist/medical-record",
+        icon: <FileAddOutlined />,
+        label: "Đăng ký hồ sơ",
+      },
+      {
+        path: "/receptionist/patient-intake",
+        icon: <UsergroupAddOutlined />,
+        label: "Tiếp nhận",
+      },
+      {
+        path: "/receptionist/history-view",
+        icon: <HistoryOutlined />,
+        label: "Lịch sử khám",
+      },
+      { path: "/payment", icon: <CreditCardOutlined />, label: "Thanh toán" },
     ];
 
     const adminMenu = [
@@ -187,6 +206,26 @@ export default function AppLayout() {
         icon: <UserOutlined />,
         label: "Quản lý bác sĩ",
       },
+      {
+        path: "/admin/working-schedule",
+        icon: <ScheduleOutlined />,
+        label: "Phân công lịch",
+      },
+      {
+        path: "/revenue",
+        icon: <DollarOutlined />,
+        label: "Thống kê doanh thu",
+      },
+      {
+        path: "/doctoractivity",
+        icon: <LineChartOutlined />,
+        label: "Hoạt động bác sĩ",
+      },
+      {
+        path: "/patientcount",
+        icon: <BarChartOutlined />,
+        label: "Số lượng bệnh nhân",
+      },
     ];
 
     const doctorMenu = [
@@ -197,23 +236,23 @@ export default function AppLayout() {
       },
       {
         path: "/doctor/patient-info",
-        icon: <UserOutlined />,
-        label: "Thông tin bệnh nhân",
+        icon: <FileAddOutlined />,
+        label: "Ghi thông tin",
       },
       {
         path: "/doctor/prescription",
-        icon: <ScheduleOutlined />,
+        icon: <MedicineBoxOutlined />,
         label: "Kê thuốc",
       },
       {
         path: "/doctor/service-request",
-        icon: <SwapOutlined />,
+        icon: <ExperimentOutlined />,
         label: "Yêu cầu dịch vụ",
       },
       {
         path: "/doctor/patient-view",
-        icon: <CalendarOutlined />,
-        label: "Lịch sử khám",
+        icon: <FileSearchOutlined />,
+        label: "Xem thông tin",
       },
     ];
 
@@ -250,8 +289,8 @@ export default function AppLayout() {
         collapsed={collapsed}
         className="app-sider"
         breakpoint="lg" // tự collapse khi màn nhỏ
-          width={240}
-  collapsedWidth={60}
+        width={240}
+        collapsedWidth={60}
       >
         {/* TOP: TOGGLE */}
         <div className="app-sider-top">
@@ -291,7 +330,7 @@ export default function AppLayout() {
         <Header className="app-header">
           <div className="app-header-left">
             <div className="app-header-logo">
-              <img src={logo} alt="" />
+              <img src={logo} alt="Hệ thống quản lý phòng khám" loading="eager" decoding="async" />
             </div>
             <div className="app-selected-label">
               {(activeItem?.label || roleLabels[role]).toLocaleUpperCase()}

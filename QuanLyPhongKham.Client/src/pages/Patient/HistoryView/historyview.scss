@@ -249,7 +249,7 @@ $success-color: #52c41a;
     @include transition-all;
 
     &:hover {
-      color: darken($primary-color, 10%);
+      color: #083b66;
     }
   }
 }
@@ -350,14 +350,14 @@ $success-color: #52c41a;
 
   &:hover,
   &:focus {
-    background: darken($primary-color, 10%);
-    border-color: darken($primary-color, 10%);
+    background: #083b66;
+    border-color: #083b66;
     color: $white-color;
   }
 
   &:active {
-    background: darken($primary-color, 15%);
-    border-color: darken($primary-color, 15%);
+    background: #062f52;
+    border-color: #062f52;
   }
 }
 
@@ -527,7 +527,7 @@ $success-color: #52c41a;
 
   .page-header,
   .filters-section,
-  :global(.ant-modal-footer) {
+  .ant-modal-footer {
     display: none;
   }
 
@@ -539,16 +539,16 @@ $success-color: #52c41a;
 }
 
 // Utilities
-:global(.ant-empty) {
+.history-view-page .ant-empty {
   padding: 40px 0;
   color: $text-secondary;
 }
 
-:global(.ant-divider) {
+.history-view-page .ant-divider {
   border-color: $border-color;
 }
 
-:global(.ant-pagination) {
+.history-view-page .ant-pagination {
   .ant-pagination-item-active {
     border-color: $primary-color;
 

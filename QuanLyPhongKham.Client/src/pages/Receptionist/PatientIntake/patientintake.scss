@@ -6,7 +6,8 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-    	background: url("https://i.pinimg.com/736x/6c/0e/2b/6c0e2b026ad04dd6b5bd67be174897d1.jpg") no-repeat center;
+    // Background cũ dùng ảnh remote, dễ chậm và lỗi khi build offline.
+    background: url("../../../assets/image/background.jpg") no-repeat center;
   background-size: cover, cover;
   background-attachment: fixed;
 

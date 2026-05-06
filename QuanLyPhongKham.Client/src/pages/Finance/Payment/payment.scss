@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
-
 $navy:      #0b4f84;
 $navy-dark: #083b66;
 $navy-mid:  #1565a8;
@@ -18,16 +16,18 @@ $shadow-sm: 0 2px 8px rgba(11,79,132,.07);
 $radius:    12px;
 $radius-sm: 8px;
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
 // ══════════════════════════════════════════════════════
 .payment-page {
   background: $bg;
   height: 100%;
   overflow: auto;
-  font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", system-ui, sans-serif;
   display: flex;
   flex-direction: column;
+
+  * {
+    box-sizing: border-box;
+  }
 
   // ── Stats bar ──────────────────────────────────────
   .stats-bar {

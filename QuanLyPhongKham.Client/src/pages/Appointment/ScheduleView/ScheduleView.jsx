@@ -1,4 +1,4 @@
-import "./scheduleView.scss";
+import "./scheduleview.scss";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {

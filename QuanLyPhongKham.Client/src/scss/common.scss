@@ -1,0 +1,151 @@
+@use "./global.scss" as *;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: $background;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-route-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  color: $primary;
+  background: $background;
+  font-weight: 600;
+}
+
+:where(.app-content) {
+  .form-section-title {
+    margin: 0 0 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed $primary;
+  }
+
+  .notice-box {
+    background: $background-wanning;
+    border: 1px solid $wanning;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+
+    .notice-title {
+      font-weight: 600;
+      color: $wanning;
+      margin-bottom: 8px;
+    }
+
+    .notice-text {
+      font-size: 13px;
+      color: $wanning;
+      line-height: 1.6;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+
+    .submit-btn {
+      background: $primary;
+      border-color: $primary;
+      font-weight: 600;
+      height: 36px;
+      min-width: 100px;
+      font-size: 14px;
+
+      &:hover {
+        background: #083f6a;
+        border-color: #083f6a;
+      }
+    }
+
+    .reset-btn {
+      border-color: #dde4ec;
+      color: $text-primary;
+      font-weight: 600;
+      height: 36px;
+      min-width: 120px;
+      font-size: 14px;
+
+      &:hover {
+        border-color: $primary;
+        color: $primary;
+      }
+    }
+  }
+
+  .notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    li {
+      font-size: 14px;
+      color: $text-primary;
+      padding-left: 24px;
+      position: relative;
+
+      &::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: $tick;
+        font-weight: 700;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .ant-table {
+    font-size: 14px;
+    background: transparent;
+  }
+
+  .ant-table-thead > tr > th {
+    background: #f9fbfd;
+    border-color: #dde4ec;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $text-secondary;
+  }
+
+  .ant-table-tbody > tr {
+    &:hover > td {
+      background: #f9fbfd;
+    }
+
+    > td {
+      border-color: #dde4ec;
+      font-size: 14px;
+      color: $text-primary;
+    }
+  }
+}

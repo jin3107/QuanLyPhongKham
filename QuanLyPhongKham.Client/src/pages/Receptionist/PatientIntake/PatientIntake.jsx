@@ -1,4 +1,4 @@
-import { Form, Input, Button, Row, Col, DatePicker, Select, Radio, Card } from 'antd';
+import { Form, Input, Button, Row, Col, DatePicker, Radio } from 'antd';
 import { useState } from 'react';
 import './patientintake.scss';
 
@@ -38,6 +38,7 @@ export default function PatientIntake() {
 							form={form}
 							layout="vertical"
 							autoComplete="off"
+							onFinish={handleSubmit}
 						>
 							{/* PATIENT INFO */}
 							<div className="form-section">
@@ -150,10 +151,10 @@ export default function PatientIntake() {
 							</div>
 
 							<div className="form-actions">
-								<Button type="primary" htmlType="submit" className="submit-btn">
+								<Button type="primary" htmlType="submit" className="submit-btn" loading={isSubmitting}>
 									Xác nhận thêm bệnh nhân
 								</Button>
-								<Button type="default" className="reset-btn">
+								<Button type="default" className="reset-btn" onClick={handleReset}>
 									Xóa
 								</Button>
 							</div>

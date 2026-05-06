@@ -33,7 +33,7 @@ export default function Logout() {
 			<div className="auth-shell">
 				<aside className="auth-visual">
 					<div className="auth-badge">
-						<img src={logo} alt="Bộ Y tế" />
+						<img src={logo} alt="Bộ Y tế" loading="eager" decoding="async" />
 						<div>
 							<span className="auth-badge-title">Hệ thống quản lý phòng khám</span>
 							<span className="auth-badge-subtitle">Kết thúc phiên làm việc</span>
@@ -44,7 +44,7 @@ export default function Logout() {
 						Bạn có thể đăng xuất ngay hoặc quay lại để tiếp tục xử lý các yêu cầu
 						còn dở.
 					</Paragraph>
-					<img className="auth-illustration" src={logoutImage} alt="Bệnh viện" />
+					<img className="auth-illustration" src={logoutImage} alt="Bệnh viện" loading="lazy" decoding="async" />
 				</aside>
 				<Card className="auth-card" variant="borderless">
 					<div className="auth-card-header">

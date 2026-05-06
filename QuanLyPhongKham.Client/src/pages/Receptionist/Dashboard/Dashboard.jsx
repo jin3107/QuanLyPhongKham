@@ -1,6 +1,10 @@
-import { Card, Row, Col } from 'antd';
+import { Card } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './dashboard.scss';
+import medicalRecordImage from '../../../assets/image/card-letan-01.jpg';
+import intakeImage from '../../../assets/image/card-letan-02.jpg';
+import historyImage from '../../../assets/image/card-letan-03.jpg';
+import paymentImage from '../../../assets/image/card-letan-04.jpg';
 
 export default function ReceptionistDashboard() {
   const navigate = useNavigate();
@@ -9,44 +13,29 @@ export default function ReceptionistDashboard() {
     {
       id: 1,
       title: 'Đăng ký hồ sơ bệnh án',
-      image: '/src/assets/image/card-letan-01.jpg',
-      path: '/receptionist/register-patient'
+      image: medicalRecordImage,
+      // Đường dẫn cũ: /receptionist/register-patient
+      path: '/receptionist/medical-record'
     },
     {
       id: 2,
       title: 'Tiếp nhận bệnh nhân',
-      image: '/src/assets/image/card-letan-02.jpg',
+      image: intakeImage,
       path: '/receptionist/patient-intake'
     },
     {
       id: 3,
       title: 'Lịch sử khám bệnh',
-      image: '/src/assets/image/card-letan-03.jpg',
-      path: '/receptionist/history'
+      image: historyImage,
+      // Đường dẫn cũ: /receptionist/history
+      path: '/receptionist/history-view'
     },
     {
       id: 4,
       title: 'Thanh toán',
-      image: '/src/assets/image/card-letan-04.jpg',
-      path: '/finance/payment'
-    },
-        {
-      id: 5,
-      title: 'Đặt lịch',
-      image: '/src/assets/image/card-letan-05.jpg',
-      path: '/finance/payment'
-    },
-        {
-      id: 6,
-      title: 'Đổi lịch',
-      image: '/src/assets/image/card-letan-06.jpg',
-      path: '/finance/payment'
-    },
-        {
-      id: 7,
-      title: 'Hủy lịch',
-      image: '/src/assets/image/card-letan-07.jpg',
-      path: '/finance/payment'
+      image: paymentImage,
+      // Đường dẫn cũ: /finance/payment
+      path: '/payment'
     },
   ];
 
@@ -73,10 +62,12 @@ export default function ReceptionistDashboard() {
       onClick={() => navigate(item.path)}
       cover={
         <div className="card-image-wrapper">
-          <img src={item.image} alt={item.title} />
+          <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
         </div>
       }
-    />
+    >
+      <Card.Meta title={item.title} />
+    </Card>
   ))}
 </div>    </div>
   );

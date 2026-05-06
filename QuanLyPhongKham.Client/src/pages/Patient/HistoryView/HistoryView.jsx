@@ -109,7 +109,7 @@ export default function HistoryView() {
 
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterStatus] = useState("all");
   const [filterDepartment, setFilterDepartment] = useState("all");
   const [dateRange, setDateRange] = useState(null);
 
@@ -170,7 +170,7 @@ export default function HistoryView() {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
+      render: () => (
         <Tag icon={<CheckCircleOutlined />} color="success">
           Hoàn thành
         </Tag>

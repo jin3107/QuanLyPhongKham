@@ -1,57 +1,54 @@
-import { Card, Row, Col } from 'antd';
+import { Card } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './dashboard.scss';
+import scheduleImage from '../../../assets/image/card-benhnhan-01.jpg';
+import bookingImage from '../../../assets/image/card-letan-05.jpg';
+import rescheduleImage from '../../../assets/image/card-letan-06.jpg';
+import cancellationImage from '../../../assets/image/card-letan-07.jpg';
+import billingImage from '../../../assets/image/card-letan-04.jpg';
 
-export default function ReceptionistDashboard() {
+export default function PatientDashboard() {
   const navigate = useNavigate();
 
   const menuItems = [
-    // {
-    //   id: 1,
-    //   title: 'Đăng ký hồ sơ bệnh án',
-    //   image: '/src/assets/image/card-letan-01.jpg',
-    //   path: '/receptionist/register-patient'
-    // },
-    // {
-    //   id: 2,
-    //   title: 'Tiếp nhận bệnh nhân',
-    //   image: '/src/assets/image/card-letan-02.jpg',
-    //   path: '/receptionist/patient-intake'
-    // },
-    // {
-    //   id: 3,
-    //   title: 'Lịch sử khám bệnh',
-    //   image: '/src/assets/image/card-letan-03.jpg',
-    //   path: '/receptionist/history'
-    // },
+    {
+      id: 1,
+      title: 'Xem lịch',
+      image: scheduleImage,
+      // Đường dẫn cũ: /finance/payment
+      path: '/scheduleview'
+    },
+    {
+      id: 2,
+      title: 'Đặt lịch',
+      image: bookingImage,
+      // Đường dẫn cũ: /finance/payment
+      path: '/booking'
+    },
+    {
+      id: 3,
+      title: 'Đổi lịch',
+      image: rescheduleImage,
+      // Đường dẫn cũ: /finance/payment
+      path: '/reschedule'
+    },
     {
       id: 4,
-      title: 'Xem lịch',
-      image: '/src/assets/image/card-benhnhan-01.jpg',
-      path: '/finance/payment'
-    },
-        {
-      id: 5,
-      title: 'Đặt lịch',
-      image: '/src/assets/image/card-letan-05.jpg',
-      path: '/finance/payment'
-    },
-        {
-      id: 6,
-      title: 'Đổi lịch',
-      image: '/src/assets/image/card-letan-06.jpg',
-      path: '/finance/payment'
-    },
-        {
-      id: 7,
       title: 'Hủy lịch',
-      image: '/src/assets/image/card-letan-07.jpg',
-      path: '/finance/payment'
+      image: cancellationImage,
+      // Đường dẫn cũ: /finance/payment
+      path: '/cancellation'
+    },
+    {
+      id: 5,
+      title: 'Tính chi phí khám',
+      image: billingImage,
+      path: '/billing'
     },
   ];
 
   return (
-    <div className="receptionist-dashboard">
+    <div className="patient-dashboard">
             <section className="dashboard-banner">
         <div className="banner-content">
           <div className="banner-left">
@@ -73,10 +70,12 @@ export default function ReceptionistDashboard() {
       onClick={() => navigate(item.path)}
       cover={
         <div className="card-image-wrapper">
-          <img src={item.image} alt={item.title} />
+          <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
         </div>
       }
-    />
+    >
+      <Card.Meta title={item.title} />
+    </Card>
   ))}
 </div>    </div>
   );

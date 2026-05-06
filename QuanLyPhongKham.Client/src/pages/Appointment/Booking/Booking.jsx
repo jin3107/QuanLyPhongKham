@@ -1,6 +1,8 @@
 import "./booking.scss";
 import { useRef } from "react";
 import { CheckCircleFilled } from "@ant-design/icons";
+import hospitalImage from "../../../assets/image/Hospital.jpg";
+import doctorImage from "../../../assets/image/doctor.jpg";
 import {
 	Form,
 	Input,
@@ -78,7 +80,7 @@ export default function Booking() {
 						</Button>
 					</div>
 					<div className="banner-right">
-						<img src="/src/assets/image/Hospital.jpg" alt="Phòng khám" />
+						<img src={hospitalImage} alt="Phòng khám" loading="eager" decoding="async" />
 					</div>
 				</div>
 			</section>
@@ -325,14 +327,14 @@ export default function Booking() {
 						<h3 className="booking-card-title">Bác sĩ chuyên khoa</h3>
 						<div className="doctors-list">
 							<div className="doctor-item">
-								<Avatar size={48} src="https://i.pravatar.cc/150?img=33" />
+								<Avatar size={48} src={doctorImage} />
 								<div className="doctor-info">
 									<div className="doctor-name">BS. Nguyễn Huy Hoàng</div>
 									<div className="doctor-dept">Nội tổng quát</div>
 								</div>
 							</div>
 							<div className="doctor-item">
-								<Avatar size={48} src="https://i.pravatar.cc/150?img=32" />
+								<Avatar size={48} src={doctorImage} />
 								<div className="doctor-info">
 									<div className="doctor-name">BS. Lê Thảo Vy</div>
 									<div className="doctor-dept">Nhi</div>

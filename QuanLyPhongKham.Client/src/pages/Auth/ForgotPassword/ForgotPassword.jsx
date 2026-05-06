@@ -1,5 +1,5 @@
 import "../auth.scss";
-import "./ForgotPassword.scss";
+import "./forgotpassword.scss";
 import heroImage from "../../../assets/image/Hospital.jpg";
 import logo from "../../../assets/image/LogoBYT.png";
 import { useState } from "react";
@@ -81,7 +81,7 @@ export default function ForgotPassword() {
         <div className="auth-shell">
           <aside className="auth-visual">
             <div className="auth-badge">
-              <img src={logo} alt="Bộ Y tế" />
+              <img src={logo} alt="Bộ Y tế" loading="eager" decoding="async" />
               <div>
                 <span className="auth-badge-title">
                   Hệ thống quản lý phòng khám
@@ -98,6 +98,8 @@ export default function ForgotPassword() {
               className="auth-illustration"
               src={heroImage}
               alt="Bệnh viện"
+              loading="lazy"
+              decoding="async"
             />
           </aside>
 
