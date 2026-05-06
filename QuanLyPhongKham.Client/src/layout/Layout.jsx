@@ -13,6 +13,9 @@ import {
   UserAddOutlined,
   FileSearchOutlined,
   HomeOutlined,
+  FileAddOutlined,
+  HistoryOutlined,
+  CreditCardOutlined
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 
@@ -23,11 +26,14 @@ export default function AppLayout() {
   const location = useLocation();
 
   const menuItems = [
-    { path: "/", icon: <HomeOutlined />, label: "Màn hình chính" },
+    { path: "/", icon: <HomeOutlined />, label: "Màn hình chính lễ tân" },
     //{ path: "/scheduleView", icon: <CalendarOutlined />, label: "Xem lịch" },
     //{ path: "/", icon: <ScheduleOutlined />, label: "Đặt lịch" },
-    { path: "/patientIntake", icon: <UserAddOutlined />, label: "Đăng ký hồ sơ bệnh án" },
-    { path: "/historyView", icon: <FileSearchOutlined />, label: "Lịch sử bệnh án" },
+    { path: "/MedicalRecord", icon: <UserAddOutlined />, label: "Đăng ký hồ sơ bệnh án" },
+    { path: "/patientIntake", icon: <FileAddOutlined />, label: "Tiếp nhận bệnh nhân" },
+    { path: "/historyView", icon: <HistoryOutlined />, label: "Lịch sử bệnh án" },
+    { path: "/patientIntake", icon: <CreditCardOutlined />, label: "Thanh toán" },
+
     //{ path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
     //{ path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
     //{ path: "/billing", icon: <DollarOutlined />, label: "Tính chi phí" },

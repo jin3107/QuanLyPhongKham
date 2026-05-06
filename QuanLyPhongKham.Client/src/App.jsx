@@ -19,7 +19,7 @@ function App() {
         <Route path="reschedule" element={<Reschedule />} />
         <Route path="billing" element={<Billing />} />
         <Route path="patientCount" element={<PatientCount />} />
-        <Route path="patientIntake" element={<MedicalRecord />} />
+        <Route path="MedicalRecord" element={<MedicalRecord />} />
         <Route path="historyView" element={<HistoryView />} />
       </Route>
     </Routes>
