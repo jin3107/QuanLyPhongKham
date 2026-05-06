@@ -17,30 +17,22 @@ const medicines = [
   {
     key: "T001",
     name: "Paracetamol 500mg",
-    quantity: 10,
-    unit: "Viên",
     dosage: "Uống 1 viên khi sốt, tối đa 4 viên/ngày",
   },
   {
     key: "T002",
     name: "Amlodipin 5mg",
-    quantity: 14,
-    unit: "Viên",
     dosage: "Uống 1 viên sau ăn sáng",
   },
   {
     key: "T003",
     name: "Vitamin C",
-    quantity: 10,
-    unit: "Viên",
     dosage: "Uống 1 viên/ngày sau ăn",
   },
 ];
 
 const columns = [
   { title: "Tên thuốc", dataIndex: "name", key: "name" },
-  { title: "Số lượng", dataIndex: "quantity", key: "quantity", width: 110 },
-  { title: "Đơn vị", dataIndex: "unit", key: "unit", width: 100 },
   { title: "Liều dùng", dataIndex: "dosage", key: "dosage" },
 ];
 
@@ -100,7 +92,7 @@ export default function Prescription() {
                   ]}
                 />
               </Form.Item>
-              <Row gutter={12}>
+              {/*<Row gutter={12}>
                 <Col xs={12}>
                   <Form.Item label="Số lượng" name="quantity">
                     <InputNumber min={1} className="full-width" />
@@ -117,7 +109,7 @@ export default function Prescription() {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
+              </Row>*/}
               <Form.Item label="Ghi chú liều dùng" name="dosage">
                 <Input.TextArea
                   rows={3}

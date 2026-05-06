@@ -61,8 +61,8 @@ export default function AppLayout() {
   const activeItem =
     menuItems.find((item) => location.pathname === item.path) || menuItems[0];
 
-  const userName = isDoctorArea ? "BS Nguyễn Minh An" : "Huỳnh Như";
-  const getInitial = (name) => {
+  const userName = isDoctorArea ? "Phạm Nguyễn Phúc Khang" : "Huỳnh Như";
+  const getInitial = (name) => {  
     return name?.trim().split(" ").pop().charAt(0).toUpperCase();
   };
 

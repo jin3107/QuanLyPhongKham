@@ -16,28 +16,27 @@ const history = [
   {
     key: "K001",
     date: "02/05/2026",
-    doctor: "BS Nguyễn Minh An",
+    doctor: "Nguyễn Minh An",
     diagnosis: "Viêm họng cấp",
     service: "Xét nghiệm máu",
   },
   {
     key: "K002",
     date: "18/04/2026",
-    doctor: "BS Lê Thanh Bình",
+    doctor: "Lê Thanh Bình",
     diagnosis: "Đau dạ dày",
     service: "Siêu âm ổ bụng",
   },
   {
     key: "K003",
     date: "03/03/2026",
-    doctor: "BS Nguyễn Minh An",
+    doctor: "Nguyễn Minh An",
     diagnosis: "Tăng huyết áp",
     service: "Điện tim",
   },
 ];
 
 const columns = [
-  { title: "Mã khám", dataIndex: "key", key: "key", width: 100 },
   { title: "Ngày khám", dataIndex: "date", key: "date", width: 130 },
   { title: "Bác sĩ", dataIndex: "doctor", key: "doctor" },
   { title: "Chẩn đoán", dataIndex: "diagnosis", key: "diagnosis" },
@@ -74,7 +73,6 @@ export default function PatientView() {
         <Col xs={24} xl={9}>
           <Card title="Hồ sơ bệnh nhân" className="doctor-card">
             <Descriptions column={1} size="middle">
-              <Descriptions.Item label="Mã bệnh nhân">BN002</Descriptions.Item>
               <Descriptions.Item label="Họ tên">Trần Thị Mai</Descriptions.Item>
               <Descriptions.Item label="Ngày sinh">14/09/1982</Descriptions.Item>
               <Descriptions.Item label="Giới tính">Nữ</Descriptions.Item>

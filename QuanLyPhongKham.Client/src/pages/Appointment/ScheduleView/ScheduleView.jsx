@@ -1,4 +1,4 @@
-import "./scheduleView.scss";
+import "./scheduleview.scss";
 import { useState } from "react";
 
 export default function ScheduleView() {

@@ -68,7 +68,6 @@ const patients = [
 ];
 
 const columns = [
-  { title: "Mã BN", dataIndex: "key", key: "key", width: 100 },
   { title: "Bệnh nhân", dataIndex: "name", key: "name" },
   { title: "Giờ khám", dataIndex: "time", key: "time", width: 110 },
   { title: "Lý do khám", dataIndex: "reason", key: "reason" },

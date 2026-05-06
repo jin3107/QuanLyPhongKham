@@ -2,9 +2,9 @@ import "./patientinfo.scss";
 import { Button, Card, Col, Form, Input, Row, Select, Space, Tag } from "antd";
 
 const patientOptions = [
-  { value: "BN001", label: "BN001 - Nguyễn Văn Hòa" },
-  { value: "BN002", label: "BN002 - Trần Thị Mai" },
-  { value: "BN003", label: "BN003 - Lê Quốc Bảo" },
+  { value: "BN001", label: "Nguyễn Văn Hòa" },
+  { value: "BN002", label: "Trần Thị Mai" },
+  { value: "BN003", label: "Lê Quốc Bảo" },
 ];
 
 export default function PatientInfo() {
@@ -25,10 +25,6 @@ export default function PatientInfo() {
         <Col xs={24} xl={8}>
           <Card title="Thông tin lượt khám" className="doctor-card">
             <div className="doctor-patient-summary">
-              <div className="summary-item">
-                <span>Mã bệnh nhân</span>
-                <strong>BN002</strong>
-              </div>
               <div className="summary-item">
                 <span>Họ tên</span>
                 <strong>Trần Thị Mai</strong>

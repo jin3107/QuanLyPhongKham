@@ -49,7 +49,6 @@ const requests = [
 ];
 
 const columns = [
-  { title: "Mã yêu cầu", dataIndex: "key", key: "key", width: 120 },
   { title: "Bệnh nhân", dataIndex: "patient", key: "patient" },
   { title: "Dịch vụ", dataIndex: "services", key: "services" },
   {
@@ -66,6 +65,12 @@ const columns = [
     key: "status",
     render: (status) => <Tag color="processing">{status}</Tag>,
   },
+  {/*
+    title: "Giá",
+    dataIndex: "price",
+    key: "price",
+    render: (price) => price ? `${price} đ` : "Đang tính",
+  */}
 ];
 
 export default function ServiceRequest() {
@@ -103,16 +108,16 @@ export default function ServiceRequest() {
               <Form.Item label="Bệnh nhân" name="patient">
                 <Select
                   options={[
-                    { value: "BN001", label: "BN001 - Nguyễn Văn Hòa" },
-                    { value: "BN002", label: "BN002 - Trần Thị Mai" },
-                    { value: "BN003", label: "BN003 - Lê Quốc Bảo" },
+                    { value: "BN001", label: "Nguyễn Văn Hòa" },
+                    { value: "BN002", label: "Trần Thị Mai" },
+                    { value: "BN003", label: "Lê Quốc Bảo" },
                   ]}
                 />
               </Form.Item>
               <Form.Item label="Dịch vụ chỉ định" name="services">
                 <Checkbox.Group options={serviceOptions} />
               </Form.Item>
-              <Row gutter={16}>
+              {<Row gutter={16}>
                 <Col xs={24} md={12}>
                   <Form.Item label="Mức độ ưu tiên" name="priority">
                     <Select
@@ -128,7 +133,7 @@ export default function ServiceRequest() {
                     <DatePicker className="full-width" format="DD/MM/YYYY" />
                   </Form.Item>
                 </Col>
-              </Row>
+              </Row>}
               <Form.Item label="Lý do chỉ định" name="reason">
                 <Input.TextArea
                   rows={4}
