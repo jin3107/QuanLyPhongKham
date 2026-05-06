@@ -1,0 +1,208 @@
+$navy:      #0b4f84;
+$navy-dark: #083b66;
+$navy-mid:  #1565a8;
+$blue-lt:   #e8f2ff;
+$blue-mid:  #c5dcf8;
+$accent:    #00a884;
+$border:    #dce6f0;
+$bg:        #f0f4f9;
+$white:     #ffffff;
+$gray-50:   #f7f9fc;
+$gray-txt:  #6b7d96;
+
+$shadow-sm: 0 2px 8px rgba(11,79,132,.07);
+$radius:    14px;
+$radius-sm: 9px;
+
+.doctorstats {
+  background: $bg;
+  min-height: 100%;
+  font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+
+  .ds-body {
+    padding: 18px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  // ── Section label
+  .section-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: $navy;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+
+  // ── Filter card
+  .filter-card {
+    background: $white;
+    border: 1px solid $border;
+    border-radius: $radius;
+    box-shadow: $shadow-sm;
+    padding: 18px 20px;
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: $gray-txt;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .ant-picker {
+      border-radius: $radius-sm !important;
+      border-color: $border !important;
+      background: $gray-50 !important;
+      &:hover { border-color: $navy !important; }
+    }
+  }
+
+  .stat-btn.ant-btn {
+    background: $navy !important;
+    border-color: $navy !important;
+    border-radius: $radius-sm !important;
+    height: 38px !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    &:hover { background: $navy-dark !important; }
+  }
+
+  // ── Summary chips
+  .summary-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    border: 1px solid $border;
+    background: $white;
+    color: #374151;
+
+    b { color: $navy; }
+
+    &.active   { border-color: #b7eb8f; background: #f6ffed; b { color: #389e0d; } }
+    &.inactive { border-color: $border; background: $gray-50; b { color: $gray-txt; } }
+    &.total    { border-color: $blue-mid; background: $blue-lt; b { color: $navy; } }
+  }
+
+  // ── Table wrap
+  .table-wrap {
+    background: $white;
+    border: 1px solid $border;
+    border-radius: $radius;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+  }
+
+  .table-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: $navy;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid $border;
+  }
+
+  // ── Clean table (matching lịch khám của tôi style)
+  .clean-table {
+    .ant-table { border-radius: 0 !important; }
+
+    .ant-table-thead > tr > th {
+      background: $white !important;
+      color: $navy !important;
+      font-weight: 700 !important;
+      font-size: 11.5px !important;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-bottom: 2px solid $blue-mid !important;
+      padding: 11px 20px !important;
+      white-space: nowrap;
+      &::before { display: none !important; }
+    }
+
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid $border !important;
+      padding: 13px 20px !important;
+      vertical-align: middle;
+      font-size: 13.5px;
+      color: #1e293b;
+      background: $white !important;
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background: $blue-lt !important;
+    }
+
+    .ant-table-column-sorter { color: $navy !important; }
+  }
+
+  .bs-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .spec-text {
+    font-size: 13px;
+    color: $gray-txt;
+  }
+
+  // ── Count bar cell
+  .count-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .count-bar-wrap {
+    flex: 1;
+    max-width: 160px;
+    height: 6px;
+    background: $border;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .count-bar {
+    height: 100%;
+    background: $navy;
+    border-radius: 4px;
+    transition: width .5s ease;
+  }
+
+  .count-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: $navy;
+    white-space: nowrap;
+    min-width: 36px;
+    text-align: right;
+  }
+}

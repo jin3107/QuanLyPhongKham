@@ -1,0 +1,216 @@
+$navy:      #0b4f84;
+$navy-dark: #083b66;
+$navy-mid:  #1565a8;
+$blue-lt:   #e8f2ff;
+$blue-mid:  #c5dcf8;
+$green:     #00a884;
+$teal:      #0891b2;
+$amber:     #d97706;
+$border:    #dce6f0;
+$bg:        #f0f4f9;
+$white:     #ffffff;
+$gray-50:   #f7f9fc;
+$gray-txt:  #6b7d96;
+
+$shadow-sm: 0 2px 8px rgba(11,79,132,.07);
+$radius:    14px;
+$radius-sm: 9px;
+
+.revenue {
+  background: $bg;
+  min-height: 100%;
+  font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+
+  .rv-body {
+    padding: 18px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  // ── Section label
+  .section-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: $navy;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+
+  // ── Cards base
+  .ant-card {
+    border-radius: $radius !important;
+    border: 1px solid $border !important;
+    box-shadow: $shadow-sm !important;
+    .ant-card-body { padding: 18px 20px !important; }
+  }
+
+  // ── Filter card
+  .filter-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: $gray-txt;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .ant-picker {
+      border-radius: $radius-sm !important;
+      border-color: $border !important;
+      background: $gray-50 !important;
+      &:hover { border-color: $navy !important; }
+    }
+  }
+
+  .stat-btn.ant-btn {
+    background: $navy !important;
+    border-color: $navy !important;
+    border-radius: $radius-sm !important;
+    height: 38px !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    &:hover { background: $navy-dark !important; }
+  }
+
+  // ── Stat grid
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  .stat-card {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: $navy;
+      border-radius: 14px 14px 0 0;
+    }
+
+    .ant-statistic-title {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      color: $gray-txt !important;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .ant-statistic-content {
+      font-size: 18px !important;
+      font-weight: 700 !important;
+      color: $navy !important;
+    }
+  }
+
+  .total-card {
+    background: linear-gradient(135deg, $navy 0%, $navy-mid 100%) !important;
+    border-color: transparent !important;
+    &::before { display: none; }
+    .ant-statistic-title { color: rgba(255,255,255,.75) !important; }
+    .ant-statistic-content { color: $white !important; font-size: 22px !important; }
+    .anticon { color: rgba(255,255,255,.8); }
+  }
+
+  .growth-tag { margin-top: 8px; font-size: 11.5px; }
+
+  .pct-bar {
+    height: 4px;
+    background: $border;
+    border-radius: 4px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .pct-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width .6s ease;
+    &.kham   { background: $navy; }
+    &.thuoc  { background: $teal; }
+    &.dichvu { background: $amber; }
+  }
+  .pct-label { font-size: 11px; color: $gray-txt; margin-top: 3px; display: block; }
+
+  // ── Table card
+  .table-card {
+    .ant-card-body { padding: 0 !important; }
+  }
+
+  .table-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: $navy;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid $border;
+  }
+
+  // ── Clean table
+  .clean-table {
+    .ant-table { border-radius: 0 !important; }
+
+    .ant-table-thead > tr > th {
+      background: $white !important;
+      color: $navy !important;
+      font-weight: 700 !important;
+      font-size: 11.5px !important;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-bottom: 2px solid $blue-mid !important;
+      padding: 11px 16px !important;
+      white-space: nowrap;
+      &::before { display: none !important; }
+    }
+
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid $border !important;
+      padding: 11px 16px !important;
+      vertical-align: middle;
+      font-size: 13.5px;
+      color: #1e293b;
+      background: $white !important;
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background: $blue-lt !important;
+    }
+  }
+
+  .amt        { color: #1e3a5f; font-variant-numeric: tabular-nums; }
+  .total-cell { color: $navy; font-weight: 700; }
+
+  .summary-row td {
+    background: $blue-lt !important;
+    border-top: 2px solid $blue-mid !important;
+  }
+
+  .result-card { text-align: center; padding: 20px 0; }
+  .empty-note  { margin-top: 10px; font-size: 15px; color: $gray-txt; b { color: $navy; } }
+
+  .ant-pagination { padding: 10px 20px !important; }
+  .ant-pagination .ant-pagination-item-active {
+    background: $navy !important;
+    border-color: $navy !important;
+    a { color: $white !important; }
+  }
+}

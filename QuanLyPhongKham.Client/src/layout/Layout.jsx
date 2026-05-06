@@ -10,6 +10,10 @@ import {
   SwapOutlined,
   DollarOutlined,
   LogoutOutlined,
+  TeamOutlined,       
+  BarChartOutlined,   
+  LineChartOutlined,  
+  WalletOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 
@@ -25,12 +29,16 @@ export default function AppLayout() {
     { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
     { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
     { path: "/billing", icon: <DollarOutlined />, label: "Tính chi phí" },
+    { path: "/workingSchedule", icon: <TeamOutlined />, label: "Phân công lịch làm việc bác sĩ" },
+    { path: "/revenue", icon: <BarChartOutlined />, label: "Thống kê doanh thu" },
+    { path: "/doctorActivity", icon: <LineChartOutlined />, label: "Thống kê hoạt động bác sĩ" },
+    { path: "/payment", icon: <WalletOutlined />, label: "Thanh toán" },
   ];
 
   const [activeItem, setActiveItem] = useState(menuItems[0]);
 
   // lấy chữ cái đầu tiên của tên user
-  const userName = "Huỳnh Như";
+  const userName = "Ngô Thị Huỳnh Như";
   const getInitial = (name) => {
     return name?.trim().split(" ").pop().charAt(0).toUpperCase();
   };
@@ -41,16 +49,16 @@ export default function AppLayout() {
       icon: <LogoutOutlined />,
       label: "Đăng xuất",
     },
-  ];
-
+  ]; 
   return (
     <Layout className="layout">
       {/* SIDEBAR */}
       <Sider
         collapsed={collapsed}
         className="sider"
-        breakpoint="lg" // tự collapse khi màn nhỏ
-        collapsedWidth="60" // ẩn hẳn menu
+        breakpoint="lg"
+        width={240}
+        collapsedWidth="60"
       >
         {/* TOP: TOGGLE */}
         <div className="top">
@@ -60,7 +68,7 @@ export default function AppLayout() {
             onClick={() => setCollapsed(!collapsed)}
             icon={<MenuOutlined />}
           />
-          {!collapsed && <span className="logo">Bệnh nhân</span>}
+          {!collapsed && <span className="logo">Lễ tân</span>}
         </div>
 
         {/* MENU */}
