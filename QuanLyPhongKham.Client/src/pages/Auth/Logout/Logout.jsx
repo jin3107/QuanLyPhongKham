@@ -1,6 +1,6 @@
 import "../auth.scss";
 import "./logout.scss";
-import heroImage from "../../../assets/image/Hospital.jpg";
+import logoutImage from "../../../assets/image/logout.webp";
 import logo from "../../../assets/image/LogoBYT.png";
 import { useNavigate } from "react-router-dom";
 import { logout as logoutApi } from "../../../apis";
@@ -44,7 +44,7 @@ export default function Logout() {
 						Bạn có thể đăng xuất ngay hoặc quay lại để tiếp tục xử lý các yêu cầu
 						còn dở.
 					</Paragraph>
-					<img className="auth-illustration" src={heroImage} alt="Bệnh viện" />
+					<img className="auth-illustration" src={logoutImage} alt="Bệnh viện" />
 				</aside>
 				<Card className="auth-card" variant="borderless">
 					<div className="auth-card-header">
