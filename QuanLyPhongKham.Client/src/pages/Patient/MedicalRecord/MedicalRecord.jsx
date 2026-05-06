@@ -107,8 +107,8 @@ export default function MedicalRecord() {
               </Col>
 
               <Col xs={24} md={12}>
-                <Form.Item label="Mã hồ sơ" name="medicalCode">
-                  <Input placeholder="VD: MB-2026-001" />
+                <Form.Item label="Số BHYT" name="medicalCode">
+                  <Input placeholder="(Nếu có)" />
                 </Form.Item>
               </Col>
 

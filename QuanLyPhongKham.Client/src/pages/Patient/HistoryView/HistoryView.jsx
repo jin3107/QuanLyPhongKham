@@ -46,7 +46,7 @@ export default function HistoryView() {
     birthday: "1990-05-15",
     gender: "Nam",
     phone: "0912345678",
-    address: "123 Đường Nguyễn Hue, Phường 1, Quận 1, TP.HCM",
+    address: "123 Đường Nguyễn Huệ, Phường 1, Quận 1, TP.HCM",
     email: "nguyenvana@email.com",
     insuranceCode: "BH123456789",
     medicalHistory: "Tiểu đường type 2, Cao huyết áp",
