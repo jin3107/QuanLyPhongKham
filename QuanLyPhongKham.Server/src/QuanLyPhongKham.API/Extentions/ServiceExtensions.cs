@@ -21,6 +21,7 @@ namespace QuanLyPhongKham.API.Extentions
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<INhanVienRepository, NhanVienRepository>();
             services.AddScoped<IBacSiRepository, BacSiRepository>();
+            services.AddScoped<IDanhMucThuocRepository, DanhMucThuocRepository>();
 
             return services;
         }
@@ -31,6 +32,7 @@ namespace QuanLyPhongKham.API.Extentions
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<INhanVienService, NhanVienService>();
             services.AddScoped<IBacSiService, BacSiService>();
+            services.AddScoped<IDanhMucThuocService, DanhMucThuocService>();
 
             return services;
         }
