@@ -23,6 +23,7 @@ namespace QuanLyPhongKham.API.Extentions
             services.AddScoped<IBacSiRepository, BacSiRepository>();
             services.AddScoped<IDanhMucThuocRepository, DanhMucThuocRepository>();
             services.AddScoped<IDanhMucDichVuRepository, DanhMucDichVuRepository>();
+            services.AddScoped<ILichHenRepository, LichHenRepository>();
 
             return services;
         }
@@ -35,6 +36,7 @@ namespace QuanLyPhongKham.API.Extentions
             services.AddScoped<IBacSiService, BacSiService>();
             services.AddScoped<IDanhMucThuocService, DanhMucThuocService>();
             services.AddScoped<IDanhMucDichVuService, DanhMucDichVuService>();
+            services.AddScoped<ILichHenService, LichHenService>();
 
             return services;
         }

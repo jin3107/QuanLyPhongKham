@@ -15,39 +15,41 @@ using static MayNghien.Infrastructures.Helpers.SearchHelper;
 
 namespace QuanLyPhongKham.Services.Implementations
 {
-    public class DanhMucDichVuService : IDanhMucDichVuService
+    public class LichHenService : ILichHenService
     {
-        private readonly IDanhMucDichVuRepository _danhMucDichVuRepository;
+        private readonly ILichHenRepository _lichHenRepository;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public DanhMucDichVuService(IDanhMucDichVuRepository danhMucDichVuRepository, 
+        public LichHenService(ILichHenRepository lichHenRepository,
             IHttpContextAccessor contextAccessor, UserManager<ApplicationUser> userManager)
         {
-            _danhMucDichVuRepository = danhMucDichVuRepository;
+            _lichHenRepository = lichHenRepository;
             _contextAccessor = contextAccessor;
             _userManager = userManager;
         }
 
-        public async Task<AppResponse<DanhMucDichVuResponse>> CreateAsync(DanhMucDichVuRequest request)
+        public async Task<AppResponse<LichHenResponse>> CreateAsync(LichHenRequest request)
         {
-            var result = new AppResponse<DanhMucDichVuResponse>();
+            var result = new AppResponse<LichHenResponse>();
             try
             {
                 var user = await _userManager.FindByEmailAsync(_contextAccessor.HttpContext?.User.Identity?.Name!);
                 if (user == null)
                     return result.BuildError("Unauthorized");
 
-                var newDichVu = DanhMucDichVuMapper.ToEntity(request);
-                newDichVu.MaDV = Guid.NewGuid();
-                newDichVu.TenDV = request.TenDV;
-                newDichVu.DonGia = request.DonGia;
-                newDichVu.CreatedBy = user.Email;
-                newDichVu.CreatedOn = DateTime.UtcNow;
-                await _danhMucDichVuRepository.AddAsync(newDichVu);
+                var newLichHen = LichHenMapper.ToEntity(request);
+                newLichHen.MaLH = Guid.NewGuid();
+                newLichHen.ThoiGianKham = request.ThoiGianKham;
+                newLichHen.TrangThai = request.TrangThai;
+                newLichHen.MaBN = request.MaBN;
+                newLichHen.MaBS = request.MaBS;
+                newLichHen.CreatedBy = user.Email;
+                newLichHen.CreatedOn = DateTime.UtcNow;
+                await _lichHenRepository.AddAsync(newLichHen);
 
-                var response = DanhMucDichVuMapper.ToResponse(newDichVu);
-                return result.BuildResult(response, "Đã tạo thông tin cho danh mục dịch vụ thành công.");
+                var response = LichHenMapper.ToResponse(newLichHen);
+                return result.BuildResult(response, "Đã tạo thông tin cho lịch hẹn thành công.");
             }
             catch (Exception ex)
             {
@@ -64,16 +66,16 @@ namespace QuanLyPhongKham.Services.Implementations
                 if (user == null)
                     return result.BuildError("Unauthorized");
 
-                var danhMucDichVu = await _danhMucDichVuRepository.GetAsync(id);
-                if (danhMucDichVu == null || danhMucDichVu.IsDeleted == true)
-                    return result.BuildError("Thông tin danh mục dịch vụ không tồn tại hoặc đã bị xóa.");
+                var lichHen = await _lichHenRepository.GetAsync(id);
+                if (lichHen == null || lichHen.IsDeleted == true)
+                    return result.BuildError("Thông tin lịch hẹn không tồn tại hoặc đã bị xóa.");
 
-                danhMucDichVu.IsDeleted = true;
-                danhMucDichVu.ModifiedBy = user.Email;
-                danhMucDichVu.ModifiedOn = DateTime.UtcNow;
-                await _danhMucDichVuRepository.EditAsync(danhMucDichVu);
+                lichHen.IsDeleted = true;
+                lichHen.ModifiedBy = user.Email;
+                lichHen.ModifiedOn = DateTime.UtcNow;
+                await _lichHenRepository.EditAsync(lichHen);
 
-                return result.BuildResult("Đã xóa thông tin danh mục dịch vụ thành công.");
+                return result.BuildResult("Đã xóa thông tin lịch hẹn thành công.");
             }
             catch (Exception ex)
             {
@@ -81,20 +83,20 @@ namespace QuanLyPhongKham.Services.Implementations
             }
         }
 
-        public async Task<AppResponse<DanhMucDichVuResponse>> GetByIdAsync(Guid id)
+        public async Task<AppResponse<LichHenResponse>> GetByIdAsync(Guid id)
         {
-            var result = new AppResponse<DanhMucDichVuResponse>();
+            var result = new AppResponse<LichHenResponse>();
             try
             {
                 var user = await _userManager.FindByEmailAsync(_contextAccessor.HttpContext?.User.Identity?.Name!);
                 if (user == null)
                     return result.BuildError("Unauthorize");
 
-                var danhMucDichVu = await _danhMucDichVuRepository.FindBy(v => v.MaDV == id).FirstOrDefaultAsync();
-                if (danhMucDichVu == null || danhMucDichVu.IsDeleted == true)
-                    return result.BuildError("Thông tin danh mục thuốc không tồn tại hoặc đã bị xóa.");
+                var lichHen = await _lichHenRepository.FindBy(v => v.MaLH == id).FirstOrDefaultAsync();
+                if (lichHen == null || lichHen.IsDeleted == true)
+                    return result.BuildError("Thông tin lịch hẹn không tồn tại hoặc đã bị xóa.");
 
-                var response = DanhMucDichVuMapper.ToResponse(danhMucDichVu);
+                var response = LichHenMapper.ToResponse(lichHen);
                 return result.BuildResult(response);
             }
             catch (Exception ex)
@@ -103,9 +105,9 @@ namespace QuanLyPhongKham.Services.Implementations
             }
         }
 
-        public async Task<AppResponse<SearchResponse<DanhMucDichVuResponse>>> SearchAsync(SearchRequest request)
+        public async Task<AppResponse<SearchResponse<LichHenResponse>>> SearchAsync(SearchRequest request)
         {
-            var result = new AppResponse<SearchResponse<DanhMucDichVuResponse>>();
+            var result = new AppResponse<SearchResponse<LichHenResponse>>();
             try
             {
                 var user = await _userManager.FindByEmailAsync(_contextAccessor.HttpContext?.User.Identity?.Name!);
@@ -113,20 +115,20 @@ namespace QuanLyPhongKham.Services.Implementations
                     return result.BuildError("Unauthorize");
 
                 var query = BuildFilterExpression(request.Filters!);
-                var numOfRecords = await _danhMucDichVuRepository.CountRecordsAsync(query);
-                var danhMucDichVu = _danhMucDichVuRepository.FindBy(query).Include(x => x.TenDV).AsQueryable();
+                var numOfRecords = await _lichHenRepository.CountRecordsAsync(query);
+                var lichHen = _lichHenRepository.FindBy(query).Include(x => x.ThoiGianKham).AsQueryable();
 
                 if (request.SortBy != null)
-                    danhMucDichVu = _danhMucDichVuRepository.AddSort(danhMucDichVu, request.SortBy);
+                    lichHen = _lichHenRepository.AddSort(lichHen, request.SortBy);
                 else
-                    danhMucDichVu = danhMucDichVu.OrderBy(x => x.TenDV);
+                    lichHen = lichHen.OrderBy(x => x.ThoiGianKham);
 
                 int pageIndex = request.PageIndex ?? 1;
                 int pageSize = request.PageSize ?? 10;
                 int startIndex = (pageIndex - 1) * pageSize;
-                var classList = await danhMucDichVu.Skip(startIndex).Take(pageSize).ToListAsync();
-                var dtoList = classList.Select(DanhMucDichVuMapper.ToResponse).ToList();
-                var searchResponse = new SearchResponse<DanhMucDichVuResponse>
+                var classList = await lichHen.Skip(startIndex).Take(pageSize).ToListAsync();
+                var dtoList = classList.Select(LichHenMapper.ToResponse).ToList();
+                var searchResponse = new SearchResponse<LichHenResponse>
                 {
                     TotalPages = CalculateNumOfPages(numOfRecords, pageSize),
                     TotalRows = numOfRecords,
@@ -143,20 +145,20 @@ namespace QuanLyPhongKham.Services.Implementations
             }
         }
 
-        private ExpressionStarter<DANHMUCDICVU> BuildFilterExpression(List<Filter> filters)
+        private ExpressionStarter<LICHHEN> BuildFilterExpression(List<Filter> filters)
         {
             try
             {
-                var predicate = PredicateBuilder.New<DANHMUCDICVU>(true);
+                var predicate = PredicateBuilder.New<LICHHEN>(true);
                 if (filters != null)
                 {
                     foreach (var filter in filters)
                     {
                         switch (filter.FieldName)
                         {
-                            case "Tên dịch vụ":
-                                if (!string.IsNullOrEmpty(filter.Value))
-                                    predicate = predicate.And(x => x.TenDV.Contains(filter.Value));
+                            case "Thời gian khám":
+                                if (!string.IsNullOrEmpty(filter.Value) && DateTime.TryParse(filter.Value, out var thoiGianKham))
+                                    predicate = predicate.And(x => x.ThoiGianKham >= thoiGianKham.Date && x.ThoiGianKham < thoiGianKham.Date.AddDays(1));
                                 break;
 
                             default: break;
@@ -173,27 +175,29 @@ namespace QuanLyPhongKham.Services.Implementations
             }
         }
 
-        public async Task<AppResponse<DanhMucDichVuResponse>> UpdateAsync(DanhMucDichVuRequest request)
+        public async Task<AppResponse<LichHenResponse>> UpdateAsync(LichHenRequest request)
         {
-            var result = new AppResponse<DanhMucDichVuResponse>();
+            var result = new AppResponse<LichHenResponse>();
             try
             {
                 var user = await _userManager.FindByEmailAsync(_contextAccessor.HttpContext?.User.Identity?.Name!);
                 if (user == null)
                     return result.BuildError("Unauthorized");
 
-                var danhMucDichVu = await _danhMucDichVuRepository.GetAsync(request.MaDV);
-                if (danhMucDichVu == null || danhMucDichVu.IsDeleted)
-                    return result.BuildError("Không tìm thấy danh mục dịch vụ.");
+                var lichHen = await _lichHenRepository.GetAsync(request.MaLH);
+                if (lichHen == null || lichHen.IsDeleted)
+                    return result.BuildError("Không tìm thấy lịch hẹn.");
 
-                danhMucDichVu.TenDV = request.TenDV;
-                danhMucDichVu.DonGia = request.DonGia;
-                danhMucDichVu.ModifiedBy = user.Email;
-                danhMucDichVu.ModifiedOn = DateTime.UtcNow;
-                await _danhMucDichVuRepository.EditAsync(danhMucDichVu);
+                lichHen.ThoiGianKham = request.ThoiGianKham;
+                lichHen.TrangThai = request.TrangThai;
+                lichHen.MaBN = request.MaBN;
+                lichHen.MaBS = request.MaBS;
+                lichHen.ModifiedBy = user.Email;
+                lichHen.ModifiedOn = DateTime.UtcNow;
+                await _lichHenRepository.EditAsync(lichHen);
 
-                var response = DanhMucDichVuMapper.ToResponse(danhMucDichVu);
-                return result.BuildResult(response, "Đã cập nhật thông tin danh mục dịch vụ thành công.");
+                var response = LichHenMapper.ToResponse(lichHen);
+                return result.BuildResult(response, "Đã cập nhật thông tin lịch hẹn thành công.");
             }
             catch (Exception ex)
             {
