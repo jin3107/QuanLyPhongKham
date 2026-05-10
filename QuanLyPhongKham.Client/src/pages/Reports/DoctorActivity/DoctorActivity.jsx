@@ -30,7 +30,7 @@ const PHIEU_KHAM = [
   { MaPK: "PK014", MaBS: "BS03", NgayKham: "2026-05-12" },
 ];
 
-export default function DoctorStats() {
+export default function DoctorActivity() {
   const [range,    setRange]    = useState(null);
   const [rows,     setRows]     = useState([]);
   const [searched, setSearched] = useState(false);

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Layout, Button, Dropdown, Avatar } from "antd";
 import {
+  FundOutlined,
   MenuOutlined,
   DashboardOutlined,
   CalendarOutlined,
@@ -22,6 +23,7 @@ import {
   LineChartOutlined,
   UsergroupAddOutlined,
   CreditCardOutlined,
+  HomeOutlined
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 import apiClient from "../config/axios";
@@ -156,8 +158,8 @@ export default function AppLayout() {
     const patientMenu = [
       {
         path: "/patient/dashboard",
-        icon: <DashboardOutlined />,
-        label: "Trang chính",
+        icon: <HomeOutlined />,
+        label: "Trang chủ",
       },
       { path: "/scheduleview", icon: <CalendarOutlined />, label: "Xem lịch" },
       // Đường dẫn cũ: "/". Theo tài liệu, đặt lịch là một màn hình chức năng riêng.
@@ -169,8 +171,8 @@ export default function AppLayout() {
     const receptionistMenu = [
       {
         path: "/receptionist/dashboard",
-        icon: <DashboardOutlined />,
-        label: "Trang chính",
+        icon: <HomeOutlined />,
+        label: "Trang chủ",
       },
       {
         path: "/receptionist/medical-record",
@@ -180,7 +182,7 @@ export default function AppLayout() {
       {
         path: "/receptionist/patient-intake",
         icon: <UsergroupAddOutlined />,
-        label: "Tiếp nhận",
+        label: "Tiếp nhận bệnh nhân",
       },
       {
         path: "/receptionist/history-view",
@@ -217,9 +219,9 @@ export default function AppLayout() {
         label: "Thống kê doanh thu",
       },
       {
-        path: "/doctoractivity",
-        icon: <LineChartOutlined />,
-        label: "Hoạt động bác sĩ",
+  path: "/doctoractivity",
+  icon: <LineChartOutlined />,
+  label: "Hoạt động bác sĩ",
       },
       {
         path: "/patientcount",
@@ -231,13 +233,13 @@ export default function AppLayout() {
     const doctorMenu = [
       {
         path: "/doctor/dashboard",
-        icon: <DashboardOutlined />,
-        label: "Bảng điều khiển",
+        icon: <FundOutlined />,
+        label: "Tổng quan",
       },
       {
         path: "/doctor/patient-info",
         icon: <FileAddOutlined />,
-        label: "Ghi thông tin",
+        label: "Hồ sơ bệnh nhân",
       },
       {
         path: "/doctor/prescription",
@@ -252,7 +254,7 @@ export default function AppLayout() {
       {
         path: "/doctor/patient-view",
         icon: <FileSearchOutlined />,
-        label: "Xem thông tin",
+        label: "Xem thông tin bệnh nhân",
       },
     ];
 

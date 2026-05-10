@@ -1,6 +1,15 @@
 @use "../doctor-common";
 
-.prescription-page {
+.doctor-prescription-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+  
   .prescription-summary {
     margin-bottom: 18px;
   }

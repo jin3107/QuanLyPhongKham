@@ -1,6 +1,15 @@
 @use "../doctor-common";
 
-.service-request-page {
+.doctor-service-request-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
   .request-alert {
     margin-bottom: 16px;
     border-radius: 8px;

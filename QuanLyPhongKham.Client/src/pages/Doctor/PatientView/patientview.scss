@@ -1,6 +1,15 @@
 @use "../doctor-common";
 
-.patient-view-page {
+.doctor-patient-view-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
   .medicine-list {
     display: grid;
     gap: 10px;
@@ -42,5 +51,111 @@
       color: #64748b;
       line-height: 1.6;
     }
+  }
+}
+
+.prescription-paper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.prescription-header {
+  text-align: center;
+  border-bottom: 1px dashed #dbe6f1;
+  padding-bottom: 12px;
+
+  h2 {
+    margin: 0;
+    color: #0f4c81;
+    font-size: 24px;
+  }
+
+  span {
+    color: #64748b;
+    font-size: 13px;
+  }
+}
+
+.prescription-patient {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.patient-row {
+  display: flex;
+  gap: 24px;
+
+  p {
+    flex: 1;
+    margin: 0;
+    color: #334155;
+  }
+}
+
+.prescription-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prescription-row {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #cbd5e1;
+}
+
+.prescription-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.medicine-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.medicine-quantity {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.medicine-dosage {
+  margin-top: 6px;
+  padding-left: 18px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.prescription-footer {
+  padding-top: 12px;
+
+  p {
+    margin: 4px 0;
+    color: #475569;
+    font-style: italic;
+    color: $primary;
+  }
+}
+
+.doctor-sign {
+  margin-top: 8px;
+  text-align: right;
+
+  strong {
+    display: block;
+    margin-bottom: 30px;
+    color: #334155;
+  }
+
+  span {
+    font-weight: 600;
+    color: #0f4c81;
   }
 }

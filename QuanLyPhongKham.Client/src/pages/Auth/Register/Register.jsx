@@ -1,6 +1,6 @@
 import "../auth.scss";
 import "./register.scss";
-import heroImage from "../../../assets/image/img2.png";
+import heroImage from "../../../assets/image/img6.jpg";
 import logo from "../../../assets/image/LogoBYT.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -58,38 +58,17 @@ export default function Register() {
         <aside className="auth-visual">
           <div className="auth-badge">
             <img src={logo} alt="Bộ Y tế" loading="eager" decoding="async" />
-            <div>
               <span className="auth-badge-title">
                 Hệ thống quản lý phòng khám
               </span>
-              <span className="auth-badge-subtitle">
-                Đăng ký tài khoản quản trị
-              </span>
-            </div>
           </div>
           <Title level={2}>Tạo tài khoản mới</Title>
-          <Paragraph>
-            Bắt đầu quản lý phòng khám với đầy đủ thông tin bác sĩ, phân quyền
-            và lịch làm việc.
-          </Paragraph>
+          <Text type="secondary">Thông tin bệnh nhân được lưu trữ và bảo mật trên hệ thống.</Text>
           <img className="auth-illustration" src={heroImage} alt="Phòng khám" loading="lazy" decoding="async" />
-          <div className="auth-highlights">
-            <Card size="small">
-              <Title level={4}>Quản lý rõ ràng</Title>
-              <Text type="secondary">Thiết lập phân quyền ngay từ đầu.</Text>
-            </Card>
-            <Card size="small">
-              <Title level={4}>An toàn dữ liệu</Title>
-              <Text type="secondary">
-                Thông tin bệnh nhân được lưu trữ tập trung.
-              </Text>
-            </Card>
-          </div>
         </aside>
         <Card className="auth-card" variant="borderless">
           <div className="auth-card-header">
             <Title level={2}>Đăng ký</Title>
-            <Paragraph>Nhập thông tin cơ bản để khởi tạo tài khoản.</Paragraph>
           </div>
           <Form className="auth-form" layout="vertical" onFinish={handleSubmit}>
             <div className="auth-grid">
@@ -173,9 +152,6 @@ export default function Register() {
             <Button type="primary" htmlType="submit" loading={loading} block>
               Tạo tài khoản
             </Button>
-            <Paragraph className="auth-note">
-              Bạn sẽ nhận được email xác nhận để kích hoạt tài khoản quản lý.
-            </Paragraph>
           </Form>
           <div className="auth-footer">
             <Text type="secondary">Đã có tài khoản?</Text>

@@ -1,12 +1,17 @@
 .receptionist-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   min-height: 100vh;
-  background: $background;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
 
   .dashboard-banner {
     background: url("../../../assets/image/img3.jpg") no-repeat center 65%;
     background-size: cover;
     padding: 40px 24px;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -17,7 +22,7 @@
   }
 
   .banner-left {
-    max-width: 560px;
+    max-width: 600px;
     padding: 28px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.92);
@@ -35,16 +40,19 @@
     color: $text-secondary;
   }
 
-  .menu-grid {
-    width: min(1120px, calc(100% - 48px));
-    margin: 24px auto 40px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-  }
+.menu-grid {
+  width: min(1120px, calc(100% - 48px));
+  margin: 10px auto 40px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 10px;
+  align-items: stretch;
+}
 
   .menu-card {
-    min-height: 224px;
+    min-height: 200px;
     border-radius: 10px;
     overflow: hidden;
     border: $border;
@@ -58,29 +66,26 @@
 
     .ant-card-body {
       padding: 12px;
-      min-height: 52px;
+      height: 100%;
       display: flex;
-      align-items: center;
-    }
-
-    .ant-card-meta-title {
-      color: $primary;
-      font-size: 14px;
-      white-space: normal;
-      line-height: 1.35;
-      margin: 0;
+      flex-direction: column; // 👈 quan trọng
+      align-items: center; // giữa ngang
+      justify-content: center; // giữa dọc
+      gap: 8px;
     }
   }
 
   .card-image-wrapper {
-    height: 168px;
-    overflow: hidden;
+      width: 100%;
+      height: 100%; // giảm lại cho giống UI trong hình
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
     img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
+      width: 180px; // hoặc 50px cho đồng bộ icon
+      height: 200px;
+      object-fit: contain;
     }
   }
 

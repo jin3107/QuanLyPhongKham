@@ -1,6 +1,6 @@
 import "../auth.scss";
 import "./logout.scss";
-import logoutImage from "../../../assets/image/logout.webp";
+import logoutImage from "../../../assets/image/logout.jpg";
 import logo from "../../../assets/image/LogoBYT.png";
 import { useNavigate } from "react-router-dom";
 import { logout as logoutApi } from "../../../apis";
@@ -36,20 +36,15 @@ export default function Logout() {
 						<img src={logo} alt="Bộ Y tế" loading="eager" decoding="async" />
 						<div>
 							<span className="auth-badge-title">Hệ thống quản lý phòng khám</span>
-							<span className="auth-badge-subtitle">Kết thúc phiên làm việc</span>
 						</div>
 					</div>
-					<Title level={2}>Hoàn tất phiên làm việc</Title>
-					<Paragraph>
-						Bạn có thể đăng xuất ngay hoặc quay lại để tiếp tục xử lý các yêu cầu
-						còn dở.
-					</Paragraph>
+					<Text type="secondary">Cảm ơn bạn đã tin tưởng và sử dụng hệ thống quản lý phòng khám.</Text>
+
 					<img className="auth-illustration" src={logoutImage} alt="Bệnh viện" loading="lazy" decoding="async" />
 				</aside>
 				<Card className="auth-card" variant="borderless">
 					<div className="auth-card-header">
 						<Title level={2}>Đăng xuất</Title>
-						<Paragraph>Xác nhận đăng xuất để bảo vệ dữ liệu phòng khám.</Paragraph>
 					</div>
 					<Card className="logout-panel" size="small">
 						<Space align="start">
@@ -58,18 +53,17 @@ export default function Logout() {
 							</div>
 							<div>
 								<Title level={4}>Bạn muốn đăng xuất?</Title>
-								<Text type="secondary">Lưu lại mọi thay đổi trước khi kết thúc phiên.</Text>
+								<Text type="secondary">Lưu lại mọi thay đổi trước khi đăng xuất.</Text>
 							</div>
 						</Space>
 					</Card>
 					<Space className="auth-actions" wrap>
 						<Button type="primary" onClick={handleLogout} loading={loading}>
-							Xác nhận đăng xuất
+							Đăng xuất
 						</Button>
 						<Button onClick={() => navigate(-1)}>Quay lại</Button>
 					</Space>
 					{error && <Alert message={error} type="error" showIcon />}
-					<Paragraph className="auth-note">Bạn có thể đăng nhập lại bất cứ lúc nào.</Paragraph>
 				</Card>
 			</div>
 		</div>

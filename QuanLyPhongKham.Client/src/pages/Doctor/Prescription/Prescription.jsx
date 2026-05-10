@@ -17,58 +17,69 @@ const medicines = [
   {
     key: "T001",
     name: "Paracetamol 500mg",
-    dosage: "Uống 1 viên khi sốt, tối đa 4 viên/ngày",
+    quantity: "3 viên",
+    dosage: "Uống 1 viên khi sốt, tối đa 2 viên/ngày",
   },
   {
     key: "T002",
     name: "Amlodipin 5mg",
+    quantity: "7 viên",
     dosage: "Uống 1 viên sau ăn sáng",
   },
   {
     key: "T003",
     name: "Vitamin C",
+    quantity: "7 gói",
     dosage: "Uống 1 viên/ngày sau ăn",
   },
 ];
 
 const columns = [
   { title: "Tên thuốc", dataIndex: "name", key: "name" },
+  { title: "Số lượng", dataIndex: "quantity", key: "quantity" },
   { title: "Liều dùng", dataIndex: "dosage", key: "dosage" },
 ];
 
 export default function Prescription() {
   return (
-    <div className="doctor-page prescription-page">
-      <div className="doctor-page__header">
+    <div className="doctor-prescription-page">
+      <div className="doctor-page-header">
         <div>
-          <h1>Kê thuốc</h1>
           <p>
-            Lập toa thuốc cho bệnh nhân, gồm tên thuốc, số lượng và ghi chú
-            liều dùng theo đúng đặc tả màn hình.
+            Lập toa thuốc cho bệnh nhân, gồm tên thuốc, số lượng và ghi chú liều
+            dùng theo đúng đặc tả màn hình.
           </p>
         </div>
-        <Tag color="blue">Toa tạm lưu</Tag>
       </div>
 
       <Row gutter={[16, 16]}>
         <Col xs={24} xl={9}>
           <Card title="Thông tin toa thuốc" className="doctor-card">
-            <div className="doctor-patient-summary prescription-summary">
-              <div className="summary-item">
-                <span>Bệnh nhân</span>
-                <strong>Trần Thị Mai</strong>
+            <div className="medical-ticket">
+              <div className="ticket-row">
+                <span>
+                  Họ và tên: <strong>Trần Thị Mai</strong>
+                </span>
               </div>
-              <div className="summary-item">
-                <span>Mã khám</span>
-                <strong>K002</strong>
+              <div className="ticket-row">
+                <span>
+                  Số điện thoại: <strong> 0908 123 456</strong>
+                </span>
               </div>
-              <div className="summary-item">
-                <span>Chẩn đoán</span>
-                <strong>Viêm hô hấp trên</strong>
+              <div className="ticket-row">
+                <span>
+                  Mã BHYT: <strong> HS4012345678901</strong>
+                </span>
               </div>
-              <div className="summary-item">
-                <span>Bác sĩ</span>
-                <strong>BS Nguyễn Minh An</strong>
+              <div className="ticket-row">
+                <span>
+                  Giờ khám: <strong> 08:30</strong>
+                </span>
+              </div>
+              <div className="ticket-row">
+                <span>
+                  Khoa: <strong> Nội tổng quát</strong>
+                </span>
               </div>
             </div>
 
@@ -81,7 +92,8 @@ export default function Prescription() {
                 unit: "Viên",
               }}
             >
-              <Form.Item label="Tên thuốc" name="medicine">
+              <div className="note-group">
+                <label>Tên Thuốc</label>
                 <Select
                   showSearch
                   options={[
@@ -91,31 +103,34 @@ export default function Prescription() {
                     { value: "oresol", label: "Oresol" },
                   ]}
                 />
-              </Form.Item>
-              {/*<Row gutter={12}>
+              </div>
+
+              <Row gutter={12}>
                 <Col xs={12}>
-                  <Form.Item label="Số lượng" name="quantity">
+                  <div className="note-group">
+                    <label>Số lượng</label>
                     <InputNumber min={1} className="full-width" />
-                  </Form.Item>
+                  </div>
                 </Col>
                 <Col xs={12}>
-                  <Form.Item label="Đơn vị" name="unit">
+                  <div className="note-group">
+                    <label>Đơn vị</label>
                     <Select
                       options={[
                         { value: "Viên", label: "Viên" },
                         { value: "Gói", label: "Gói" },
                         { value: "Chai", label: "Chai" },
+                        { value: "Hộp", label: "Hộp" },
+
                       ]}
                     />
-                  </Form.Item>
+                  </div>
                 </Col>
-              </Row>*/}
-              <Form.Item label="Ghi chú liều dùng" name="dosage">
-                <Input.TextArea
-                  rows={3}
-                  placeholder="Ví dụ: uống 1 viên sau ăn sáng"
-                />
-              </Form.Item>
+              </Row>
+              <div className="note-group">
+                <label>Liều dùng</label>
+                <Input.TextArea rows={2} />
+              </div>
               <Button type="primary" block>
                 Thêm vào toa thuốc
               </Button>
@@ -133,12 +148,10 @@ export default function Prescription() {
               scroll={{ x: 720 }}
             />
             <div className="prescription-note">
-              <strong>Dặn dò:</strong> Uống thuốc đúng liều, theo dõi huyết áp
-              mỗi ngày và tái khám sau 7 ngày nếu còn sốt hoặc khó thở.
+              <strong>Lưu ý:</strong> Uống thuốc đúng liều lượng
             </div>
             <Space wrap className="prescription-actions">
               <Button type="primary">Lưu toa thuốc</Button>
-              <Button>In toa thuốc</Button>
               <Button>Hoàn tất khám</Button>
             </Space>
           </Card>

@@ -103,7 +103,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #e8edf3;
+  border-bottom: 2px solid $text-title-large;
   padding: 0 22px;
   height: 60px;
   min-width: 0;
@@ -134,7 +134,6 @@
     color: $text-title-large;
     padding-right: 20px;
     display: inline-block;
-    border-bottom: 4px solid $text-title-large;
     line-height: 1.45;
     white-space: nowrap;
     overflow: hidden;

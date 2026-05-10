@@ -39,7 +39,7 @@ export default function Booking() {
 	];
 
 	const columns = [
-		{ title: "Tên BS", dataIndex: "doctor", key: "doctor" },
+		{ title: "Tên bác sĩ", dataIndex: "doctor", key: "doctor" },
 		{ title: "Giờ khám", dataIndex: "time", key: "time" },
 		{
 			title: "Trạng thái",
@@ -55,8 +55,8 @@ export default function Booking() {
 	];
 
 	const data = [
-		{ key: 1, doctor: "BS A", time: "08:00", status: "available" },
-		{ key: 2, doctor: "BS B", time: "09:00", status: "full" },
+		{ key: 1, doctor: "BS Nguễn Văn An", time: "08:00", status: "available" },
+		{ key: 2, doctor: "BS Nguyễn Hoàng Vy", time: "09:00", status: "full" },
     // { key: 3, doctor: "BS C", time: "09:00", status: "full" },
 	];
 
@@ -87,7 +87,7 @@ export default function Booking() {
 
 			<Row gutter={16}>
 				{/* FORM */}
-				<Col xs={24} lg={16}>
+				<Col xs={24} lg={14}>
 					<div className="booking-card" ref={bookingRef}>
 						<h2 className="booking-card-title">Nhập thông tin đặt lịch</h2>
 
@@ -298,7 +298,7 @@ export default function Booking() {
 				</Col>
 
 				{/* SIDEBAR */}
-				<Col xs={24} lg={8}>
+				<Col xs={24} lg={10}>
 					{/* SCHEDULE TABLE */}
 					<div className="booking-card">
 						<h3 className="booking-card-title">Lịch khám hôm nay</h3>

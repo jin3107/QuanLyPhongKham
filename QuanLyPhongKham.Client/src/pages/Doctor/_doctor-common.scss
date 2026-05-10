@@ -4,148 +4,145 @@ $doctor-border: #dbe6f1;
 $doctor-text: #1f2937;
 $doctor-muted: #64748b;
 
-.doctor-page {
-  padding: 24px;
-  color: $doctor-text;
+.doctor-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 
-  .doctor-page__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 18px;
-
-    h1 {
-      margin: 0;
-      color: $doctor-primary;
-      font-size: 26px;
-      font-weight: 700;
-      line-height: 1.25;
-    }
-
-    p {
-      margin: 6px 0 0;
-      color: $doctor-muted;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+  p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.6;
+    font-size: 15px;
   }
 
-  .doctor-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-
-  .doctor-search {
-    min-width: 280px;
-    max-width: 420px;
-    flex: 1;
-  }
-
-  .doctor-card {
-    border: 1px solid $doctor-border;
+  .ant-btn {
+    height: 38px;
+    padding: 0 22px;
+    font-weight: 600;
     border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-
-    .ant-card-head {
-      border-bottom-color: $doctor-border;
-    }
-
-    .ant-card-head-title {
-      color: $doctor-primary;
-      font-weight: 700;
-    }
-  }
-
-  .doctor-stat {
-    min-height: 116px;
-
-    .doctor-stat__label {
-      margin-bottom: 8px;
-      color: $doctor-muted;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .doctor-stat__value {
-      color: $doctor-primary;
-      font-size: 30px;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .doctor-stat__meta {
-      margin-top: 10px;
-      color: $doctor-muted;
-      font-size: 13px;
-    }
-  }
-
-  .doctor-form {
-    .ant-form-item-label > label {
-      color: #334155;
-      font-weight: 600;
-    }
-  }
-
-  .doctor-patient-summary {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-
-    .summary-item {
-      padding: 12px;
-      background: #f8fbff;
-      border: 1px solid $doctor-border;
-      border-radius: 8px;
-    }
-
-    span {
-      display: block;
-      color: $doctor-muted;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    strong {
-      display: block;
-      margin-top: 4px;
-      color: $doctor-text;
-      font-size: 14px;
-    }
-  }
-
-  .doctor-table {
-    .ant-table-thead > tr > th {
-      background: #edf6ff;
-      color: $doctor-primary;
-      font-weight: 700;
-    }
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.2);
   }
 }
 
-@media (max-width: 768px) {
-  .doctor-page {
-    padding: 16px;
+.doctor-card {
+  border: 1px solid $doctor-border;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 
-    .doctor-page__header {
-      flex-direction: column;
-
-      h1 {
-        font-size: 22px;
-      }
-    }
-
-    .doctor-search {
-      min-width: 100%;
-    }
-
-    .doctor-patient-summary {
-      grid-template-columns: 1fr;
-    }
+  .ant-card-head {
+    border-bottom-color: $doctor-border;
   }
+
+  .ant-card-head-title {
+    color: $doctor-primary;
+    font-weight: 700;
+  }
+}
+
+.doctor-stat {
+  min-height: 116px;
+
+  .doctor-stat__label {
+    margin-bottom: 8px;
+    color: $doctor-muted;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .doctor-stat__value {
+    color: $doctor-primary;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+  }
+}
+
+.doctor-form {
+  .ant-form-item-label > label {
+    color: #334155;
+    font-weight: 600;
+  }
+}
+
+.doctor-patient-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+
+  .summary-item {
+    padding: 12px;
+    background: #f8fbff;
+    border: 1px solid $doctor-border;
+    border-radius: 8px;
+  }
+
+  span {
+    display: block;
+    color: $doctor-muted;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  strong {
+    display: block;
+    margin-top: 4px;
+    color: $doctor-text;
+    font-size: 14px;
+  }
+}
+
+.doctor-table {
+  .ant-table-thead > tr > th {
+    background: #edf6ff;
+    color: $doctor-primary;
+    font-weight: 700;
+  }
+}
+
+.medical-ticket {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 12px;
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2px;
+}
+
+.ticket-row span {
+  color: #666;
+  font-size: 15px;
+}
+
+.doctor-note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.note-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.note-group label {
+  // margin-top: 12px;
+  font-weight: 600;
+  color: #444;
+}
+
+.note-group textarea {
+  resize: none !important;
+  overflow-y: hidden !important;
+  // margin-bottom: 12px;
 }

@@ -1,6 +1,11 @@
-.patient-dashboard {
+.patient-dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   min-height: 100vh;
-  background: $background;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
 
   .dashboard-banner {
     background: url("../../../assets/image/img3.jpg") no-repeat center 65%;
@@ -12,12 +17,12 @@
   }
 
   .banner-content {
-    max-width: 1120px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
   .banner-left {
-    max-width: 560px;
+    max-width: 600px;
     padding: 28px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.92);
@@ -44,47 +49,43 @@
   }
 
   .menu-card {
-    min-height: 224px;
+    min-height: 200px;
     border-radius: 10px;
     overflow: hidden;
     border: $border;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-4px);
+      border: 1px solid $text-title-large;
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
     }
 
     .ant-card-body {
       padding: 12px;
-      min-height: 52px;
+      height: 100%;
+      display: flex;
+      flex-direction: column; // 👈 quan trọng
+      align-items: center; // giữa ngang
+      justify-content: center; // giữa dọc
+      gap: 8px;
+    }
+
+    .card-image-wrapper {
+      width: 100%;
+      height: 100%; // giảm lại cho giống UI trong hình
       display: flex;
       align-items: center;
+      justify-content: center;
     }
 
-    .ant-card-meta-title {
-      color: $primary;
-      font-size: 14px;
-      white-space: normal;
-      line-height: 1.35;
-      margin: 0;
+    .card-image-wrapper img {
+      width: 140px; // hoặc 50px cho đồng bộ icon
+      height: 160px;
+      object-fit: contain;
     }
-  }
-
-  .card-image-wrapper {
-    height: 168px;
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-  }
-
-  .menu-card:hover img {
-    transform: scale(1.04);
   }
 }
