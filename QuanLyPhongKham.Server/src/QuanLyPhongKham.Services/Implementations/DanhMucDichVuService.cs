@@ -143,11 +143,11 @@ namespace QuanLyPhongKham.Services.Implementations
             }
         }
 
-        private ExpressionStarter<DANHMUCDICVU> BuildFilterExpression(List<Filter> filters)
+        private ExpressionStarter<DANHMUCDICHVU> BuildFilterExpression(List<Filter> filters)
         {
             try
             {
-                var predicate = PredicateBuilder.New<DANHMUCDICVU>(true);
+                var predicate = PredicateBuilder.New<DANHMUCDICHVU>(true);
                 if (filters != null)
                 {
                     foreach (var filter in filters)

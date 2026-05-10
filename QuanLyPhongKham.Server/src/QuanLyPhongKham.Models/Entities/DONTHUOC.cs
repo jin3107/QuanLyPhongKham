@@ -19,6 +19,6 @@ namespace QuanLyPhongKham.Models.Entities
         public Guid? MaPK { get; set; }
         public PHIEUKHAM? PhieuKham { get; set; }
 
-        public ICollection<DANHMUCTHUOC>? DanhMucThuocs { get; set; }
+        public ICollection<CHITIETDONTHUOC>? ChiTietDonThuocs { get; set; }
     }
 }

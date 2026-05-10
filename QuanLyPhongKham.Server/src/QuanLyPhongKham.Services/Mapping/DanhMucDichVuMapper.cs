@@ -11,7 +11,7 @@ namespace QuanLyPhongKham.Services.Mapping
 {
     public static class DanhMucDichVuMapper
     {
-        public static DanhMucDichVuResponse ToResponse(DANHMUCDICVU entity)
+        public static DanhMucDichVuResponse ToResponse(DANHMUCDICHVU entity)
         {
             return new DanhMucDichVuResponse
             {
@@ -21,9 +21,9 @@ namespace QuanLyPhongKham.Services.Mapping
             };
         }
 
-        public static DANHMUCDICVU ToEntity(DanhMucDichVuRequest request)
+        public static DANHMUCDICHVU ToEntity(DanhMucDichVuRequest request)
         {
-            return new DANHMUCDICVU
+            return new DANHMUCDICHVU
             {
                 TenDV = request.TenDV,
                 DonGia = request.DonGia

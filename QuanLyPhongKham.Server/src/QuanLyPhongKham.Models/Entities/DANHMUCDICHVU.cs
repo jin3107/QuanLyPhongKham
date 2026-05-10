@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyPhongKham.Models.Entities
 {
-    public class DANHMUCDICVU : BaseEntity
+    public class DANHMUCDICHVU : BaseEntity
     {
         [Key]
         public Guid MaDV { get; set; }

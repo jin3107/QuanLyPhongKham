@@ -118,17 +118,15 @@ namespace QuanLyPhongKham.Services.Implementations
 
                 var query = BuildFilterExpression(request.Filters!);
                 var numOfRecords = await _danhMucThuocRepository.CountRecordsAsync(query);
-                var danhMucThuoc = _danhMucThuocRepository.FindBy(query).Include(x => x.TenThuoc).AsQueryable();
+                var danhMucThuocs = _danhMucThuocRepository.FindBy(query).OrderBy(x => x.TenThuoc).AsQueryable();
 
                 if (request.SortBy != null)
-                    danhMucThuoc = _danhMucThuocRepository.AddSort(danhMucThuoc, request.SortBy);
-                else
-                    danhMucThuoc = danhMucThuoc.OrderBy(x => x.TenThuoc);
+                    danhMucThuocs = _danhMucThuocRepository.AddSort(danhMucThuocs, request.SortBy);
 
                 int pageIndex = request.PageIndex ?? 1;
                 int pageSize = request.PageSize ?? 10;
                 int startIndex = (pageIndex - 1) * pageSize;
-                var classList = await danhMucThuoc.Skip(startIndex).Take(pageSize).ToListAsync();
+                var classList = await danhMucThuocs.Skip(startIndex).Take(pageSize).ToListAsync();
                 var dtoList = classList.Select(DanhMucThuocMapper.ToResponse).ToList();
                 var searchResponse = new SearchResponse<DanhMucThuocResponse>
                 {

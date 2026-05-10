@@ -16,6 +16,6 @@ namespace QuanLyPhongKham.Models.Entities
         public decimal DonGia { get; set; }
         public string? ChongChiDinh { get; set; }
 
-        public ICollection<DONTHUOC>? DonThuocs { get; set; }
+        public ICollection<CHITIETDONTHUOC>? ChiTietDonThuocs { get; set; }
     }
 }

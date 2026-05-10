@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyPhongKham.Repositories.Interfaces
 {
-    public interface IDanhMucDichVuRepository : IGenericRepository<DANHMUCDICHVU, ApplicationDbContext, ApplicationUser>
+    public interface IChiTietDonThuocRepository : IGenericRepository<CHITIETDONTHUOC, ApplicationDbContext, ApplicationUser>
     {
     }
 }

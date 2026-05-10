@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace QuanLyPhongKham.Repositories.Implementations
 {
-    public class DanhMucDichVuRepository : GenericRepository<DANHMUCDICHVU, ApplicationDbContext, ApplicationUser>, IDanhMucDichVuRepository
+    public class DonThuocRepository : GenericRepository<DONTHUOC, ApplicationDbContext, ApplicationUser>, IDonThuocRepository
     {
-        public DanhMucDichVuRepository(ApplicationDbContext unitOfWork) : base(unitOfWork)
+        public DonThuocRepository(ApplicationDbContext unitOfWork) : base(unitOfWork)
         {
         }
     }
