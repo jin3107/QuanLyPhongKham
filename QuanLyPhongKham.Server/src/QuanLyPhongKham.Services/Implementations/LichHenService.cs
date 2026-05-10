@@ -156,6 +156,11 @@ namespace QuanLyPhongKham.Services.Implementations
                     {
                         switch (filter.FieldName)
                         {
+                            case "TrangThai":
+                                if (!string.IsNullOrEmpty(filter.Value))
+                                    predicate = predicate.And(x => x.TrangThai.Contains(filter.Value));
+                                break;
+
                             case "Thời gian khám":
                                 if (!string.IsNullOrEmpty(filter.Value) && DateTime.TryParse(filter.Value, out var thoiGianKham))
                                     predicate = predicate.And(x => x.ThoiGianKham >= thoiGianKham.Date && x.ThoiGianKham < thoiGianKham.Date.AddDays(1));
