@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongKham.DTOs.Requests;
-using QuanLyPhongKham.DTOs.Responses;
 using QuanLyPhongKham.Models.Entities;
 using QuanLyPhongKham.Repositories.Interfaces;
 using QuanLyPhongKham.Services.Interfaces;
@@ -14,100 +13,99 @@ using static MayNghien.Infrastructures.Helpers.SearchHelper;
 
 namespace QuanLyPhongKham.Services.Implementations
 {
-    public class LichLamViecService : ILichLamViecService
+    public class PhieuKhamService : IPhieuKhamService
     {
-        private readonly ILichLamViecRepository _lichLamViecRepository;
+        private readonly IPhieuKhamRepository _phieuKhamRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public LichLamViecService(ILichLamViecRepository lichLamViecRepository,
+        public PhieuKhamService(IPhieuKhamRepository phieuKhamRepository, 
             UserManager<ApplicationUser> userManager, IHttpContextAccessor contextAccessor)
         {
-            _lichLamViecRepository = lichLamViecRepository;
+            _phieuKhamRepository = phieuKhamRepository;
             _userManager = userManager;
             _contextAccessor = contextAccessor;
         }
 
         private async Task<ApplicationUser?> GetCurrentUser()
-        => await _userManager.FindByEmailAsync(_contextAccessor.HttpContext?.User.Identity?.Name!);
+            => await _userManager.FindByEmailAsync(_contextAccessor.HttpContext?.User.Identity?.Name!);
 
-        public async Task<AppResponse<LichLamViecResponse>> CreateAsync(LichLamViecRequest request)
+        public async Task<AppResponse<PhieuKhamResponse>> CreateAsync(PhieuKhamRequest request)
         {
-            var result = new AppResponse<LichLamViecResponse>();
+            var result = new AppResponse<PhieuKhamResponse>();
             try
             {
                 var user = await GetCurrentUser();
                 if (user == null) 
                     return result.BuildError("Unauthorized");
 
-                var entity = LichLamViecMapper.ToEntity(request);
-                entity.MaLLV = Guid.NewGuid();
+                var entity = PhieuKhamMapper.ToEntity(request);
+                entity.MaPK = Guid.NewGuid();
                 entity.CreatedBy = user.Email;
                 entity.CreatedOn = DateTime.UtcNow;
                 entity.IsDeleted = false;
-                await _lichLamViecRepository.AddAsync(entity);
+                await _phieuKhamRepository.AddAsync(entity);
 
-                var response = LichLamViecMapper.ToResponse(entity);
-                return result.BuildResult(response, "Thêm thông tin lịch làm việc thành công.");
+                var response = PhieuKhamMapper.ToResponse(entity);
+                return result.BuildResult(response, "Thêm thông tin phiếu khám thành công.");
             }
-            catch (Exception ex) 
-            { 
-                return result.BuildError(ex.Message + " " + ex.StackTrace); 
-            }
+            catch (Exception ex) { return result.BuildError(ex.Message + " " + ex.StackTrace); }
         }
 
-        public async Task<AppResponse<LichLamViecResponse>> GetByIdAsync(Guid id)
+        public async Task<AppResponse<PhieuKhamResponse>> GetByIdAsync(Guid id)
         {
-            var result = new AppResponse<LichLamViecResponse>();
+            var result = new AppResponse<PhieuKhamResponse>();
             try
             {
                 var user = await GetCurrentUser();
                 if (user == null) 
                     return result.BuildError("Unauthorized");
 
-                var entity = await _lichLamViecRepository.FindBy(x => x.MaLLV == id && x.IsDeleted == false)
+                var entity = await _phieuKhamRepository.FindBy(x => x.MaPK == id && x.IsDeleted == false)
                     .Include(x => x.BacSi)
+                    .Include(x => x.LichHen!).ThenInclude(l => l.BenhNhan)
                     .FirstOrDefaultAsync();
-                if (entity == null) 
-                    return result.BuildError("Thông tin lịch làm việc không tồn tại.");
-                var response = LichLamViecMapper.ToResponse(entity);
+                if (entity == null) return result.BuildError("Thông tin phiếu khám không tồn tại.");
+
+                var response = PhieuKhamMapper.ToResponse(entity);
                 return result.BuildResult(response);
             }
-            catch (Exception ex) 
-            { 
-                return result.BuildError(ex.Message + " " + ex.StackTrace); 
-            }
+            catch (Exception ex) { return result.BuildError(ex.Message + " " + ex.StackTrace); }
         }
 
-        public async Task<AppResponse<LichLamViecResponse>> UpdateAsync(LichLamViecRequest request)
+        public async Task<AppResponse<PhieuKhamResponse>> UpdateAsync(PhieuKhamRequest request)
         {
-            var result = new AppResponse<LichLamViecResponse>();
+            var result = new AppResponse<PhieuKhamResponse>();
             try
             {
                 var user = await GetCurrentUser();
                 if (user == null) 
                     return result.BuildError("Unauthorized");
 
-                var entity = await _lichLamViecRepository.FindBy(x => x.MaLLV == request.MaLLV && x.IsDeleted == false)
+                var entity = await _phieuKhamRepository.FindBy(x => x.MaPK == request.MaPK && x.IsDeleted == false)
                     .Include(x => x.BacSi)
+                    .Include(x => x.LichHen!).ThenInclude(l => l.BenhNhan)
                     .FirstOrDefaultAsync();
                 if (entity == null) 
-                    return result.BuildError("Thông tin lịch làm việc không tồn tại.");
+                    return result.BuildError("Thông tin phiếu khám không tồn tại.");
 
-                entity.NgayLamViec = request.NgayLamViec;
-                entity.GioBatDau = request.GioBatDau;
-                entity.GioKetThuc = request.GioKetThuc;
+                entity.NgayKham = request.NgayKham;
+                entity.TrieuChung = request.TrieuChung;
+                entity.ChuanDoan = request.ChuanDoan;
+                entity.HuongDieuTri = request.HuongDieuTri;
+                entity.TrangThaiTiepNhan = request.TrangThaiTiepNhan;
+                entity.MaLH = request.MaLH;
                 entity.MaBS = request.MaBS;
                 entity.ModifiedBy = user.Email;
                 entity.ModifiedOn = DateTime.UtcNow;
-                await _lichLamViecRepository.EditAsync(entity);
+                await _phieuKhamRepository.EditAsync(entity);
 
-                var response = LichLamViecMapper.ToResponse(entity);
-                return result.BuildResult(response, "Cập nhật thông tin  lịch làm việc thành công.");
+                var response = PhieuKhamMapper.ToResponse(entity);
+                return result.BuildResult(response, "Cập nhật thông tin phiếu khám thành công.");
             }
             catch (Exception ex) 
             { 
-                return result.BuildError(ex.Message + " " + ex.StackTrace); 
+                return result.BuildError(ex.Message + " " + ex.StackTrace);
             }
         }
 
@@ -120,16 +118,16 @@ namespace QuanLyPhongKham.Services.Implementations
                 if (user == null) 
                     return result.BuildError("Unauthorized");
 
-                var entity = await _lichLamViecRepository.GetAsync(id);
+                var entity = await _phieuKhamRepository.GetAsync(id);
                 if (entity == null || entity.IsDeleted == true) 
-                    return result.BuildError("Thông tin lịch làm việc không tồn tại.");
+                    return result.BuildError("Thông tin phiếu khám không tồn tại.");
 
                 entity.IsDeleted = true;
                 entity.ModifiedBy = user.Email;
                 entity.ModifiedOn = DateTime.UtcNow;
-                await _lichLamViecRepository.EditAsync(entity);
+                await _phieuKhamRepository.EditAsync(entity);
 
-                return result.BuildResult("Đã xóa thông tin lịch làm việc thành công.");
+                return result.BuildResult("Đã xóa thông tin phiếu khám thành công.");
             }
             catch (Exception ex) 
             { 
@@ -137,9 +135,9 @@ namespace QuanLyPhongKham.Services.Implementations
             }
         }
 
-        public async Task<AppResponse<SearchResponse<LichLamViecResponse>>> SearchAsync(SearchRequest request)
+        public async Task<AppResponse<SearchResponse<PhieuKhamResponse>>> SearchAsync(SearchRequest request)
         {
-            var result = new AppResponse<SearchResponse<LichLamViecResponse>>();
+            var result = new AppResponse<SearchResponse<PhieuKhamResponse>>();
             try
             {
                 var user = await GetCurrentUser();
@@ -147,28 +145,29 @@ namespace QuanLyPhongKham.Services.Implementations
                     return result.BuildError("Unauthorized");
 
                 var query = BuildFilterExpression(request.Filters!);
-                var numOfRecords = await _lichLamViecRepository.CountRecordsAsync(query);
-                var entities = _lichLamViecRepository.FindBy(query)
+                var numOfRecords = await _phieuKhamRepository.CountRecordsAsync(query);
+                var entities = _phieuKhamRepository.FindBy(query)
                     .Include(x => x.BacSi)
+                    .Include(x => x.LichHen!).ThenInclude(l => l.BenhNhan)
                     .AsQueryable();
 
                 if (request.SortBy != null)
-                    entities = _lichLamViecRepository.AddSort(entities, request.SortBy);
+                    entities = _phieuKhamRepository.AddSort(entities, request.SortBy);
                 else
-                    entities = entities.OrderBy(x => x.NgayLamViec);
+                    entities = entities.OrderByDescending(x => x.NgayKham);
 
                 int pageIndex = request.PageIndex ?? 1;
                 int pageSize = request.PageSize ?? 10;
                 int startIndex = (pageIndex - 1) * pageSize;
                 var list = await entities.Skip(startIndex).Take(pageSize).ToListAsync();
 
-                return result.BuildResult(new SearchResponse<LichLamViecResponse>
+                return result.BuildResult(new SearchResponse<PhieuKhamResponse>
                 {
                     TotalPages = CalculateNumOfPages(numOfRecords, pageSize),
                     TotalRows = numOfRecords,
                     CurrentPage = pageIndex,
                     RowsPerPage = pageSize,
-                    Data = list.Select(LichLamViecMapper.ToResponse).ToList(),
+                    Data = list.Select(PhieuKhamMapper.ToResponse).ToList(),
                 });
             }
             catch (Exception ex) 
@@ -177,18 +176,22 @@ namespace QuanLyPhongKham.Services.Implementations
             }
         }
 
-        private ExpressionStarter<LICHLAMVIEC> BuildFilterExpression(List<Filter> filters)
+        private ExpressionStarter<PHIEUKHAM> BuildFilterExpression(List<Filter> filters)
         {
-            var predicate = PredicateBuilder.New<LICHLAMVIEC>(true);
+            var predicate = PredicateBuilder.New<PHIEUKHAM>(true);
             if (filters != null)
             {
                 foreach (var filter in filters)
                 {
                     switch (filter.FieldName)
                     {
-                        case "Ngày làm việc":
+                        case "Trạng thái tiếp nhận":
+                            if (!string.IsNullOrEmpty(filter.Value))
+                                predicate = predicate.And(x => x.TrangThaiTiepNhan!.Contains(filter.Value));
+                            break;
+                        case "Ngày khám":
                             if (!string.IsNullOrEmpty(filter.Value) && DateTime.TryParse(filter.Value, out var ngay))
-                                predicate = predicate.And(x => x.NgayLamViec >= ngay.Date && x.NgayLamViec < ngay.Date.AddDays(1));
+                                predicate = predicate.And(x => x.NgayKham >= ngay.Date && x.NgayKham < ngay.Date.AddDays(1));
                             break;
                     }
                 }
