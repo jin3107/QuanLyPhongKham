@@ -2,6 +2,7 @@
 using MayNghien.Infrastructures.Models.Requests;
 using MayNghien.Infrastructures.Models.Responses;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuanLyPhongKham.DTOs.Requests;
@@ -75,7 +76,9 @@ namespace QuanLyPhongKham.Services.Implementations
                         .ThenInclude(ct => ct.DanhMucThuoc)
                     .FirstOrDefaultAsync();
 
-                return result.BuildResult(DonThuocMapper.ToResponse(created!), "Tạo đơn thuốc thành công.");
+                var response = DonThuocMapper.ToResponse(created!);
+
+                return result.BuildResult(response, "Thêm thông tin đơn thuốc thành công.");
             }
             catch (Exception ex)
             {
@@ -99,9 +102,10 @@ namespace QuanLyPhongKham.Services.Implementations
                     .FirstOrDefaultAsync();
 
                 if (donThuoc == null)
-                    return result.BuildError("Đơn thuốc không tồn tại.");
+                    return result.BuildError("Thông tin đơn thuốc không tồn tại.");
 
-                return result.BuildResult(DonThuocMapper.ToResponse(donThuoc));
+                var response = DonThuocMapper.ToResponse(donThuoc);
+                return result.BuildResult(response);
             }
             catch (Exception ex)
             {
@@ -124,7 +128,7 @@ namespace QuanLyPhongKham.Services.Implementations
                     .FirstOrDefaultAsync();
 
                 if (donThuoc == null)
-                    return result.BuildError("Đơn thuốc không tồn tại.");
+                    return result.BuildError("Thông tin đơn thuốc không tồn tại.");
 
                 foreach (var ct in donThuoc.ChiTietDonThuocs ?? [])
                 {
@@ -160,7 +164,8 @@ namespace QuanLyPhongKham.Services.Implementations
                         .ThenInclude(ct => ct.DanhMucThuoc)
                     .FirstOrDefaultAsync();
 
-                return result.BuildResult(DonThuocMapper.ToResponse(updated!), "Cập nhật đơn thuốc thành công.");
+                var resposnse = DonThuocMapper.ToResponse(updated!);
+                return result.BuildResult(resposnse, "Cập nhật thông tin đơn thuốc thành công.");
             }
             catch (Exception ex)
             {
@@ -183,7 +188,7 @@ namespace QuanLyPhongKham.Services.Implementations
                     .FirstOrDefaultAsync();
 
                 if (donThuoc == null)
-                    return result.BuildError("Đơn thuốc không tồn tại.");
+                    return result.BuildError("Thông tin đơn thuốc không tồn tại.");
 
                 foreach (var ct in donThuoc.ChiTietDonThuocs ?? [])
                 {
@@ -198,7 +203,7 @@ namespace QuanLyPhongKham.Services.Implementations
                 donThuoc.ModifiedOn = DateTime.UtcNow;
                 await _donThuocRepository.EditAsync(donThuoc);
 
-                return result.BuildResult("Đã xóa đơn thuốc thành công.");
+                return result.BuildResult("Đã xóa thông tin đơn thuốc thành công.");
             }
             catch (Exception ex)
             {
@@ -212,7 +217,8 @@ namespace QuanLyPhongKham.Services.Implementations
             try
             {
                 var user = await GetCurrentUser();
-                if (user == null) return result.BuildError("Unauthorized");
+                if (user == null) 
+                    return result.BuildError("Unauthorized");
 
                 var query = BuildFilterExpression(request.Filters!);
                 var numOfRecords = await _donThuocRepository.CountRecordsAsync(query);
