@@ -1,9 +1,80 @@
-@use "../doctor-common";
+.doctor-dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
 
-.doctor-dashboard {
+  .doctor-card {
+    border: 1px solid #dbe6f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+
+    .ant-card-head {
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .ant-card-head-title {
+      color: #0f4c81;
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+
+  .doctor-stat {
+    text-align: center;
+
+    .ant-card-body {
+      padding: 24px 16px;
+    }
+
+    .doctor-stat-label {
+      margin-bottom: 10px;
+      color: #64748b;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .doctor-stat-value {
+      color: #0f4c81;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1;
+    }
+  }
+
   .dashboard-main {
-    margin-top: 16px;
-    margin-bottom: 16px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .doctor-table {
+    .ant-table {
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .ant-table-thead > tr > th {
+      background: #edf4fb;
+      color: #0f4c81;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .ant-table-tbody > tr > td {
+      font-size: 14px;
+      color: #334155;
+    }
+
+    .ant-tag {
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
   }
 
   .progress-block {
@@ -13,6 +84,7 @@
   .progress-note {
     color: #64748b;
     line-height: 1.6;
+    font-size: 14px;
   }
 
   .shift-info {
@@ -20,7 +92,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 12px;
+    padding: 12px 14px;
     background: #f8fbff;
     border: 1px solid #dbe6f1;
     border-radius: 8px;
@@ -30,64 +102,46 @@
       font-size: 13px;
       font-weight: 600;
     }
-
-    strong {
-      color: #0b4f84;
-      text-align: right;
-    }
   }
 
   .action-card {
-    display: block;
-    min-height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 92px;
     padding: 18px;
     color: #1f2937;
     text-decoration: none;
     background: #fff;
     border: 1px solid #dbe6f1;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
 
     &:hover {
       color: #1f2937;
-      border-color: #00a8ff;
-      box-shadow: 0 12px 28px rgba(11, 79, 132, 0.14);
+      border-color: #1890ff;
+      box-shadow: 0 10px 24px rgba(24, 144, 255, 0.12);
       transform: translateY(-2px);
     }
 
-    .action-card__icon {
-      display: inline-flex;
+    p {
+      margin: 0;
+      color: #334155;
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 85%;
+    }
+
+    .action-card-link {
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: 42px;
-      height: 42px;
-      margin-bottom: 14px;
-      color: #0b4f84;
-      background: #e6f0fa;
-      border-radius: 8px;
-      font-size: 20px;
-    }
-
-    strong {
-      display: block;
-      color: #0b4f84;
-      font-size: 16px;
-    }
-
-    p {
-      min-height: 44px;
-      margin: 8px 0 14px;
-      color: #64748b;
-      line-height: 1.5;
-    }
-
-    .action-card__link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #00a8ff;
-      font-weight: 700;
+      color: #1890ff;
+      font-size: 14px;
     }
   }
 }

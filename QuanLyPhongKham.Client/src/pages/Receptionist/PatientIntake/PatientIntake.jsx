@@ -23,12 +23,12 @@ export default function PatientIntake() {
 
   return (
     <div className="patient-intake-page">
-      <div className="intake-container">
         {/* PAGE HEADER */}
-        <div className="page-header">
-          <h1>Tiếp nhận bệnh nhân</h1>
-          <p>Vui lòng nhập đầy đủ thông tin cá nhân của bệnh nhân</p>
+			<div className="patient-intake-header">
+        <div>
+          <p>Theo dõi và quản lý lịch khám của bạn nhanh chóng, tiện lợi.</p>
         </div>
+      </div>
 
         {/* FORM CARD */}
 					<div className="patient-intake-card">
@@ -161,6 +161,5 @@ export default function PatientIntake() {
 						</Form>
 					</div>
       </div>
-    </div>
   );
 }

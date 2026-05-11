@@ -66,30 +66,15 @@ export default function Login() {
 						<img src={logo} alt="Bộ Y tế" loading="eager" decoding="async" />
 						<div>
 							<span className="auth-badge-title">Hệ thống quản lý phòng khám</span>
-							<span className="auth-badge-subtitle">Đăng nhập nhanh, thao tác gọn</span>
 						</div>
 					</div>
 					<Title level={2}>Chào mừng trở lại</Title>
-					<Paragraph>
-						Quản lý lịch hẹn, bệnh nhân và tài chính trong một không gian làm việc
-						thống nhất.
-					</Paragraph>
+						<Text type="secondary">Phòng khám hỗ trợ và tiếp nhận khám chữa bệnh từ thứ 2 đến thứ 6</Text>
 					<img className="auth-illustration" src={heroImage} alt="Bác sĩ" loading="eager" decoding="async" />
-					<div className="auth-highlights">
-						<Card size="small">
-							<Title level={4}>Lịch hẹn rõ ràng</Title>
-							<Text type="secondary">Tập trung vào ca khám quan trọng nhất.</Text>
-						</Card>
-						<Card size="small">
-							<Title level={4}>Báo cáo nhanh</Title>
-							<Text type="secondary">Thống kê được gom gọn trong một bước.</Text>
-						</Card>
-					</div>
 				</aside>
 				<Card className="auth-card" variant="borderless">
 					<div className="auth-card-header">
 						<Title level={2}>Đăng nhập</Title>
-						<Paragraph>Nhập thông tin tài khoản để tiếp tục làm việc.</Paragraph>
 					</div>
 					<Form className="auth-form" layout="vertical" onFinish={handleSubmit}>
 						<Form.Item

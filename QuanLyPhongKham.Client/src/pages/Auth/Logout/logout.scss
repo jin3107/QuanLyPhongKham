@@ -1,41 +1,46 @@
+.logout-page {
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+}
+
 .logout-page .auth-illustration {
-	max-height: 220px;
+  max-height: 220px;
 }
 
 .logout-page .auth-actions {
-	margin-top: 4px;
+  margin-top: 4px;
 }
 
 .logout-panel {
-	border-radius: 10px;
-	background: #f7fafc;
-	border: 1px solid #dde4ec;
+  border-radius: 10px;
+  background: #f7fafc;
+  border: 1px solid #dde4ec;
 }
 
 .logout-panel .ant-card-body {
-	padding: 14px;
+  padding: 14px;
 }
 
 .logout-icon {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background: #eef4fa;
-	color: #0b4f84;
-	display: grid;
-	place-items: center;
-	font-weight: 700;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #eef4fa;
+  color: #0b4f84;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
 }
 
 .logout-panel h4 {
-	margin: 0 0 4px;
-	font-size: 16px;
-	color: #16212b;
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: #16212b;
 }
 
 .logout-panel .ant-typography-secondary {
-	margin: 0;
-	font-size: 13px;
-	color: #5d6a73;
+  margin: 0;
+  font-size: 13px;
+  color: #5d6a73;
 }
-

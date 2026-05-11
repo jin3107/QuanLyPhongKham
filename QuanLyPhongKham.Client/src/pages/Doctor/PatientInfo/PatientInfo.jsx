@@ -1,6 +1,6 @@
 import "./patientinfo.scss";
 import { Button, Card, Col, Form, Input, Row, Select, Space, Tag } from "antd";
-
+import { Link } from "react-router-dom";
 const patientOptions = [
   { value: "BN001", label: "Nguyễn Văn Hòa" },
   { value: "BN002", label: "Trần Thị Mai" },
@@ -9,10 +9,9 @@ const patientOptions = [
 
 export default function PatientInfo() {
   return (
-    <div className="doctor-page patient-info-page">
-      <div className="doctor-page__header">
+    <div className="doctor-patient-info-page">
+      <div className="doctor-page-header">
         <div>
-          <h1>Ghi thông tin bệnh nhân</h1>
           <p>
             Ghi nhận triệu chứng, chẩn đoán và hướng điều trị cho lần khám hiện
             tại theo yêu cầu quản lý khám bệnh.
@@ -23,27 +22,32 @@ export default function PatientInfo() {
 
       <Row gutter={[16, 16]}>
         <Col xs={24} xl={8}>
-          <Card title="Thông tin lượt khám" className="doctor-card">
-            <div className="doctor-patient-summary">
-              <div className="summary-item">
-                <span>Họ tên</span>
-                <strong>Trần Thị Mai</strong>
+          <Card title="Thông tin bệnh nhân" className="doctor-card">
+            <div className="medical-ticket">
+              <div className="ticket-row">
+                <span>
+                  Họ và tên: <strong>Trần Thị Mai</strong>
+                </span>
               </div>
-              <div className="summary-item">
-                <span>Số điện thoại</span>
-                <strong>0908 123 456</strong>
+              <div className="ticket-row">
+                <span>
+                  Số điện thoại: <strong> 0908 123 456</strong>
+                </span>
               </div>
-              <div className="summary-item">
-                <span>BHYT</span>
-                <strong>HS4012345678901</strong>
+              <div className="ticket-row">
+                <span>
+                  Mã BHYT: <strong> HS4012345678901</strong>
+                </span>
               </div>
-              <div className="summary-item">
-                <span>Giờ khám</span>
-                <strong>08:30</strong>
+              <div className="ticket-row">
+                <span>
+                  Giờ khám: <strong> 08:30</strong>
+                </span>
               </div>
-              <div className="summary-item">
-                <span>Phòng</span>
-                <strong>Nội tổng quát 02</strong>
+              <div className="ticket-row">
+                <span>
+                  Khoa: <strong> Nội tổng quát</strong>
+                </span>
               </div>
             </div>
           </Card>
@@ -52,62 +56,49 @@ export default function PatientInfo() {
         <Col xs={24} xl={16}>
           <Card title="Phiếu ghi nhận khám bệnh" className="doctor-card">
             <Form
-              className="doctor-form"
               layout="vertical"
-              initialValues={{
-                patient: "BN002",
-                temperature: "37.8",
-                bloodPressure: "130/85",
-                pulse: "84",
-                symptom:
-                  "Đau đầu, mệt, ho nhẹ, có tiền sử tăng huyết áp cần theo dõi.",
-                diagnosis: "Theo dõi viêm hô hấp trên, tăng huyết áp độ 1.",
-                treatment: "Nghỉ ngơi, uống đủ nước, dùng thuốc theo toa.",
-              }}
+              className="doctor-note-form"
+              // initialValues={{
+              //   patient: "BN002",
+              //   symptom:
+              //     "Đau đầu, mệt, ho nhẹ, có tiền sử tăng huyết áp cần theo dõi.",
+              //   diagnosis: "Theo dõi viêm hô hấp trên, tăng huyết áp độ 1.",
+              //   treatment: "Nghỉ ngơi, uống đủ nước, dùng thuốc theo toa.",
+              // }}
             >
-              <Row gutter={16}>
-                <Col xs={24} md={12}>
-                  <Form.Item label="Chọn bệnh nhân" name="patient">
-                    <Select options={patientOptions} />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={4}>
-                  <Form.Item label="Nhiệt độ" name="temperature">
-                    <Input suffix="°C" />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={4}>
-                  <Form.Item label="Huyết áp" name="bloodPressure">
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={4}>
-                  <Form.Item label="Mạch" name="pulse">
-                    <Input suffix="lần/phút" />
-                  </Form.Item>
-                </Col>
-              </Row>
+              <div className="note-group">
+                <label>Bệnh nhân</label>              
+                <Select 
+                  showSearch
+                  options={patientOptions} />
+              </div>
 
-              <Form.Item label="Triệu chứng" name="symptom">
-                <Input.TextArea rows={4} />
-              </Form.Item>
-              <Form.Item label="Chẩn đoán" name="diagnosis">
-                <Input.TextArea rows={3} />
-              </Form.Item>
-              <Form.Item label="Hướng điều trị" name="treatment">
-                <Input.TextArea rows={3} />
-              </Form.Item>
-              <Form.Item label="Ghi chú theo dõi" name="note">
-                <Input.TextArea
-                  rows={3}
-                  placeholder="Nhập lưu ý tái khám, dị ứng thuốc hoặc chỉ định bổ sung"
-                />
-              </Form.Item>
+              <div className="note-group">
+                <label>Triệu chứng</label>
+                <Input.TextArea rows={2} />
+              </div>
+
+              <div className="note-group">
+                <label>Chẩn đoán</label>
+                <Input.TextArea rows={2} />
+              </div>
+
+              <div className="note-group">
+                <label>Hướng điều trị</label>
+                <Input.TextArea rows={2} />
+              </div>
 
               <Space wrap>
-                <Button type="primary">Lưu thông tin khám</Button>
-                <Button>Chuyển sang kê thuốc</Button>
-                <Button>Yêu cầu dịch vụ</Button>
+                  <Button type="primary" size="large">
+                    Lưu thông tin khám
+                  </Button>
+
+                <Link to="/doctor/prescription">
+                  <Button>Chuyển sang kê thuốc</Button>
+                </Link>
+                <Link to="/doctor/service-request">
+                  <Button>Yêu cầu dịch vụ</Button>
+                </Link>
               </Space>
             </Form>
           </Card>

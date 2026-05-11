@@ -25,27 +25,24 @@ const { RangePicker } = DatePicker;
 const patientSummary = [
   {
     key: "total",
-    title: "Tổng bệnh nhân",
+    title: "Tổng bệnh nhân/tháng",
     value: 842,
-    description: "Trong tháng này",
   },
   {
     key: "new",
     title: "Bệnh nhân mới",
     value: 218,
-    description: "Lần đầu khám",
+    
   },
   {
     key: "returning",
     title: "Tái khám",
     value: 324,
-    description: "Đã khám lại",
-  },
+      },
   {
     key: "cancelled",
     title: "Đã huỷ",
     value: 34,
-    description: "Lịch khám bị huỷ",
   },
 ];
 
@@ -186,7 +183,7 @@ export default function PatientCount() {
 
   return (
     <div className="patientCountPage">
-      <div className="pageHeader">
+      {/* <div className="pageHeader">
         <div className="pageTitle">
           <BarChartOutlined className="pageIcon" />
           <div>
@@ -197,7 +194,7 @@ export default function PatientCount() {
         <Button icon={<ReloadOutlined />} type="primary">
           Làm mới
         </Button>
-      </div>
+      </div> */}
 
       <Row gutter={[20, 20]} className="summaryRow">
         {patientSummary.map((item) => (
@@ -210,7 +207,7 @@ export default function PatientCount() {
         ))}
       </Row>
 
-      <Card className="filterCard" bordered={false}>
+      {/* <Card className="filterCard" bordered={false}>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} lg={8}>
             <div className="filterLabel">Chọn khoảng thời gian</div>
@@ -246,12 +243,16 @@ export default function PatientCount() {
             </Button>
           </Col>
         </Row>
-      </Card>
+      </Card> */}
 
       <Card className="tableCard" bordered={false}>
         <div className="tableHeader">
           <h3>Danh sách bệnh nhân</h3>
-          <p>Bảng thống kê chi tiết theo lịch khám và trạng thái hiện tại.</p>
+          <Button icon={<ReloadOutlined />} type="primary">
+            Làm mới
+          </Button>
+
+          {/* <p>Bảng thống kê chi tiết theo lịch khám và trạng thái hiện tại.</p> */}
         </div>
         <Table
           columns={columns}

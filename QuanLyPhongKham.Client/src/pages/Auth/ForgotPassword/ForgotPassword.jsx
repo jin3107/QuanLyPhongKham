@@ -1,6 +1,6 @@
 import "../auth.scss";
 import "./forgotpassword.scss";
-import heroImage from "../../../assets/image/Hospital.jpg";
+import heroImage from "../../../assets/image/img4.jpg";
 import logo from "../../../assets/image/LogoBYT.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -86,7 +86,6 @@ export default function ForgotPassword() {
                 <span className="auth-badge-title">
                   Hệ thống quản lý phòng khám
                 </span>
-                <span className="auth-badge-subtitle">Khôi phục mật khẩu</span>
               </div>
             </div>
             <Title level={2}>Quên mật khẩu?</Title>
@@ -120,19 +119,7 @@ export default function ForgotPassword() {
               <>
                 <div className="auth-card-header">
                   <Title level={2}>Đặt lại mật khẩu</Title>
-                  <Paragraph>
-                    {currentStep === 0
-                      ? "Nhập email và số điện thoại để xác minh tài khoản."
-                      : "Nhập mật khẩu mới cho tài khoản của bạn."}
-                  </Paragraph>
                 </div>
-
-                <Steps
-                  className="forgot-password-steps"
-                  current={currentStep}
-                  size="small"
-                  items={[{ title: "Xác minh" }, { title: "Đổi mật khẩu" }]}
-                />
 
                 {currentStep === 0 && (
                   <Form
@@ -172,10 +159,10 @@ export default function ForgotPassword() {
 
                     <Space className="auth-actions" wrap>
                       <Button type="primary" htmlType="submit">
-                        Tiếp theo
+                        Tiếp tục
                       </Button>
                       <Button onClick={() => navigate("/login")}>
-                        Quay về đăng nhập
+                        Quay lại đăng nhập
                       </Button>
                     </Space>
                   </Form>
@@ -246,17 +233,6 @@ export default function ForgotPassword() {
                     </Space>
                   </Form>
                 )}
-
-                <Paragraph className="auth-note">
-                  Nhớ mật khẩu?{" "}
-                  <Button
-                    type="link"
-                    className="auth-link-button"
-                    onClick={() => navigate("/login")}
-                  >
-                    Đăng nhập ngay
-                  </Button>
-                </Paragraph>
               </>
             )}
           </Card>

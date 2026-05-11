@@ -18,7 +18,7 @@ export default function Cancellation() {
 
   const features = [
     "Lưu ý: Chỉ có thể hủy lịch trước giờ khám ít nhất 5 tiếng.",
-    "Hoàn tiền: Tiền khám sẽ được hoàn lại vào ví sau 3-5 ngày làm việc.",
+    "Gợi ý: Bạn có thể đổi lịch thay vì hủy để giữ quyền lợi và tránh mất phí.",
     "Hỗ trợ: Liên hệ hotline nếu gặp vấn đề về thủ tục hoàn phí."
   ];
 

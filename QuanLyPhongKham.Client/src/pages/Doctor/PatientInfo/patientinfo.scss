@@ -1,10 +1,21 @@
 @use "../doctor-common";
 
-.patient-info-page {
-  .ant-tag {
-    margin-top: 6px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    font-weight: 700;
+.doctor-patient-info-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
+  .patient-info-page {
+    .ant-tag {
+      margin-top: 6px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
   }
 }
