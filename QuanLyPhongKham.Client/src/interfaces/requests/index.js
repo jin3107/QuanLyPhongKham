@@ -3,3 +3,8 @@ export * from "./BacSiRequest";
 export * from "./LoginRequest";
 export * from "./RegisterRequest";
 export * from "./ChangePasswordRequest";
+export * from "./LichHenRequest";
+export * from "./BenhNhanRequest";
+export * from "./PhieuKhamRequest";
+export * from "./ChiTietDonThuocRequest";
+export * from "./DonThuocRequest";

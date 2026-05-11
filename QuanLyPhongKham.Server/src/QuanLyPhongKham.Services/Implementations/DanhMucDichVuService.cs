@@ -114,7 +114,7 @@ namespace QuanLyPhongKham.Services.Implementations
 
                 var query = BuildFilterExpression(request.Filters!);
                 var numOfRecords = await _danhMucDichVuRepository.CountRecordsAsync(query);
-                var danhMucDichVu = _danhMucDichVuRepository.FindBy(query).Include(x => x.TenDV).AsQueryable();
+                var danhMucDichVu = _danhMucDichVuRepository.FindBy(query).AsQueryable();
 
                 if (request.SortBy != null)
                     danhMucDichVu = _danhMucDichVuRepository.AddSort(danhMucDichVu, request.SortBy);

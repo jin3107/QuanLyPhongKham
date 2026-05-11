@@ -19,7 +19,8 @@ namespace QuanLyPhongKham.Services.Mapping
                 ThoiGianKham = entity.ThoiGianKham,
                 TrangThai = entity.TrangThai,
                 MaBN = entity.MaBN,
-                MaBS = entity.MaBS
+                MaBS = entity.MaBS,
+                CreatedBy = entity.CreatedBy
             };
         }
 

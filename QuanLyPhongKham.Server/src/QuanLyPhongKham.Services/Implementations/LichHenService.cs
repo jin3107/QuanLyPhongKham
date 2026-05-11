@@ -116,7 +116,7 @@ namespace QuanLyPhongKham.Services.Implementations
 
                 var query = BuildFilterExpression(request.Filters!);
                 var numOfRecords = await _lichHenRepository.CountRecordsAsync(query);
-                var lichHen = _lichHenRepository.FindBy(query).Include(x => x.ThoiGianKham).AsQueryable();
+                var lichHen = _lichHenRepository.FindBy(query).AsQueryable();
 
                 if (request.SortBy != null)
                     lichHen = _lichHenRepository.AddSort(lichHen, request.SortBy);

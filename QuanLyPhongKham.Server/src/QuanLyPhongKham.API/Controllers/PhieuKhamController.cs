@@ -27,7 +27,7 @@ namespace QuanLyPhongKham.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "LeTan")]
+        [Authorize(Roles = "LeTan, BacSi")]
         public async Task<IActionResult> Create([FromBody] PhieuKhamRequest request)
         {
             var result = await _phieuKhamService.CreateAsync(request);

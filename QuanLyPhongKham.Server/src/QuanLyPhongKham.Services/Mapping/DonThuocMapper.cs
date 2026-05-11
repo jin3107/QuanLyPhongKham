@@ -32,6 +32,7 @@ namespace QuanLyPhongKham.Services.Mapping
                 MaPK = entity.MaPK,
                 NgayKe = entity.NgayKe,
                 ChiTietDonThuocs = entity.ChiTietDonThuocs?
+                    .Where(x => x.IsDeleted == false)
                     .Select(ToResponse).ToList() ?? [],
             };
         }

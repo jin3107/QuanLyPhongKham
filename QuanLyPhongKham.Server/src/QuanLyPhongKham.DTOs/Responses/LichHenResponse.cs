@@ -15,5 +15,6 @@ namespace QuanLyPhongKham.DTOs.Responses
 
         public Guid? MaBN { get; set; }
         public Guid? MaBS { get; set; }
+        public string? CreatedBy { get; set; }
     }
 }
