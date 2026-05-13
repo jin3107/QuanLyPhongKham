@@ -15,19 +15,17 @@ $shadow-sm: 0 2px 8px rgba(11,79,132,.07);
 $radius:    14px;
 $radius-sm: 9px;
 
-.workingschedule {
-  background: $bg;
-  min-height: 100%;
-  font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+.workingschedule-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
 
-  .ws-body {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 18px 24px 24px;
-  }
-
-  // ── Section label
+  // Section label
   .section-label {
     font-size: 13px;
     font-weight: 700;
@@ -125,11 +123,6 @@ $radius-sm: 9px;
     li { margin-bottom: 3px; font-size: 12.5px; line-height: 1.6; }
   }
 
-  // ── Table card
-  .table-card {
-    .ant-card-body { padding: 0 !important; }
-  }
-
   .table-title {
     font-size: 13px;
     font-weight: 700;
@@ -141,82 +134,140 @@ $radius-sm: 9px;
     border-bottom: 1px solid $border;
   }
 
-  // ── Clean table (style theo ảnh lịch khám)
-  .clean-table {
-    .ant-table {
-      border-radius: 0 !important;
-    }
+  // // ── Clean table (style theo ảnh lịch khám)
+  // .clean-table {
+  //   .ant-table {
+  //     border-radius: 0 !important;
+  //   }
 
-    // Header: nền trắng, chữ navy đậm, uppercase
-    .ant-table-thead > tr > th {
-      background: $white !important;
-      color: $navy !important;
-      font-weight: 700 !important;
-      font-size: 11.5px !important;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      border-bottom: 2px solid $blue-mid !important;
-      padding: 11px 16px !important;
-      white-space: nowrap;
+  //   // Header: nền trắng, chữ navy đậm, uppercase
+  //   .ant-table-thead > tr > th {
+  //     background: $white !important;
+  //     color: $navy !important;
+  //     font-weight: 700 !important;
+  //     font-size: 11.5px !important;
+  //     letter-spacing: .06em;
+  //     text-transform: uppercase;
+  //     border-bottom: 2px solid $blue-mid !important;
+  //     padding: 11px 16px !important;
+  //     white-space: nowrap;
 
-      &::before { display: none !important; }
-    }
+  //     &::before { display: none !important; }
+  //   }
 
-    // Body rows
-    .ant-table-tbody > tr > td {
-      border-bottom: 1px solid $border !important;
-      padding: 11px 16px !important;
-      vertical-align: middle;
-      font-size: 13.5px;
-      color: #1e293b;
-      background: $white !important;
-    }
+  //   // Body rows
+  //   .ant-table-tbody > tr > td {
+  //     border-bottom: 1px solid $border !important;
+  //     padding: 11px 16px !important;
+  //     vertical-align: middle;
+  //     font-size: 13.5px;
+  //     color: #1e293b;
+  //     background: $white !important;
+  //   }
 
-    // Hover
-    .ant-table-tbody > tr:hover > td {
-      background: $blue-lt !important;
-    }
+  //   // Hover
+  //   .ant-table-tbody > tr:hover > td {
+  //     background: $blue-lt !important;
+  //   }
 
-    // Filter icon
-    .ant-table-filter-trigger {
-      color: $navy-mid !important;
-      &.active { color: $accent !important; }
-    }
-  }
+  //   // Filter icon
+  //   .ant-table-filter-trigger {
+  //     color: $navy-mid !important;
+  //     &.active { color: $accent !important; }
+  //   }
+  // }
 
-  // Time cells
-  .time-cell {
+  // // Time cells
+  // .time-cell {
+  //   display: flex;
+  //   align-items: center;
+  //   gap: 5px;
+  //   font-size: 13.5px;
+  //   font-family: "JetBrains Mono", monospace;
+  // }
+  // .time-icon {
+  //   font-size: 12px;
+  //   &.start { color: $accent; }
+  //   &.end   { color: $warn;   }
+  // }
+
+  // .del-btn.ant-btn {
+  //   border-radius: 6px !important;
+  //   font-size: 12px !important;
+  //   font-weight: 600 !important;
+  // }
+
+  // // Pagination
+  // .ant-pagination { padding: 10px 20px !important; }
+  // .ant-pagination .ant-pagination-item-active {
+  //   background: $navy !important;
+  //   border-color: $navy !important;
+  //   a { color: $white !important; }
+  // }
+
+  // // Modal
+  // .leave-modal-body {
+  //   padding: 8px 0;
+  //   line-height: 1.9;
+  //   color: #374151;
+  //   p { margin-bottom: 6px; }
+  // }
+
+
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  .edit-btn,
+  .delete-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-size: 13.5px;
-    font-family: "JetBrains Mono", monospace;
-  }
-  .time-icon {
-    font-size: 12px;
-    &.start { color: $accent; }
-    &.end   { color: $warn;   }
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 16px;
   }
 
-  .del-btn.ant-btn {
-    border-radius: 6px !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
+  .edit-btn {
+    color: #2563eb;
+
+    &:hover {
+      background: #dbeafe !important;
+      color: #1d4ed8 !important;
+    }
   }
 
-  // Pagination
-  .ant-pagination { padding: 10px 20px !important; }
-  .ant-pagination .ant-pagination-item-active {
-    background: $navy !important;
-    border-color: $navy !important;
-    a { color: $white !important; }
-  }
+  .delete-btn {
+    color: #dc2626;
 
-  // Modal
-  .leave-modal-body {
-    padding: 8px 0;
-    line-height: 1.9;
-    color: #374151;
-    p { margin-bottom: 6px; }
+    &:hover {
+      background: #fee2e2 !important;
+      color: #b91c1c !important;
+    }
   }
 }
+
+
+.note-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  // margin-bottom: 10px;
+}
+
+.note-group textarea {
+  resize: none !important;
+  overflow-y: hidden !important;
+  // margin-bottom: 12px;
+}
+
+
+
+
+
+}
+

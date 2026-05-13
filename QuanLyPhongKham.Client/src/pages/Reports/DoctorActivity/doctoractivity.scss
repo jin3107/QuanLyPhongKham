@@ -1,208 +1,179 @@
-$navy:      #0b4f84;
-$navy-dark: #083b66;
-$navy-mid:  #1565a8;
-$blue-lt:   #e8f2ff;
-$blue-mid:  #c5dcf8;
-$accent:    #00a884;
-$border:    #dce6f0;
-$bg:        #f0f4f9;
-$white:     #ffffff;
-$gray-50:   #f7f9fc;
-$gray-txt:  #6b7d96;
-
-$shadow-sm: 0 2px 8px rgba(11,79,132,.07);
-$radius:    14px;
-$radius-sm: 9px;
+$navy: #0f4c81;
+$text-secondary: #64748b;
+$border-color: #dbe6f1;
+$bg-light: #f8fafc;
+$white: #ffffff;
+$green-primary: #45e46f; // Màu xanh lá cho thanh phần trăm
 
 .doctorstats {
-  background: $bg;
-  min-height: 100%;
-  font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  gap: 20px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover;
+  background-attachment: fixed;
 
   .ds-body {
-    padding: 18px 24px 24px;
+    width: 100%;
+    max-width: 900px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 20px;
   }
 
-  // ── Section label
-  .section-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: $navy;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 14px;
-  }
-
-  // ── Filter card
+  // ── Filter Card
   .filter-card {
-    background: $white;
-    border: 1px solid $border;
-    border-radius: $radius;
-    box-shadow: $shadow-sm;
-    padding: 18px 20px;
-  }
+    background: rgba($white, 0.98);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid $border-color;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+    transition: transform 0.3s ease;
 
-  .filter-row {
-    display: flex;
-    align-items: flex-end;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
 
-  .filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    label {
-      font-size: 10.5px;
+    .section-label {
+      font-size: 15px;
       font-weight: 700;
-      color: $gray-txt;
-      text-transform: uppercase;
-      letter-spacing: .06em;
+      color: $navy;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
     }
 
-    .ant-picker {
-      border-radius: $radius-sm !important;
-      border-color: $border !important;
-      background: $gray-50 !important;
-      &:hover { border-color: $navy !important; }
+    .filter-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+
+      .filter-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        label {
+          font-size: 13px;
+          color: $text-secondary;
+          font-weight: 500;
+        }
+
+        .ant-picker {
+          width: 100% !important;
+          border-radius: 8px;
+          height: 40px;
+        }
+      }
+
+      .stat-btn.ant-btn {
+        height: 40px !important;
+        background: $navy !important;
+        border-radius: 8px !important;
+        font-weight: 600;
+      }
     }
   }
 
-  .stat-btn.ant-btn {
-    background: $navy !important;
-    border-color: $navy !important;
-    border-radius: $radius-sm !important;
-    height: 38px !important;
-    font-weight: 700 !important;
-    font-size: 13px !important;
-    &:hover { background: $navy-dark !important; }
-  }
-
-  // ── Summary chips
+  // ── Summary Chips (Đồng bộ style cho tất cả các chip)
   .summary-chips {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 12px;
+
+    .chip {
+      flex: 1;
+      background: rgba($white, 0.98);
+      padding: 14px 20px;
+      border-radius: 10px;
+      border: 1px solid $border-color;
+      font-size: 15px;
+      color: $text-secondary;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+
+      b {
+        color: $navy; // Làm nổi bật con số bằng màu Navy
+        font-size: 18px;
+      }
+
+      .anticon {
+        font-size: 18px;
+        color: $navy;
+      }
+    }
   }
 
-  .chip {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    border: 1px solid $border;
-    background: $white;
-    color: #374151;
-
-    b { color: $navy; }
-
-    &.active   { border-color: #b7eb8f; background: #f6ffed; b { color: #389e0d; } }
-    &.inactive { border-color: $border; background: $gray-50; b { color: $gray-txt; } }
-    &.total    { border-color: $blue-mid; background: $blue-lt; b { color: $navy; } }
-  }
-
-  // ── Table wrap
+  // ── Table Wrap
   .table-wrap {
-    background: $white;
-    border: 1px solid $border;
-    border-radius: $radius;
-    box-shadow: $shadow-sm;
+    background: rgba($white, 0.98);
+    border-radius: 10px;
+    border: 1px solid $border-color;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
     overflow: hidden;
+
+    .table-title {
+      padding: 16px 20px;
+      font-weight: 700;
+      color: $navy;
+      border-bottom: 1px solid $border-color;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
   }
 
-  .table-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: $navy;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 14px 20px 12px;
-    border-bottom: 1px solid $border;
-  }
-
-  // ── Clean table (matching lịch khám của tôi style)
   .clean-table {
-    .ant-table { border-radius: 0 !important; }
-
     .ant-table-thead > tr > th {
-      background: $white !important;
-      color: $navy !important;
-      font-weight: 700 !important;
-      font-size: 11.5px !important;
-      letter-spacing: .06em;
+      background: $bg-light !important;
+      color: $text-secondary !important;
+      font-size: 12px !important;
       text-transform: uppercase;
-      border-bottom: 2px solid $blue-mid !important;
-      padding: 11px 20px !important;
-      white-space: nowrap;
-      &::before { display: none !important; }
+      padding: 16px !important;
+      border-bottom: 2px solid $border-color !important;
     }
 
     .ant-table-tbody > tr > td {
-      border-bottom: 1px solid $border !important;
-      padding: 13px 20px !important;
-      vertical-align: middle;
-      font-size: 13.5px;
-      color: #1e293b;
-      background: $white !important;
+      padding: 16px !important;
+      font-size: 14.5px;
     }
 
-    .ant-table-tbody > tr:hover > td {
-      background: $blue-lt !important;
+    .bs-name { font-weight: 600; color: #1e293b; }
+
+    // Thanh phần trăm màu Xanh lá
+    .count-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .count-bar-wrap {
+        flex: 1;
+        height: 8px;
+        background: #f1f5f9;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .count-bar {
+        height: 100%;
+        background: linear-gradient(90deg, $green-primary, #34d399); // Màu xanh lá
+        border-radius: 10px;
+        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .count-num {
+        min-width: 50px;
+        font-weight: 700;
+        color: $navy;
+        text-align: right;
+      }
     }
-
-    .ant-table-column-sorter { color: $navy !important; }
-  }
-
-  .bs-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #1e293b;
-  }
-
-  .spec-text {
-    font-size: 13px;
-    color: $gray-txt;
-  }
-
-  // ── Count bar cell
-  .count-cell {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: flex-end;
-  }
-
-  .count-bar-wrap {
-    flex: 1;
-    max-width: 160px;
-    height: 6px;
-    background: $border;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .count-bar {
-    height: 100%;
-    background: $navy;
-    border-radius: 4px;
-    transition: width .5s ease;
-  }
-
-  .count-num {
-    font-size: 13px;
-    font-weight: 700;
-    color: $navy;
-    white-space: nowrap;
-    min-width: 36px;
-    text-align: right;
   }
 }

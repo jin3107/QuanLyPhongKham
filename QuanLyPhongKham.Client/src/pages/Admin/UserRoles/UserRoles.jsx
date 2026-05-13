@@ -301,7 +301,7 @@ export default function UserRoles() {
                 onChange: (page) => loadNhanViens(page),
                 showTotal: (total) => `${total} nhân viên`,
               }}
-              scroll={{ x: 720 }}
+              scroll={{ x: 600 }}
               size="small"
             />
           </Card>

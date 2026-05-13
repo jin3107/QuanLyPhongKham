@@ -1,216 +1,104 @@
-$navy:      #0b4f84;
-$navy-dark: #083b66;
-$navy-mid:  #1565a8;
-$blue-lt:   #e8f2ff;
-$blue-mid:  #c5dcf8;
-$green:     #00a884;
-$teal:      #0891b2;
-$amber:     #d97706;
-$border:    #dce6f0;
-$bg:        #f0f4f9;
-$white:     #ffffff;
-$gray-50:   #f7f9fc;
-$gray-txt:  #6b7d96;
+$navy: #0f4c81;
+$text-secondary: #64748b;
+$border-color: #dbe6f1;
+$bg-light: #f8fafc;
 
-$shadow-sm: 0 2px 8px rgba(11,79,132,.07);
-$radius:    14px;
-$radius-sm: 9px;
+.revenue-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Căn giữa các card theo chiều ngang
+  padding: 24px 16px;
+  gap: 20px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover;
+  background-attachment: fixed;
 
-.revenue {
-  background: $bg;
-  min-height: 100%;
-  font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
-
-  .rv-body {
-    padding: 18px 24px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  // Giới hạn chiều rộng tối đa của nội dung để không bị tràn màn hình lớn
+  .filter-card, .table-card, .result-card {
+    width: 100%;
+    max-width: 900px; // Độ rộng lý tưởng để vừa mắt
   }
 
-  // ── Section label
-  .section-label {
-    font-size: 13px;
+  .section-label, .table-title {
+    font-size: 15px;
     font-weight: 700;
     color: $navy;
     display: flex;
     align-items: center;
-    gap: 7px;
-    margin-bottom: 14px;
+    gap: 10px;
+    margin-bottom: 12px;
   }
 
-  // ── Cards base
   .ant-card {
-    border-radius: $radius !important;
-    border: 1px solid $border !important;
-    box-shadow: $shadow-sm !important;
-    .ant-card-body { padding: 18px 20px !important; }
+    border: 1px solid $border-color !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06) !important;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.98);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.1) !important;
+    }
   }
 
-  // ── Filter card
+  // Row lọc thu gọn lại
   .filter-row {
     display: flex;
+    justify-content: space-between; // Dàn đều input và nút bấm
     align-items: flex-end;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
+    gap: 20px;
 
-  .filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    label {
-      font-size: 10.5px;
-      font-weight: 700;
-      color: $gray-txt;
-      text-transform: uppercase;
-      letter-spacing: .06em;
+    .filter-group {
+      flex: 1; // Để bộ chọn ngày tự động giãn nở
+      max-width: 400px;
+      
+      .ant-picker {
+        width: 100% !important; // RangePicker chiếm hết filter-group
+        border-radius: 8px;
+        height: 40px;
+      }
     }
 
-    .ant-picker {
-      border-radius: $radius-sm !important;
-      border-color: $border !important;
-      background: $gray-50 !important;
-      &:hover { border-color: $navy !important; }
+    .stat-btn.ant-btn {
+      height: 40px !important;
+      padding: 0 30px !important;
+      border-radius: 8px !important;
+      background: $navy !important;
+      font-weight: 600;
     }
   }
 
-  .stat-btn.ant-btn {
-    background: $navy !important;
-    border-color: $navy !important;
-    border-radius: $radius-sm !important;
-    height: 38px !important;
-    font-weight: 700 !important;
-    font-size: 13px !important;
-    &:hover { background: $navy-dark !important; }
-  }
-
-  // ── Stat grid
-  .stat-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1fr;
-    gap: 12px;
-  }
-
-  .stat-card {
-    position: relative;
-    overflow: hidden;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: $navy;
-      border-radius: 14px 14px 0 0;
-    }
-
-    .ant-statistic-title {
-      font-size: 11px !important;
-      font-weight: 700 !important;
-      color: $gray-txt !important;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-
-    .ant-statistic-content {
-      font-size: 18px !important;
-      font-weight: 700 !important;
-      color: $navy !important;
-    }
-  }
-
-  .total-card {
-    background: linear-gradient(135deg, $navy 0%, $navy-mid 100%) !important;
-    border-color: transparent !important;
-    &::before { display: none; }
-    .ant-statistic-title { color: rgba(255,255,255,.75) !important; }
-    .ant-statistic-content { color: $white !important; font-size: 22px !important; }
-    .anticon { color: rgba(255,255,255,.8); }
-  }
-
-  .growth-tag { margin-top: 8px; font-size: 11.5px; }
-
-  .pct-bar {
-    height: 4px;
-    background: $border;
-    border-radius: 4px;
-    margin-top: 8px;
-    overflow: hidden;
-  }
-  .pct-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width .6s ease;
-    &.kham   { background: $navy; }
-    &.thuoc  { background: $teal; }
-    &.dichvu { background: $amber; }
-  }
-  .pct-label { font-size: 11px; color: $gray-txt; margin-top: 3px; display: block; }
-
-  // ── Table card
-  .table-card {
-    .ant-card-body { padding: 0 !important; }
-  }
-
-  .table-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: $navy;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 14px 20px 12px;
-    border-bottom: 1px solid $border;
-  }
-
-  // ── Clean table
+  // Bảng dữ liệu dàn đều
   .clean-table {
-    .ant-table { border-radius: 0 !important; }
-
     .ant-table-thead > tr > th {
-      background: $white !important;
-      color: $navy !important;
-      font-weight: 700 !important;
-      font-size: 11.5px !important;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      border-bottom: 2px solid $blue-mid !important;
-      padding: 11px 16px !important;
-      white-space: nowrap;
-      &::before { display: none !important; }
+      background: $bg-light !important;
+      color: $text-secondary !important;
+      font-size: 12px !important;
+      padding: 16px !important;
+      border-bottom: 2px solid $border-color !important;
     }
 
     .ant-table-tbody > tr > td {
-      border-bottom: 1px solid $border !important;
-      padding: 11px 16px !important;
-      vertical-align: middle;
-      font-size: 13.5px;
-      color: #1e293b;
-      background: $white !important;
+      padding: 16px !important;
+      font-size: 14.5px;
     }
 
-    .ant-table-tbody > tr:hover > td {
-      background: $blue-lt !important;
+    // Đảm bảo table chiếm 100% chiều ngang card
+    .ant-table-container {
+      border-radius: 0 0 10px 10px !important;
     }
   }
-
-  .amt        { color: #1e3a5f; font-variant-numeric: tabular-nums; }
-  .total-cell { color: $navy; font-weight: 700; }
 
   .summary-row td {
-    background: $blue-lt !important;
-    border-top: 2px solid $blue-mid !important;
-  }
+    background: lighten($bg-light, 2%) !important;
+    border-top: 2px solid $navy !important;
+    padding: 16px 20px !important;
 
-  .result-card { text-align: center; padding: 20px 0; }
-  .empty-note  { margin-top: 10px; font-size: 15px; color: $gray-txt; b { color: $navy; } }
-
-  .ant-pagination { padding: 10px 20px !important; }
-  .ant-pagination .ant-pagination-item-active {
-    background: $navy !important;
-    border-color: $navy !important;
-    a { color: $white !important; }
+    .total-cell {
+      font-size: 18px !important;
+      color: $navy;
+    }
   }
 }

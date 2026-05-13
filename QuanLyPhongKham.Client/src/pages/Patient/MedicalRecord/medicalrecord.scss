@@ -1,7 +1,13 @@
 .medical-record-page {
-  min-height: calc(100vh - 180px);
-  padding: 32px 28px;
-  background: #f3f7fb;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
 }
 
 .page-topbar {

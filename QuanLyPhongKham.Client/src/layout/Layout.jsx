@@ -220,11 +220,11 @@ const adminMenu = [
     icon: <DollarCircleOutlined />,
     label: "Thống kê doanh thu",
   },
-  {
-    path: "/doctoractivity",
-    icon: <FundOutlined />,
-    label: "Hoạt động bác sĩ",
-  },
+      {
+        path: "/admin/doctoractivity",
+        icon: <LineChartOutlined />,
+        label: "Hoạt động bác sĩ",
+      },
   {
     path: "/patientcount",
     icon: <BarChartOutlined />,

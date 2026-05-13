@@ -176,9 +176,9 @@ function App() {
           <Route path="finance/payment" element={<Navigate to="/payment" replace />} />
           <Route path="revenue" element={<Revenue />} />
           <Route path="Revenue" element={<Navigate to="/revenue" replace />} />
-          <Route path="doctoractivity" element={<DoctorActivity />} />
-          <Route path="DoctorActivity" element={<Navigate to="/doctoractivity" replace />} />
-          <Route path="patientcount" element={<PatientCount />} />
+          <Route path="admin/doctoractivity" element={<DoctorActivity />} />
+          <Route path="doctoractivity" element={<Navigate to="/admin/doctoractivity" replace />} />
+          <Route path="DoctorActivity" element={<Navigate to="/admin/doctoractivity" replace />} />          <Route path="patientcount" element={<PatientCount />} />
           <Route path="patientCount" element={<Navigate to="/patientcount" replace />} />
           <Route path="MedicalRecord" element={<Navigate to="/receptionist/medical-record" replace />} />
           <Route path="historyView" element={<Navigate to="/receptionist/history-view" replace />} />
