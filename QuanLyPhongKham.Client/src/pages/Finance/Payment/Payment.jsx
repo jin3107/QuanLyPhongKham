@@ -368,7 +368,6 @@ export default function Payment() {
       {/* ── Header ── */}
       <div className="payment-header">
         <div>
-          <h2>Thanh toán</h2>
           <p>Quản lý hóa đơn và xác nhận thanh toán cho phiếu khám.</p>
         </div>
         <div className="stat-group">

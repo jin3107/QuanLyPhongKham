@@ -1,567 +1,151 @@
-// Biến màu
-$primary-color: #0b4f84;
-$primary-light: #eaf2fb;
-$bg-color: #f3f7fb;
-$white-color: #ffffff;
-$text-primary: #262626;
-$text-secondary: #8c8c8c;
-$border-color: #f0f2f5;
-$shadow-color: rgba(11, 79, 132, 0.08);
-$success-color: #52c41a;
+@use "@/scss/global.scss" as *;
 
-// Mixin
-@mixin card-shadow {
-  box-shadow: 0 12px 24px $shadow-color;
-}
-
-@mixin flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@mixin transition-all {
-  transition: all 0.3s ease;
-}
-
-// Page styles
 .history-view-page {
-  min-height: calc(100vh - 180px);
-  padding: 32px 28px;
-  background: $bg-color;
+  min-height: 100vh;
+  padding: 16px 20px;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
-// Header
-.page-header {
-  margin-bottom: 32px;
-  padding: 28px 32px;
-  background: $white-color;
-  border-radius: 24px;
-  @include card-shadow;
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 
-  .header-title {
-    .title {
-      color: $primary-color;
-      margin: 0 0 8px 0;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+  margin-bottom: 20px;
+  padding: 20px 24px;
 
-      svg {
-        font-size: 32px;
-      }
-    }
+  border: $border;
+  border-radius: 16px;
 
-    .subtitle {
-      font-size: 14px;
-      color: $text-secondary;
-    }
-  }
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 24px $box-shadow;
 }
 
-// Patient Info Card
-.patient-info-card {
-  border-radius: 24px;
-  @include card-shadow;
-  overflow: hidden;
-  border: none;
-
-  .patient-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
-
-    .patient-avatar {
-      width: 80px;
-      height: 80px;
-      @include flex-center;
-      background: linear-gradient(135deg, $primary-color 0%, #0d5fa8 100%);
-      border-radius: 50%;
-      color: $white-color;
-      font-size: 40px;
-      flex-shrink: 0;
-    }
-
-    .patient-basic {
-      flex: 1;
-
-      .patient-name {
-        margin: 0;
-        color: $text-primary;
-        font-weight: 600;
-      }
-
-      .patient-id {
-        font-size: 12px;
-        color: $text-secondary;
-      }
-    }
+.history-header-content {
+  h2 {
+    margin: 0;
+    color: $primary;
+    font-size: 28px;
+    font-weight: 700;
   }
 
-  .patient-details {
-    .detail-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid $border-color;
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      .detail-icon {
-        color: $primary-color;
-        font-size: 16px;
-        margin-top: 2px;
-        flex-shrink: 0;
-      }
-
-      .detail-label {
-        color: $text-primary;
-        min-width: 120px;
-        flex-shrink: 0;
-      }
-
-      .detail-value {
-        color: $text-secondary;
-        word-break: break-word;
-      }
-    }
-
-    .detail-section {
-      margin-top: 16px;
-      padding: 12px 0;
-
-      .section-title {
-        color: $primary-color;
-        display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-      }
-
-      .detail-text {
-        color: $text-secondary;
-        margin: 0;
-        font-size: 13px;
-        line-height: 1.6;
-      }
-    }
-  }
-}
-
-// Stats Card
-.stats-card {
-  border-radius: 24px;
-  @include card-shadow;
-  border: none;
-  background: linear-gradient(135deg, $primary-light 0%, $white-color 100%);
-
-  .ant-statistic-title {
+  p {
+    margin: 6px 0 0;
     color: $text-secondary;
-    font-size: 13px;
-  }
-
-  .ant-statistic-content {
-    color: $primary-color;
+    font-size: 14px;
   }
 }
 
-// Records Card
+.stat-group {
+  display: flex;
+  gap: 14px;
+}
+
+.stat-card {
+  min-width: 170px;
+
+  padding: 14px 18px;
+
+  border: $border;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  span {
+    display: block;
+    font-size: 13px;
+    color: $text-secondary;
+  }
+
+  strong {
+    display: block;
+    margin-top: 8px;
+
+    color: $primary;
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
 .records-card {
-  border-radius: 24px;
-  @include card-shadow;
-  border: none;
+  border-radius: 16px;
+  border: $border;
   overflow: hidden;
 
-  .filters-section {
-    background: $primary-light;
-    padding: 20px;
-    margin: -16px -16px 0 -16px;
-    border-bottom: 1px solid rgba($primary-color, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 24px $box-shadow;
 
-    .ant-input,
-    .ant-input-affix-wrapper,
-    .ant-select-selector,
-    .ant-picker {
-      border-color: $border-color;
-      border-radius: 12px;
-      @include transition-all;
-
-      &:hover {
-        border-color: $primary-color;
-      }
-
-      &:focus,
-      &:focus-within {
-        border-color: $primary-color !important;
-        box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
-      }
-    }
-
-    .ant-input::placeholder {
-      color: $text-secondary;
-    }
+  .ant-card-body {
+    padding: 18px;
   }
 }
 
-// Records Table
 .records-table {
-  .ant-table-thead > tr > th {
-    background: $primary-light;
-    color: $primary-color;
-    font-weight: 600;
-    border-color: $border-color;
-  }
-
-  .ant-table-tbody > tr {
-    &:hover {
-      background: $primary-light !important;
-    }
-
-    &:last-child > td {
-      border-bottom: none;
-    }
-  }
-
-  .ant-table-cell {
-    color: $text-primary;
-    padding: 16px 12px;
-    border-color: $border-color;
-  }
-
-  .ant-tag-blue {
-    background: $primary-light;
-    border-color: rgba($primary-color, 0.2);
-    color: $primary-color;
-  }
-
   .ant-tag-success {
-    background: #f6ffed;
-    border-color: #b7eb8f;
-    color: $success-color;
-  }
-
-  .view-detail-btn {
-    color: $primary-color;
-    @include transition-all;
-
-    &:hover {
-      color: #083b66;
-    }
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-weight: 600;
   }
 }
 
-// Detail Modal
-.detail-modal {
-  .ant-modal-header {
-    background: $primary-light;
-    border-color: $border-color;
-    border-radius: 0;
+.ant-empty {
+  padding: 40px 0;
+}
 
-    .modal-title {
-      color: $primary-color;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-  }
+.ant-pagination {
+  margin-top: 20px !important;
+}
 
-  .ant-modal-body {
-    padding: 24px;
-  }
-
-  .ant-modal-footer {
-    border-color: $border-color;
-    background: $bg-color;
-  }
-
-  .tab-content {
-    .info-block {
-      padding: 16px;
-      background: $primary-light;
-      border-radius: 12px;
-      margin-bottom: 12px;
-
-      .ant-typography {
-        margin: 0;
-      }
-
-      .ant-typography-strong {
-        color: $primary-color;
-      }
-
-      .ant-tag {
-        background: $primary-color;
-        border-color: $primary-color;
-        color: $white-color;
-      }
-    }
-  }
-
-  .medicines-list,
-  .attachments-list {
-    display: flex;
+@media screen and (max-width: 992px) {
+  .history-header {
     flex-direction: column;
-    gap: 16px;
-
-    .medicine-card,
-    .attachment-card {
-      border-radius: 12px;
-      border: 1px solid $border-color;
-      @include transition-all;
-
-      &:hover {
-        @include card-shadow;
-      }
-
-      .medicine-name {
-        color: $primary-color;
-        font-size: 15px;
-      }
-
-      .medicine-detail {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-
-        .ant-typography {
-          margin: 0;
-        }
-
-        .ant-typography-secondary {
-          font-size: 12px;
-        }
-      }
-    }
-  }
-}
-
-// Primary Button Style
-.primary-button {
-  background: $primary-color;
-  border-color: $primary-color;
-  color: $white-color;
-  font-weight: 500;
-  @include transition-all;
-
-  &:hover,
-  &:focus {
-    background: #083b66;
-    border-color: #083b66;
-    color: $white-color;
+    align-items: flex-start;
   }
 
-  &:active {
-    background: #062f52;
-    border-color: #062f52;
-  }
-}
-
-// Search Input
-.search-input {
-  .ant-input {
-    border-radius: 12px;
-  }
-}
-
-// Responsive Design
-@media screen and (max-width: 1200px) {
-  .history-view-page {
-    padding: 24px 20px;
+  .stat-group {
+    width: 100%;
+    flex-wrap: wrap;
   }
 
-  .page-header {
-    padding: 20px 24px;
-
-    .header-title .title {
-      font-size: 24px;
-    }
+  .stat-card {
+    flex: 1;
   }
 }
 
 @media screen and (max-width: 768px) {
   .history-view-page {
-    padding: 16px 12px;
+    padding: 12px;
   }
 
-  .page-header {
-    padding: 16px 16px;
-    margin-bottom: 24px;
+  .history-header {
+    padding: 18px;
+  }
 
-    .header-title {
-      .title {
-        font-size: 20px;
-        gap: 8px;
-
-        svg {
-          font-size: 24px;
-        }
-      }
-
-      .subtitle {
-        font-size: 12px;
-      }
+  .history-header-content {
+    h2 {
+      font-size: 22px;
     }
   }
 
-  .patient-info-card {
-    .patient-header {
-      .patient-avatar {
-        width: 64px;
-        height: 64px;
-        font-size: 32px;
-      }
-    }
+  .stat-group {
+    flex-direction: column;
+    width: 100%;
   }
 
-  .records-table {
-    .ant-table-cell {
-      padding: 12px 8px;
-      font-size: 13px;
-    }
-  }
-
-  .detail-modal {
-    .ant-modal {
-      width: 95% !important;
-    }
+  .stat-card {
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 576px) {
   .history-view-page {
-    padding: 12px 8px;
+    padding: 8px;
   }
 
-  .page-header {
-    padding: 16px;
-
-    .header-title .title {
-      font-size: 18px;
-    }
-  }
-
-  .filters-section {
-    .ant-row {
-      gap: 12px !important;
-    }
-  }
-
-  .patient-info-card {
-    .patient-header {
-      flex-direction: column;
-      text-align: center;
-
-      .patient-avatar {
-        margin: 0 auto;
-      }
-
-      .patient-basic {
-        .patient-name {
-          font-size: 16px;
-        }
-      }
-    }
-
-    .patient-details {
-      .detail-row {
-        flex-direction: column;
-        gap: 4px;
-
-        .detail-label {
-          min-width: auto;
-        }
-      }
-    }
-  }
-
-  .records-table {
-    .ant-table-wrapper {
-      font-size: 12px;
-    }
-
-    .ant-table-cell {
-      padding: 8px 4px;
-    }
-
-    .view-detail-btn {
-      display: block;
-      padding: 4px !important;
-      margin: 4px 0;
-    }
-  }
-
-  .detail-modal {
-    .ant-modal {
-      width: 100% !important;
-      margin: 0 !important;
-    }
-
-    .ant-modal-header {
-      padding: 16px;
-    }
-
-    .ant-modal-body {
-      padding: 16px;
-    }
-
-    .tab-content {
-      .info-block {
-        padding: 12px;
-        margin-bottom: 8px;
-      }
-    }
-  }
-}
-
-// Print Styles
-@media print {
-  .history-view-page {
-    background: $white-color;
-    padding: 0;
-  }
-
-  .page-header,
-  .filters-section,
-  .ant-modal-footer {
-    display: none;
-  }
-
-  .patient-info-card,
   .records-card {
-    page-break-inside: avoid;
-    box-shadow: none;
-  }
-}
-
-// Utilities
-.history-view-page .ant-empty {
-  padding: 40px 0;
-  color: $text-secondary;
-}
-
-.history-view-page .ant-divider {
-  border-color: $border-color;
-}
-
-.history-view-page .ant-pagination {
-  .ant-pagination-item-active {
-    border-color: $primary-color;
-
-    a {
-      color: $primary-color;
-    }
-  }
-
-  .ant-pagination-item:hover {
-    border-color: $primary-color;
-
-    a {
-      color: $primary-color;
-    }
+    border-radius: 12px;
   }
 }
