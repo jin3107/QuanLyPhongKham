@@ -52,46 +52,32 @@ export default function Revenue() {
     message.success("Thống kê thành công!");
   };
 
-  const columns = [
-    {
-      title: "NGÀY THANH TOÁN",
-      dataIndex: "NgayThanhToan",
-      width: 160,
-      render: (v) => v.split("-").reverse().join("/"),
-    },
-    {
-      title: "BỆNH NHÂN",
-      dataIndex: "MaBN",
-    },
-    {
-      title: "TIỀN KHÁM",
-      dataIndex: "kham",
-      render: (v) => <span className="amt">{fmt(v)}</span>,
-      align: "right",
-    },
-    {
-      title: "TIỀN THUỐC",
-      dataIndex: "thuoc",
-      render: (v) => <span className="amt">{fmt(v)}</span>,
-      align: "right",
-    },
-    {
-      title: "DỊCH VỤ",
-      dataIndex: "dichvu",
-      render: (v) => <span className="amt">{fmt(v)}</span>,
-      align: "right",
-    },
-    {
-      title: "TỔNG TIỀN",
-      render: (_, r) => <span className="amt total-cell">{fmt(r.kham + r.thuoc + r.dichvu)}</span>,
-      align: "right",
-    },
-  ];
+const columns = [
+  {
+    title: "NGÀY THANH TOÁN",
+    dataIndex: "NgayThanhToan",
+    width: "25%", // Cột ngày chiếm 25%
+    render: (v) => v.split("-").reverse().join("/"),
+  },
+  {
+    title: "BỆNH NHÂN",
+    dataIndex: "MaBN",
+    width: "45%", // Cột tên chiếm rộng nhất
+  },
+  {
+    title: "TỔNG TIỀN",
+    align: "right",
+    width: "30%", // Cột tiền chiếm 30%
+    render: (_, r) => (
+      <span className="amt total-cell">
+        {fmt(r.kham + r.thuoc + r.dichvu)}
+      </span>
+    ),
+  },
+];
 
   return (
-    <div className="revenue">
-      <div className="rv-body">
-
+    <div className="revenue-page">
         {/* ── FILTER ── */}
         <Card className="filter-card" variant="borderless">
           <div className="section-label"><SearchOutlined /> Thống kê doanh thu HoaDon theo NgayThanhToan</div>
@@ -127,31 +113,32 @@ export default function Revenue() {
                 {/* Detail table — no card title bar */}
                 <Card className="table-card"variant="borderless">
                   <div className="table-title"><DollarOutlined /> Chi tiết HoaDon đã thanh toán</div>
-                  <Table
-                    columns={columns}
-                    dataSource={result.rows}
-                    rowKey="MaHD"
-                    size="middle"
-                    pagination={{ pageSize: 7, showSizeChanger: false }}
-                    className="clean-table"
-                    summary={() => (
-                      <Table.Summary.Row className="summary-row">
-                        <Table.Summary.Cell index={0} colSpan={2}>
-                          <b>Tổng ({result.rows.length} HoaDon)</b>
-                        </Table.Summary.Cell>
-                        <Table.Summary.Cell index={2} align="right"><b className="amt">{fmt(result.kham)}</b></Table.Summary.Cell>
-                        <Table.Summary.Cell index={3} align="right"><b className="amt">{fmt(result.thuoc)}</b></Table.Summary.Cell>
-                        <Table.Summary.Cell index={4} align="right"><b className="amt">{fmt(result.dichvu)}</b></Table.Summary.Cell>
-                        <Table.Summary.Cell index={5} align="right"><b className="amt total-cell">{fmt(result.total)}</b></Table.Summary.Cell>
-                      </Table.Summary.Row>
-                    )}
-                  />
+<Table
+  columns={columns}
+  dataSource={result.rows}
+  rowKey="MaHD"
+  size="middle"
+  pagination={{ pageSize: 7, showSizeChanger: false }}
+  className="clean-table"
+  summary={() => (
+    <Table.Summary.Row className="summary-row">
+      <Table.Summary.Cell index={0} colSpan={2}>
+        <b>Tổng cộng ({result.rows.length} Hóa đơn)</b>
+      </Table.Summary.Cell>
+      <Table.Summary.Cell index={1} align="right">
+        <b className="amt total-cell" style={{ fontSize: "16px" }}>
+          {fmt(result.total)}
+        </b>
+      </Table.Summary.Cell>
+    </Table.Summary.Row>
+  )}
+/>
                 </Card>
               </>
             )}
           </>
         )}
-      </div>
+
     </div>
   );
 }
