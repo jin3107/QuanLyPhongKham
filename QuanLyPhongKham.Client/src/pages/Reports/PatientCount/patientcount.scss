@@ -1,164 +1,109 @@
+$primary-color: #0b4f84;
+$bg-color: #f0f4f9;
+$card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+$border-radius: 12px;
+
 .patientCountPage {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
   min-height: 100vh;
-  padding: 30px 24px;
-  background: #f5f7fa;
-  color: #1f2d3d;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
 
-  // .pageHeader {
-  //   display: flex;
-  //   justify-content: space-between;
-  //   align-items: center;
-  //   flex-wrap: wrap;
-  //   gap: 16px;
-  //   padding: 24px 28px;
-  //   border-radius: 20px;
-  //   background: #ffffff;
-  //   box-shadow: 0 10px 24px rgba(11, 79, 132, 0.08);
-  //   margin-bottom: 24px;
-
-  //   .pageTitle {
-  //     display: flex;
-  //     align-items: center;
-  //     gap: 16px;
-  //   }
-
-  //   .pageIcon {
-  //     font-size: 36px;
-  //     color: #0b4f84;
-  //     background: rgba(11, 79, 132, 0.1);
-  //     border-radius: 50%;
-  //     padding: 14px;
-  //   }
-
-  //   h2 {
-  //     margin: 0 0 8px;
-  //     color: #0b4f84;
-  //     font-size: 28px;
-  //     font-weight: 700;
-  //   }
-
-  //   p {
-  //     margin: 0;
-  //     color: #5e6c7f;
-  //     font-size: 14px;
-  //   }
-  // }
-.summaryCard {
-  width: 300px;
-  height: 100px;
-
-  .ant-card-body {
-    padding: 12px;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .ant-statistic {
-    margin-bottom: 4px;
-  }
-
-  .ant-statistic-content {
-    font-size: 20px;
-  }
-
-  .summaryNote {
-    font-size: 12px;
-    text-align: center;
-  }
-}
-
+  // Row chứa 4 card nhỏ
   .summaryRow {
     margin-bottom: 24px;
 
     .summaryCard {
-      // border-radius: 18px;
-      // background: #ffffff;
-      // border: 1px solid rgba(11, 79, 132, 0.12);
-      // min-height: 140px;
-      // padding: 24px;
+      border-radius: $border-radius;
+      box-shadow: $card-shadow;
+      transition: transform 0.3s ease;
+      text-align: center; // Căn giữa nội dung
 
-      // .ant-statistic-content {
-      //   margin-bottom: 12px;
-      // }
+      &:hover {
+        transform: translateY(-5px);
+      }
 
-      .summaryNote {
-        color: #7a8a9f;
-        font-size: 13px;
+      .ant-statistic-title {
+        font-size: 14px;
+        color: #64748b;
+        margin-bottom: 8px;
+      }
+
+      .ant-statistic-content {
+        // Số liệu in đậm to, màu xanh dương
+        font-weight: 700;
+        font-size: 28px !important;
+        color: $primary-color !important;
       }
     }
   }
 
-  // .filterCard {
-  //   padding: 22px 24px;
-  //   border-radius: 20px;
-  //   background: #ffffff;
-  //   box-shadow: 0 8px 20px rgba(11, 79, 132, 0.08);
-  //   margin-bottom: 24px;
-
-  //   .filterLabel {
-  //     display: block;
-  //     color: #5e6c7f;
-  //     font-size: 13px;
-  //     margin-bottom: 8px;
-  //     font-weight: 600;
-  //   }
-
-  //   .ant-input,
-  //   .ant-picker,
-  //   .ant-select-selector {
-  //     border-radius: 12px;
-  //   }
-  // }
-
+  // Card chứa Table
   .tableCard {
-    border-radius: 20px;
-    background: #ffffff;
-    box-shadow: 0 10px 28px rgba(11, 79, 132, 0.06);
-    padding: 24px;
+    border-radius: $border-radius;
+    box-shadow: $card-shadow;
+    background: #fff;
 
     .tableHeader {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
       margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #f1f5f9;
 
       h3 {
         margin: 0;
-        font-size: 22px;
-        color: #0b4f84;
+        font-size: 18px;
+        color: #1e293b;
+        font-weight: 600;
       }
 
-      p {
-        margin: 4px 0 0;
-        color: #6f7d8c;
+      .ant-btn {
+        border-radius: 8px;
+        background-color: $primary-color;
       }
     }
+  }
 
-    .ant-table {
-      background: transparent;
-    }
+  // Tùy chỉnh Table
+  .ant-table {
+    background: transparent;
 
     .ant-table-thead > tr > th {
-      background: #f0f4f8;
-      color: #0b4f84;
-      font-weight: 700;
-      border-bottom: 2px solid rgba(11, 79, 132, 0.12);
+      background: #f8fafc;
+      color: #64748b;
+      font-weight: 500;
+      border-bottom: 1px solid #edf2f7;
+      text-transform: uppercase;
+      font-size: 12px;
     }
 
     .ant-table-tbody > tr > td {
-      border-bottom: 1px solid #edf1f7;
-      vertical-align: middle;
+      border-bottom: 1px solid #f1f5f9;
+      padding: 16px;
+      color: #334155;
     }
 
-    .tableRow:hover {
-      background: rgba(11, 79, 132, 0.04);
+    .tableRow {
+      &:hover {
+        td {
+          background-color: #f8fafc !important;
+        }
+      }
     }
+  }
 
-    .ant-btn {
-      border-radius: 10px;
-    }
+}
+
+
+// Responsive
+@media (max-width: 768px) {
+  .patientCountPage {
+    padding: 12px;
   }
 }
