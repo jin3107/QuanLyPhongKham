@@ -8,3 +8,4 @@ export * from "./DonThuocAPI";
 export * from "./DanhMucThuocAPI";
 export * from "./DanhMucDichVuAPI";
 export * from "./LichLamViecAPI";
+export * from "./HoaDonAPI";

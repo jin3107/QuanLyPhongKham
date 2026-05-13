@@ -1,5 +1,4 @@
 import "./patientcount.scss";
-
 import { useEffect, useMemo, useState } from "react";
 import {
   Row,
@@ -10,9 +9,10 @@ import {
   Statistic,
   Button,
   message,
-  Tag,
+  Tag, // Đã import thêm Tag từ Ant Design
 } from "antd";
 
+// Đã import thêm các Icon cần thiết
 import {
   ReloadOutlined,
   CheckCircleOutlined,
@@ -21,25 +21,20 @@ import {
 } from "@ant-design/icons";
 
 import dayjs from "dayjs";
-
-// Bổ sung import API LichHen
 import { searchBenhNhan } from "../../../apis/BenhNhanAPI";
 import { searchPhieuKham } from "../../../apis/PhieuKhamAPI";
 import { searchBacSi } from "../../../apis/BacSiAPI";
-import { searchLichHen } from "../../../apis/LichHenAPI";
 
 const { RangePicker } = DatePicker;
 
-// Hàm hỗ trợ lấy mảng dữ liệu từ API
 const getSearchRows = (response) => {
   const payload = response?.data ?? {};
   const searchData = payload?.data ?? payload?.Data ?? {};
   return searchData?.data ?? searchData?.Data ?? [];
 };
 
-// Chuẩn hóa dữ liệu để dễ dàng sử dụng
 const normalizeBenhNhan = (item) => ({
-  maBN: item?.maBN ?? item?.MaBN ?? item?.id ?? "",
+  maBN: item?.maBN ?? item?.MaBN ?? item?.id ?? "", // Thêm item?.id phòng hờ API trả về id
   hoTen: item?.hoTen ?? item?.HoTen ?? "",
   soBHYT: item?.soBHYT ?? item?.SoBHYT ?? "",
 });
@@ -47,67 +42,52 @@ const normalizeBenhNhan = (item) => ({
 const normalizePhieuKham = (item) => ({
   maPK: item?.maPK ?? item?.MaPK ?? "",
   maBS: item?.maBS ?? item?.MaBS ?? "",
-  maLH: item?.maLH ?? item?.MaLH ?? "", // Thêm maLH để liên kết với Lịch hẹn
+  maBN: item?.maBN ?? item?.MaBN ?? "",
   ngayKham: item?.ngayKham ?? item?.NgayKham ?? null,
   trangThaiTiepNhan: item?.trangThaiTiepNhan ?? item?.TrangThaiTiepNhan ?? "",
 });
 
 const normalizeBacSi = (item) => ({
-  maBS: item?.maBS ?? item?.MaBS ?? item?.id ?? "",
+  maBS: item?.maBS ?? item?.MaBS ?? item?.id ?? "", // Thêm item?.id phòng hờ API trả về id
   hoTen: item?.hoTen ?? item?.HoTen ?? "",
-});
-
-const normalizeLichHen = (item) => ({
-  maLH: item?.maLH ?? item?.MaLH ?? item?.id ?? "",
-  maBN: item?.maBN ?? item?.MaBN ?? "", // Lịch hẹn sẽ chứa mã Bệnh nhân
 });
 
 export default function PatientCount() {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const [range, setRange] = useState(null);
-
-  // Khai báo các biến lưu trữ dữ liệu (State)
   const [benhNhans, setBenhNhans] = useState([]);
   const [phieuKhams, setPhieuKhams] = useState([]);
   const [bacSis, setBacSis] = useState([]);
-  const [lichHens, setLichHens] = useState([]); // Bổ sung State cho Lịch hẹn
 
   useEffect(() => {
     loadData();
   }, []);
 
-  // Hàm tải toàn bộ dữ liệu
   const loadData = async () => {
     setLoading(true);
     try {
-      // Gọi cả 4 API cùng lúc để tăng tốc độ
-      const [benhNhanRes, phieuKhamRes, bacSiRes, lichHenRes] =
-        await Promise.all([
-          searchBenhNhan(null, 1, 1000),
-          searchPhieuKham(null, 1, 1000),
-          searchBacSi(null, 1, 500),
-          searchLichHen(null, 1, 1000), // Gọi API Lịch hẹn
-        ]);
+      const [benhNhanRes, phieuKhamRes, bacSiRes] = await Promise.all([
+        searchBenhNhan(null, 1, 1000),
+        searchPhieuKham(null, 1, 1000),
+        searchBacSi(null, 1, 500),
+      ]);
 
       const benhNhanRows = getSearchRows(benhNhanRes);
       const phieuKhamRows = getSearchRows(phieuKhamRes);
       const bacSiRows = getSearchRows(bacSiRes);
-      const lichHenRows = getSearchRows(lichHenRes);
 
-      // Lưu dữ liệu đã được chuẩn hóa vào State
       setBenhNhans(
         Array.isArray(benhNhanRows) ? benhNhanRows.map(normalizeBenhNhan) : [],
       );
+
       setPhieuKhams(
         Array.isArray(phieuKhamRows)
           ? phieuKhamRows.map(normalizePhieuKham)
           : [],
       );
+
       setBacSis(Array.isArray(bacSiRows) ? bacSiRows.map(normalizeBacSi) : []);
-      setLichHens(
-        Array.isArray(lichHenRows) ? lichHenRows.map(normalizeLichHen) : [],
-      );
     } catch (error) {
       console.error(error);
       messageApi.error("Không tải được dữ liệu");
@@ -116,23 +96,13 @@ export default function PatientCount() {
     }
   };
 
-  // Logic ghép nối dữ liệu chính
   const patientRecords = useMemo(() => {
     return phieuKhams.map((item, index) => {
-      // 1. Tìm Lịch Hẹn từ Phiếu Khám (dựa vào maLH)
-      const lichHen = lichHens.find(
-        (l) => String(l.maLH) === String(item.maLH),
-      );
-
-      // 2. Lấy mã bệnh nhân từ Lịch Hẹn (nếu có)
-      const currentMaBN = lichHen?.maBN || "";
-
-      // 3. Tìm Bệnh Nhân dựa vào currentMaBN
+      // SỬA LỖI TẠI ĐÂY: Dùng String() để đảm bảo kiểu chuỗi khi so sánh
       const benhNhan = benhNhans.find(
-        (x) => String(x.maBN) === String(currentMaBN),
+        (x) => String(x.maBN) === String(item.maBN),
       );
 
-      // 4. Tìm Bác Sĩ
       const bacSi = bacSis.find((x) => String(x.maBS) === String(item.maBS));
 
       return {
@@ -146,9 +116,8 @@ export default function PatientCount() {
         status: item.trangThaiTiepNhan || "Chưa khám",
       };
     });
-  }, [phieuKhams, benhNhans, bacSis, lichHens]); // Đừng quên thêm lichHens vào dependencies
+  }, [phieuKhams, benhNhans, bacSis]);
 
-  // Logic lọc dữ liệu theo ngày
   const filteredRecords = useMemo(() => {
     let records = [...patientRecords];
 
@@ -167,7 +136,6 @@ export default function PatientCount() {
     return records;
   }, [patientRecords, range]);
 
-  // Logic thống kê số lượng hiển thị trên thẻ (Card)
   const patientSummary = useMemo(() => {
     const total = patientRecords.length;
     const done = patientRecords.filter((item) =>
@@ -182,30 +150,50 @@ export default function PatientCount() {
     ];
   }, [patientRecords]);
 
-  // Cấu hình các cột của bảng
   const columns = [
-    { title: "Ngày", dataIndex: "date", key: "date" },
-    { title: "Bệnh nhân", dataIndex: "name", key: "name" },
-    { title: "BHYT", dataIndex: "bhyt", key: "bhyt", align: "center" },
-    { title: "Bác sĩ", dataIndex: "doctor", key: "doctor" },
     {
-      title: "Trạng thái",
+      title: "Ngày",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Bệnh nhân",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "BHYT",
+      dataIndex: "bhyt",
+      key: "bhyt",
+      align: "center",
+    },
+    {
+      title: "Bác sĩ",
+      dataIndex: "doctor",
+      key: "doctor",
+    },
+    {
+      title: "Trạng thái", // Đổi tiêu đề hoặc giữ nguyên, đây là cột chứa thông tin thanh toán/khám
       dataIndex: "status",
       key: "status",
       render: (status) => {
-        let color = "processing";
+        // Tùy chỉnh màu sắc và icon dựa vào nội dung chữ
+        let color = "default";
         let icon = <MinusCircleOutlined />;
+
         const textLower = status.toLowerCase();
 
         if (
           textLower.includes("đã thanh toán") ||
           textLower.includes("đã khám")
         ) {
-          color = "success";
+          color = "success"; // Màu xanh lá
           icon = <CheckCircleOutlined />;
         } else if (textLower.includes("chưa")) {
-          color = "warning";
-          icon = <SyncOutlined spin />;
+          color = "warning"; // Màu cam
+          icon = <SyncOutlined spin />; // Icon xoay biểu thị đang chờ
+        } else {
+          color = "processing"; // Màu xanh dương cho các trạng thái khác
         }
 
         return (

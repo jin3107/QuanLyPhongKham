@@ -1,18 +1,18 @@
-$navy:      #0b4f84;
+$navy: #0b4f84;
 $navy-dark: #083b66;
-$navy-mid:  #1565a8;
-$blue-lt:   #e8f2ff;
-$blue-mid:  #c5dcf8;
-$accent:    #00a884;
-$warn:      #f0a500;
-$border:    #dce6f0;
-$bg:        #f0f4f9;
-$white:     #ffffff;
-$gray-50:   #f7f9fc;
+$navy-mid: #1565a8;
+$blue-lt: #e8f2ff;
+$blue-mid: #c5dcf8;
+$accent: #00a884;
+$warn: #f0a500;
+$border: #dce6f0;
+$bg: #f0f4f9;
+$white: #ffffff;
+$gray-50: #f7f9fc;
 $gray-text: #6b7d96;
 
-$shadow-sm: 0 2px 8px rgba(11,79,132,.07);
-$radius:    14px;
+$shadow-sm: 0 2px 8px rgba(11, 79, 132, 0.07);
+$radius: 14px;
 $radius-sm: 9px;
 
 .workingschedule-page {
@@ -22,10 +22,9 @@ $radius-sm: 9px;
   padding: 16px;
   min-height: 100vh;
   background: url("../../../assets/image/background3.jpg") no-repeat center;
-  background-size: cover, cover;
+  background-size: cover;
   background-attachment: fixed;
 
-  // Section label
   .section-label {
     font-size: 13px;
     font-weight: 700;
@@ -36,15 +35,15 @@ $radius-sm: 9px;
     margin-bottom: 14px;
   }
 
-  // ── Cards
   .ant-card {
     border-radius: $radius !important;
     border: 1px solid $border !important;
     box-shadow: $shadow-sm !important;
-    .ant-card-body { padding: 18px 20px !important; }
+    .ant-card-body {
+      padding: 18px 20px !important;
+    }
   }
 
-  // ── Assign form
   .assign-form {
     display: grid;
     grid-template-columns: 160px 1fr 130px 130px 190px;
@@ -62,7 +61,7 @@ $radius-sm: 9px;
       font-weight: 700;
       color: $gray-text;
       text-transform: uppercase;
-      letter-spacing: .06em;
+      letter-spacing: 0.06em;
     }
 
     .ant-picker,
@@ -70,7 +69,12 @@ $radius-sm: 9px;
       border-radius: $radius-sm !important;
       border-color: $border !important;
       background: $gray-50 !important;
-      &:hover { border-color: $navy !important; }
+      height: 38px !important;
+      display: flex;
+      align-items: center;
+      &:hover {
+        border-color: $navy !important;
+      }
     }
   }
 
@@ -81,46 +85,9 @@ $radius-sm: 9px;
     height: 38px !important;
     font-weight: 700 !important;
     font-size: 13px !important;
-    &:hover { background: $navy-dark !important; }
-  }
-
-  .doctor-option {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-  }
-
-  .doctor-option-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .opt-name {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #1e293b;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .opt-spec {
-    display: block;
-    font-size: 11px;
-    color: $gray-text;
-  }
-
-  // ── Leave alert
-  .leave-alert {
-    border-radius: $radius !important;
-    border-color: #ffe08a !important;
-    li { margin-bottom: 3px; font-size: 12.5px; line-height: 1.6; }
+    &:hover {
+      background: $navy-dark !important;
+    }
   }
 
   .table-title {
@@ -134,140 +101,37 @@ $radius-sm: 9px;
     border-bottom: 1px solid $border;
   }
 
-  // // ── Clean table (style theo ảnh lịch khám)
-  // .clean-table {
-  //   .ant-table {
-  //     border-radius: 0 !important;
-  //   }
-
-  //   // Header: nền trắng, chữ navy đậm, uppercase
-  //   .ant-table-thead > tr > th {
-  //     background: $white !important;
-  //     color: $navy !important;
-  //     font-weight: 700 !important;
-  //     font-size: 11.5px !important;
-  //     letter-spacing: .06em;
-  //     text-transform: uppercase;
-  //     border-bottom: 2px solid $blue-mid !important;
-  //     padding: 11px 16px !important;
-  //     white-space: nowrap;
-
-  //     &::before { display: none !important; }
-  //   }
-
-  //   // Body rows
-  //   .ant-table-tbody > tr > td {
-  //     border-bottom: 1px solid $border !important;
-  //     padding: 11px 16px !important;
-  //     vertical-align: middle;
-  //     font-size: 13.5px;
-  //     color: #1e293b;
-  //     background: $white !important;
-  //   }
-
-  //   // Hover
-  //   .ant-table-tbody > tr:hover > td {
-  //     background: $blue-lt !important;
-  //   }
-
-  //   // Filter icon
-  //   .ant-table-filter-trigger {
-  //     color: $navy-mid !important;
-  //     &.active { color: $accent !important; }
-  //   }
-  // }
-
-  // // Time cells
-  // .time-cell {
-  //   display: flex;
-  //   align-items: center;
-  //   gap: 5px;
-  //   font-size: 13.5px;
-  //   font-family: "JetBrains Mono", monospace;
-  // }
-  // .time-icon {
-  //   font-size: 12px;
-  //   &.start { color: $accent; }
-  //   &.end   { color: $warn;   }
-  // }
-
-  // .del-btn.ant-btn {
-  //   border-radius: 6px !important;
-  //   font-size: 12px !important;
-  //   font-weight: 600 !important;
-  // }
-
-  // // Pagination
-  // .ant-pagination { padding: 10px 20px !important; }
-  // .ant-pagination .ant-pagination-item-active {
-  //   background: $navy !important;
-  //   border-color: $navy !important;
-  //   a { color: $white !important; }
-  // }
-
-  // // Modal
-  // .leave-modal-body {
-  //   padding: 8px 0;
-  //   line-height: 1.9;
-  //   color: #374151;
-  //   p { margin-bottom: 6px; }
-  // }
-
-
-
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-
-  .edit-btn,
-  .delete-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
+  .action-buttons {
     display: flex;
-    align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-    font-size: 16px;
-  }
+    gap: 8px;
 
-  .edit-btn {
-    color: #2563eb;
+    .edit-btn,
+    .delete-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 16px;
+    }
 
-    &:hover {
-      background: #dbeafe !important;
-      color: #1d4ed8 !important;
+    .edit-btn {
+      color: #2563eb;
+      &:hover {
+        background: #dbeafe !important;
+        color: #1d4ed8 !important;
+      }
+    }
+
+    .delete-btn {
+      color: #dc2626;
+      &:hover {
+        background: #fee2e2 !important;
+        color: #b91c1c !important;
+      }
     }
   }
-
-  .delete-btn {
-    color: #dc2626;
-
-    &:hover {
-      background: #fee2e2 !important;
-      color: #b91c1c !important;
-    }
-  }
 }
-
-
-.note-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  // margin-bottom: 10px;
-}
-
-.note-group textarea {
-  resize: none !important;
-  overflow-y: hidden !important;
-  // margin-bottom: 12px;
-}
-
-
-
-
-
-}
-

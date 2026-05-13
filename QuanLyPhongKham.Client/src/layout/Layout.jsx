@@ -97,7 +97,6 @@ export default function AppLayout() {
     const storedName =
       sessionStorage.getItem("userName") || sessionStorage.getItem("UserName");
 
-    // có session rồi thì skip
     if (storedRole && storedName) return;
 
     const token =
@@ -164,7 +163,6 @@ export default function AppLayout() {
         label: "Trang chủ",
       },
       { path: "/scheduleview", icon: <CalendarOutlined />, label: "Xem lịch" },
-      // Đường dẫn cũ: "/". Theo tài liệu, đặt lịch là một màn hình chức năng riêng.
       { path: "/booking", icon: <ScheduleOutlined />, label: "Đặt lịch" },
       { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
       { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" }
@@ -274,7 +272,6 @@ const adminMenu = [
   const activeItem =
     menuItems.find((item) => isActive(item.path)) || menuItems[0];
 
-  // lấy chữ cái đầu tiên của tên user
   const getInitial = (name) => {
     return name?.trim().split(" ").pop().charAt(0).toUpperCase();
   };

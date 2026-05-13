@@ -1,5 +1,6 @@
 import "../admin.scss";
 import "./dashboard.scss";
+import { useEffect, useState, useMemo } from "react";
 import {
   Button,
   Card,
@@ -10,74 +11,151 @@ import {
   Table,
   Tag,
   Typography,
+  message,
+  Spin,
 } from "antd";
+import dayjs from "dayjs";
 
-const { Title, Text } = Typography;
+import { searchBacSi } from "../../../apis";
+import { searchLichLamViec } from "../../../apis";
+import { searchPhieuKham } from "../../../apis";
+import { searchHoaDon } from "../../../apis/";
+import { searchLichHen } from "../../../apis";
 
-const metricCards = [
-  {
-    title: "Lịch hẹn hôm nay",
-    value: 45,
-  },
-  {
-    title: "Bệnh nhân chờ khám",
-    value: 18,
-  },
-  {
-    title: "Tổng doanh thu",
-    value: "86.500.000đ",
-  },
-];
+const { Text } = Typography;
 
-const schedules = [
-  {
-    title: "Phòng Nội tổng quát",
-    description: ["Phạm Thu Hà", "Nguyễn Văn An"],
-    status: "Đang trực",
-    color: "success",
-  },
-  {
-    title: "Phòng Tim mạch",
-    description: ["Trần Minh Châu", "Nguyễn Hoàng Vy"],
-    status: "Đang trực",
-    color: "success",
-  },
-  {
-    title: "Phòng Nhi",
-    description: ["Nguyễn Tuấn Anh", "Lê Thảo Vy"],
-    status: "Đang trực",
-    color: "success",
-  },
-];
+const getSearchRows = (response) => {
+  const payload = response?.data ?? {};
+  const searchData = payload?.data ?? payload?.Data ?? {};
+  return searchData?.data ?? searchData?.Data ?? [];
+};
 
 const doctorColumns = [
   { title: "Bác sĩ", dataIndex: "doctor", key: "doctor" },
   { title: "Chuyên khoa", dataIndex: "department", key: "department" },
-  { title: "Lượt khám", dataIndex: "visits", key: "visits" },
-];
-
-const topDoctors = [
-  {
-    key: "BS001",
-    doctor: "Nguyễn Huy Hoàng",
-    department: "Nội tổng quát",
-    visits: 18,
-  },
-  {
-    key: "BS005",
-    doctor: "Lê Thảo Vy",
-    department: "Nhi",
-    visits: 15,
-  },
-  {
-    key: "BS011",
-    doctor: "Trần Quốc Bảo",
-    department: "Tim mạch",
-    visits: 12,
-  },
+  { title: "Lượt khám", dataIndex: "visits", key: "visits", align: "center" },
 ];
 
 export default function Dashboard() {
+  const [loading, setLoading] = useState(true);
+
+  const [bacSis, setBacSis] = useState([]);
+  const [lichHens, setLichHens] = useState([]);
+  const [phieuKhams, setPhieuKhams] = useState([]);
+  const [hoaDons, setHoaDons] = useState([]);
+  const [lichLamViecs, setLichLamViecs] = useState([]);
+
+  useEffect(() => {
+    loadDashboardData();
+  }, []);
+
+  const loadDashboardData = async () => {
+    setLoading(true);
+    try {
+      const [bacSiRes, lichHenRes, phieuKhamRes, hoaDonRes, lichLamViecRes] =
+        await Promise.all([
+          searchBacSi(null, 1, 500),
+          searchLichHen(null, 1, 1000),
+          searchPhieuKham(null, 1, 1000),
+          searchHoaDon(null, 1, 1000),
+          searchLichLamViec(null, 1, 500),
+        ]);
+
+      setBacSis(getSearchRows(bacSiRes));
+      setLichHens(getSearchRows(lichHenRes));
+      setPhieuKhams(getSearchRows(phieuKhamRes));
+      setHoaDons(getSearchRows(hoaDonRes));
+      setLichLamViecs(getSearchRows(lichLamViecRes));
+    } catch (error) {
+      console.error("Lỗi khi tải dữ liệu Dashboard:", error);
+      message.error("Không thể tải dữ liệu tổng quan.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const metricData = useMemo(() => {
+    const today = dayjs();
+
+    const todayAppointments = lichHens.filter((item) => {
+      return item.thoiGianKham && dayjs(item.thoiGianKham).isSame(today, "day");
+    }).length;
+
+    const pendingPatients = phieuKhams.filter((item) => {
+      const status = (item.trangThaiTiepNhan || "").toLowerCase();
+      return status.includes("chưa") || status.includes("chờ");
+    }).length;
+
+    const totalRevenue = hoaDons.reduce((sum, item) => {
+      return sum + (Number(item.tongTien) || 0);
+    }, 0);
+
+    return [
+      { title: "Lịch hẹn hôm nay", value: todayAppointments },
+      { title: "Bệnh nhân chờ khám", value: pendingPatients },
+      {
+        title: "Tổng doanh thu",
+        value: `${totalRevenue.toLocaleString("vi-VN")}đ`,
+      },
+    ];
+  }, [lichHens, phieuKhams, hoaDons]);
+
+  const schedulesData = useMemo(() => {
+    const today = dayjs();
+
+    const todaySchedules = lichLamViecs.filter((item) => {
+      return item.ngayLamViec && dayjs(item.ngayLamViec).isSame(today, "day");
+    });
+
+    const groupedSchedules = {};
+    todaySchedules.forEach((lich) => {
+      const bsInfo = bacSis.find((b) => String(b.maBS) === String(lich.maBS));
+      const khoa = bsInfo?.chuyenKhoa || "Khám chung";
+
+      const doctorName = lich.tenBacSi || bsInfo?.hoTen || "Bác sĩ ẩn danh";
+
+      if (!groupedSchedules[khoa]) {
+        groupedSchedules[khoa] = {
+          title: `Khoa ${khoa}`,
+          description: [],
+          status: "Đang trực",
+          color: "success",
+        };
+      }
+
+      if (!groupedSchedules[khoa].description.includes(doctorName)) {
+        groupedSchedules[khoa].description.push(doctorName);
+      }
+    });
+
+    return Object.values(groupedSchedules);
+  }, [lichLamViecs, bacSis]);
+
+  const topDoctors = useMemo(() => {
+    const doctorVisitCount = {};
+
+    phieuKhams.forEach((pk) => {
+      if (pk.maBS) {
+        doctorVisitCount[pk.maBS] = (doctorVisitCount[pk.maBS] || 0) + 1;
+      }
+    });
+
+    const sortedDoctors = Object.entries(doctorVisitCount)
+      .map(([maBS, visits]) => {
+        const bsInfo = bacSis.find((b) => String(b.maBS) === String(maBS));
+        return {
+          key: maBS,
+          doctor: bsInfo?.hoTen || "Bác sĩ ẩn danh",
+          department: bsInfo?.chuyenKhoa || "Đa khoa",
+          visits: visits,
+        };
+      })
+      .sort((a, b) => b.visits - a.visits)
+      .slice(0, 5); // Chỉ lấy 5 bác sĩ dẫn đầu
+
+    return sortedDoctors;
+  }, [phieuKhams, bacSis]);
+
   return (
     <div className="admin-page admin-dashboard-page">
       <header className="admin-header">
@@ -91,53 +169,67 @@ export default function Dashboard() {
         </Space>
       </header>
 
-<Row gutter={[10, 0]}>
-  {metricCards.map((item) => (
-    <Col key={item.title} xs={24} md={8}>
-      <Card className="metric-card">
-        <Statistic title={item.title} value={item.value} />
-      </Card>
-    </Col>
-  ))}
-</Row>
+      <Spin spinning={loading} tip="Đang tải dữ liệu tổng quan...">
+        {/* Thẻ thống kê */}
+        <Row gutter={[10, 0]}>
+          {metricData.map((item) => (
+            <Col key={item.title} xs={24} md={8}>
+              <Card className="metric-card">
+                <Statistic title={item.title} value={item.value} />
+              </Card>
+            </Col>
+          ))}
+        </Row>
 
-      <Row className="admin-section" gutter={[16, 16]}>
-        <Col xs={24} lg={11}>
-          <Card
-            title="Lịch làm việc gần đây"
-            extra={<Tag color="processing">Trong ngày</Tag>}
-          >
-            <div className="admin-list">
-              {schedules.map((item) => (
-                <div className="admin-list-item" key={item.title}>
-                  <div className="info">
-                    <h4>{item.title}</h4>
-
-                    <div className="doctor-list">
-                      {item.description.map((doctor) => (
-                        <p key={doctor}>{doctor}</p>
-                      ))}
+        <Row
+          className="admin-section"
+          gutter={[16, 16]}
+          style={{ marginTop: 16 }}
+        >
+          {/* Lịch làm việc */}
+          <Col xs={24} lg={11}>
+            <Card
+              title="Lịch làm việc hôm nay"
+              extra={<Tag color="processing">Trong ngày</Tag>}
+            >
+              <div className="admin-list">
+                {schedulesData.length > 0 ? (
+                  schedulesData.map((item) => (
+                    <div className="admin-list-item" key={item.title}>
+                      <div className="info">
+                        <h4>{item.title}</h4>
+                        <div className="doctor-list">
+                          {item.description.map((doctor) => (
+                            <p key={doctor}>{doctor}</p>
+                          ))}
+                        </div>
+                      </div>
+                      <Tag color={item.color}>{item.status}</Tag>
                     </div>
-                  </div>
+                  ))
+                ) : (
+                  <Text type="secondary">
+                    Không có lịch làm việc nào được xếp trong hôm nay.
+                  </Text>
+                )}
+              </div>
+            </Card>
+          </Col>
 
-                  <Tag color={item.color}>{item.status}</Tag>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </Col>
-
-        <Col xs={24} lg={13}>
-          <Card title="Top bác sĩ theo lượt khám">
-            <Table
-              columns={doctorColumns}
-              dataSource={topDoctors}
-              pagination={false}
-              size="small"
-            />
-          </Card>
-        </Col>
-      </Row>
+          {/* Top Bác sĩ */}
+          <Col xs={24} lg={13}>
+            <Card title="Top bác sĩ theo lượt khám (Toàn thời gian)">
+              <Table
+                columns={doctorColumns}
+                dataSource={topDoctors}
+                pagination={false}
+                size="small"
+                locale={{ emptyText: "Chưa có dữ liệu lượt khám." }}
+              />
+            </Card>
+          </Col>
+        </Row>
+      </Spin>
     </div>
   );
 }
