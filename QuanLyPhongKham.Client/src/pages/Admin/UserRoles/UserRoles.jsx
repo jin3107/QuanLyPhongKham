@@ -204,14 +204,10 @@ export default function UserRoles() {
   ];
 
   return (
-    <>
-      {contextHolder}
       <div className="admin-page user-roles-page">
+      {/* {contextHolder} */}
         <header className="admin-header">
           <div>
-            {/* <Title level={3} className="admin-title">
-              Quản lý phân quyền
-            </Title> */}
             <Text type="secondary" className="admin-subtitle">
               Phân quyền nhân viên theo tài khoản đăng nhập.
             </Text>
@@ -311,6 +307,5 @@ export default function UserRoles() {
           </Card>
         </div>
       </div>
-    </>
   );
 }

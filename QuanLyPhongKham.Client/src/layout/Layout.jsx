@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Layout, Button, Dropdown, Avatar } from "antd";
 import {
+  UserSwitchOutlined,
+  DollarCircleOutlined,
   FundOutlined,
   MenuOutlined,
   DashboardOutlined,
@@ -192,43 +194,43 @@ export default function AppLayout() {
       { path: "/payment", icon: <CreditCardOutlined />, label: "Thanh toán" },
     ];
 
-    const adminMenu = [
-      {
-        path: "/admin/dashboard",
-        icon: <DashboardOutlined />,
-        label: "Bảng điều khiển",
-      },
-      {
-        path: "/admin/user-roles",
-        icon: <TeamOutlined />,
-        label: "Quản lý Phân quyền",
-      },
-      {
-        path: "/admin/doctors",
-        icon: <UserOutlined />,
-        label: "Quản lý bác sĩ",
-      },
-      {
-        path: "/admin/working-schedule",
-        icon: <ScheduleOutlined />,
-        label: "Phân công lịch",
-      },
-      {
-        path: "/revenue",
-        icon: <DollarOutlined />,
-        label: "Thống kê doanh thu",
-      },
-      {
-  path: "/doctoractivity",
-  icon: <LineChartOutlined />,
-  label: "Hoạt động bác sĩ",
-      },
-      {
-        path: "/patientcount",
-        icon: <BarChartOutlined />,
-        label: "Số lượng bệnh nhân",
-      },
-    ];
+const adminMenu = [
+  {
+    path: "/admin/dashboard",
+    icon: <DashboardOutlined />,
+    label: "Tổng quan",
+  },
+  {
+    path: "/admin/user-roles",
+    icon: <UserSwitchOutlined />,
+    label: "Quản lý Phân quyền",
+  },
+  {
+    path: "/admin/doctors",
+    icon: <TeamOutlined />,
+    label: "Quản lý bác sĩ",
+  },
+  {
+    path: "/admin/working-schedule",
+    icon: <CalendarOutlined />,
+    label: "Phân công lịch",
+  },
+  {
+    path: "/revenue",
+    icon: <DollarCircleOutlined />,
+    label: "Thống kê doanh thu",
+  },
+  {
+    path: "/doctoractivity",
+    icon: <FundOutlined />,
+    label: "Hoạt động bác sĩ",
+  },
+  {
+    path: "/patientcount",
+    icon: <BarChartOutlined />,
+    label: "Số lượng bệnh nhân",
+  },
+];
 
     const doctorMenu = [
       {
