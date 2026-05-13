@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import "./historyview.scss";
 
 import { searchBenhNhan, searchLichHen, searchPhieuKham } from "../../../apis";
-import { searchHoaDon } from "../../../apis/HoaDonAPI";
+import { searchHoaDon } from "../../../apis";
 
 import {
   normalizeBenhNhan,

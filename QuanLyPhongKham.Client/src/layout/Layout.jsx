@@ -12,10 +12,8 @@ import {
   ScheduleOutlined,
   StopOutlined,
   SwapOutlined,
-  DollarOutlined,
   TeamOutlined,
-  UserOutlined,
-  LogoutOutlined,   
+  LogoutOutlined,
   FileAddOutlined,
   HistoryOutlined,
   FileSearchOutlined,
@@ -25,7 +23,7 @@ import {
   LineChartOutlined,
   UsergroupAddOutlined,
   CreditCardOutlined,
-  HomeOutlined
+  HomeOutlined,
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 import apiClient from "../config/axios";
@@ -165,7 +163,7 @@ export default function AppLayout() {
       { path: "/scheduleview", icon: <CalendarOutlined />, label: "Xem lịch" },
       { path: "/booking", icon: <ScheduleOutlined />, label: "Đặt lịch" },
       { path: "/cancellation", icon: <StopOutlined />, label: "Huỷ lịch" },
-      { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" }
+      { path: "/reschedule", icon: <SwapOutlined />, label: "Đổi lịch" },
     ];
 
     const receptionistMenu = [
@@ -192,43 +190,43 @@ export default function AppLayout() {
       { path: "/payment", icon: <CreditCardOutlined />, label: "Thanh toán" },
     ];
 
-const adminMenu = [
-  {
-    path: "/admin/dashboard",
-    icon: <DashboardOutlined />,
-    label: "Tổng quan",
-  },
-  {
-    path: "/admin/user-roles",
-    icon: <UserSwitchOutlined />,
-    label: "Quản lý Phân quyền",
-  },
-  {
-    path: "/admin/doctors",
-    icon: <TeamOutlined />,
-    label: "Quản lý bác sĩ",
-  },
-  {
-    path: "/admin/working-schedule",
-    icon: <CalendarOutlined />,
-    label: "Phân công lịch",
-  },
-  {
-    path: "/revenue",
-    icon: <DollarCircleOutlined />,
-    label: "Thống kê doanh thu",
-  },
+    const adminMenu = [
+      {
+        path: "/admin/dashboard",
+        icon: <DashboardOutlined />,
+        label: "Tổng quan",
+      },
+      {
+        path: "/admin/user-roles",
+        icon: <UserSwitchOutlined />,
+        label: "Quản lý Phân quyền",
+      },
+      {
+        path: "/admin/doctors",
+        icon: <TeamOutlined />,
+        label: "Quản lý bác sĩ",
+      },
+      {
+        path: "/admin/working-schedule",
+        icon: <CalendarOutlined />,
+        label: "Phân công lịch",
+      },
+      {
+        path: "/revenue",
+        icon: <DollarCircleOutlined />,
+        label: "Thống kê doanh thu",
+      },
       {
         path: "/admin/doctoractivity",
         icon: <LineChartOutlined />,
         label: "Hoạt động bác sĩ",
       },
-  {
-    path: "/patientcount",
-    icon: <BarChartOutlined />,
-    label: "Số lượng bệnh nhân",
-  },
-];
+      {
+        path: "/patientcount",
+        icon: <BarChartOutlined />,
+        label: "Số lượng bệnh nhân",
+      },
+    ];
 
     const doctorMenu = [
       {
@@ -282,7 +280,7 @@ const adminMenu = [
       icon: <LogoutOutlined />,
       label: <Link to="/logout">Đăng xuất</Link>,
     },
-  ]; 
+  ];
   return (
     <Layout className="app-layout">
       {/* SIDEBAR */}
@@ -331,7 +329,12 @@ const adminMenu = [
         <Header className="app-header">
           <div className="app-header-left">
             <div className="app-header-logo">
-              <img src={logo} alt="Hệ thống quản lý phòng khám" loading="eager" decoding="async" />
+              <img
+                src={logo}
+                alt="Hệ thống quản lý phòng khám"
+                loading="eager"
+                decoding="async"
+              />
             </div>
             <div className="app-selected-label">
               {(activeItem?.label || roleLabels[role]).toLocaleUpperCase()}

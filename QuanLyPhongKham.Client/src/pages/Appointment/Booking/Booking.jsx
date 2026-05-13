@@ -29,7 +29,10 @@ import {
   updateBenhNhan,
 } from "../../../apis";
 import { createFilter, toLocalDateString } from "../../../helpers";
-import { createBenhNhanRequest, createLichHenRequest } from "../../../interfaces";
+import {
+  createBenhNhanRequest,
+  createLichHenRequest,
+} from "../../../interfaces";
 import {
   normalizeBacSi,
   normalizeBenhNhan,
@@ -76,7 +79,12 @@ const buildDateTime = (dateValue, timeValue) => {
 const buildTimeSlots = (startValue, endValue, stepMinutes = 30) => {
   const start = toDateValue(startValue);
   const end = toDateValue(endValue);
-  if (!start || !end || Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+  if (
+    !start ||
+    !end ||
+    Number.isNaN(start.getTime()) ||
+    Number.isNaN(end.getTime())
+  ) {
     return [];
   }
   const slots = [];
@@ -89,16 +97,16 @@ const buildTimeSlots = (startValue, endValue, stepMinutes = 30) => {
 };
 
 export default function Booking() {
-  const [form] = Form.useForm();
-  const bookingRef = useRef(null);
-  const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const [doctors, setDoctors] = useState([]);
-  const [, setPatients] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [timeOptions, setTimeOptions] = useState([]);
+  const [timeOptions, setTimeOptions] = useState([]); // tg còn trống
+  const [form] = Form.useForm();
+  const bookingRef = useRef(null);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [, setPatients] = useState([]);
   const [bookedTimes, setBookedTimes] = useState([]);
   const [patientId, setPatientId] = useState(
     sessionStorage.getItem("patientId") || "",
@@ -252,7 +260,9 @@ export default function Booking() {
       const response = await searchLichLamViec(filters, 1, 200);
       const rows = getSearchRows(response);
       const shifts = Array.isArray(rows)
-        ? rows.map(normalizeLichLamViec).filter((item) => item.maBS === doctorId)
+        ? rows
+            .map(normalizeLichLamViec)
+            .filter((item) => item.maBS === doctorId)
         : [];
 
       const timeSlots = shifts.length
@@ -262,7 +272,11 @@ export default function Booking() {
       const appointmentFilters = [
         createFilter("Thời gian khám", toLocalDateString(date)),
       ];
-      const appointmentResponse = await searchLichHen(appointmentFilters, 1, 200);
+      const appointmentResponse = await searchLichHen(
+        appointmentFilters,
+        1,
+        200,
+      );
       const appointmentRows = getSearchRows(appointmentResponse);
       const normalizedAppointments = Array.isArray(appointmentRows)
         ? appointmentRows.map(normalizeLichHen)
@@ -322,7 +336,9 @@ export default function Booking() {
         const filter = [createFilter("Số điện thoại", values.phone)];
         const response = await searchBenhNhan(filter, 1, 5);
         const rows = getSearchRows(response);
-        const found = Array.isArray(rows) ? rows.map(normalizeBenhNhan)[0] : null;
+        const found = Array.isArray(rows)
+          ? rows.map(normalizeBenhNhan)[0]
+          : null;
         if (found?.maBN) resolvedPatientId = found.maBN;
       }
 
@@ -341,7 +357,9 @@ export default function Booking() {
         patientPayload?.isSuccess ?? patientPayload?.IsSuccess ?? true;
       const patientMessage = patientPayload?.message ?? patientPayload?.Message;
       if (!patientSuccess) {
-        messageApi.error(patientMessage || "Không thể lưu thông tin bệnh nhân.");
+        messageApi.error(
+          patientMessage || "Không thể lưu thông tin bệnh nhân.",
+        );
         return;
       }
 
@@ -383,13 +401,7 @@ export default function Booking() {
       }
 
       messageApi.success(msg || "Đặt lịch thành công.");
-      form.resetFields([
-        "department",
-        "doctor",
-        "date",
-        "time",
-        "symptoms",
-      ]);
+      form.resetFields(["department", "doctor", "date", "time", "symptoms"]);
       await loadTodayAppointments();
       if (selectedDoctorId && selectedDate) {
         await loadTimeSlots(selectedDate, selectedDoctorId);
@@ -465,7 +477,9 @@ export default function Booking() {
                       <Form.Item
                         label="Họ tên"
                         name="name"
-                        rules={[{ required: true, message: "Vui lòng nhập họ tên" }]}
+                        rules={[
+                          { required: true, message: "Vui lòng nhập họ tên" },
+                        ]}
                       >
                         <Input placeholder="Nhập họ tên" />
                       </Form.Item>
@@ -476,7 +490,10 @@ export default function Booking() {
                         label="Giới tính"
                         name="gender"
                         rules={[
-                          { required: true, message: "Vui lòng chọn giới tính" },
+                          {
+                            required: true,
+                            message: "Vui lòng chọn giới tính",
+                          },
                         ]}
                       >
                         <Radio.Group>
@@ -491,7 +508,10 @@ export default function Booking() {
                         label="Ngày sinh"
                         name="dob"
                         rules={[
-                          { required: true, message: "Vui lòng chọn ngày sinh" },
+                          {
+                            required: true,
+                            message: "Vui lòng chọn ngày sinh",
+                          },
                         ]}
                       >
                         <DatePicker style={{ width: "100%" }} />
@@ -559,7 +579,9 @@ export default function Booking() {
                       <Form.Item
                         label="Khoa/Chuyên khoa"
                         name="department"
-                        rules={[{ required: true, message: "Vui lòng chọn khoa" }]}
+                        rules={[
+                          { required: true, message: "Vui lòng chọn khoa" },
+                        ]}
                       >
                         <Select
                           placeholder="Chọn khoa"
@@ -573,7 +595,10 @@ export default function Booking() {
                         label="Ngày khám"
                         name="date"
                         rules={[
-                          { required: true, message: "Vui lòng chọn ngày khám" },
+                          {
+                            required: true,
+                            message: "Vui lòng chọn ngày khám",
+                          },
                         ]}
                       >
                         <DatePicker
@@ -632,7 +657,11 @@ export default function Booking() {
                   >
                     Xác nhận đặt lịch
                   </Button>
-                  <Button type="default" className="reset-btn" onClick={handleReset}>
+                  <Button
+                    type="default"
+                    className="reset-btn"
+                    onClick={handleReset}
+                  >
                     Xóa
                   </Button>
                 </div>
