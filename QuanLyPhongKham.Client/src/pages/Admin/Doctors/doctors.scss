@@ -1,1 +1,12 @@
-/* Shared admin styles live in ../admin.scss. Add doctors-only styles here. */
+/* Shared admin styles live in ../admin.scss. Add dashboard-only styles here. */
+.admin-doctors-page{
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
+}

@@ -243,9 +243,8 @@ export default function Doctors() {
   ];
 
   return (
-    <>
-      {contextHolder}
-      <div className="admin-page doctors-page">
+    <div className="admin-doctors-page">
+        {/* {contextHolder} */}
         <header className="admin-header">
           <div>
             <Text type="secondary" className="admin-subtitle">
@@ -385,6 +384,5 @@ export default function Doctors() {
           </Form>
         </Modal>
       </div>
-    </>
   );
 }

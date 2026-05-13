@@ -1,1 +1,55 @@
 /* Shared admin styles live in ../admin.scss. Add dashboard-only styles here. */
+.admin-dashboard-page{
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
+
+  .admin-header{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+
+    p {
+      margin: 0;
+      color: #64748b;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+  }
+
+  .metric-card {
+	border: 1px solid #dbe6f1;
+	border-radius: 10px;
+	box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+	transition: all 0.25s ease;
+
+	.ant-card-body {
+		padding: 24px 16px;
+		text-align: center;
+	}
+
+	.ant-statistic-title {
+		color: #64748b;
+		font-size: 15px;
+		font-weight: 500;
+	}
+
+	.ant-statistic-content {
+		color: #0f4c81;
+		font-size: 26px;
+		font-weight: 700;
+		line-height: 1;
+	}
+
+	&:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+	}
+}
+}

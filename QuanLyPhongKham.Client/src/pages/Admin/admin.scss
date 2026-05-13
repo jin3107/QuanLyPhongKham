@@ -1,23 +1,16 @@
-.admin-page {
-	font-family: "Segoe UI", sans-serif;
-	min-height: 100%;
-	padding: 24px;
-	background: #f5f7fa;
-}
+  .admin-header{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
 
-.admin-header {
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 12px;
-	margin-bottom: 16px;
-}
-
-// .admin-title {
-// 	margin: 0;
-// 	font-size: 24px;
-// 	color: #182430;
-// }
+    p {
+      margin: 0;
+      color: #64748b;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+  }
 
 .admin-subtitle {
 	display: block;
@@ -116,25 +109,47 @@
 
 .admin-list-item {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	gap: 12px;
 	padding: 10px 12px;
 	border-radius: 10px;
 	border: 1px solid #dde4ec;
 	background: #f9fbfd;
+
+	.info {
+		flex: 1;
+		width: 0;
+	}
 }
 
 .admin-list-item h4 {
 	margin: 0 0 4px;
 	font-size: 14px;
 	color: #182430;
+	line-height: 1.5;
+
+	white-space: normal;
+	word-break: break-word;
 }
 
 .admin-list-item p {
 	margin: 0;
 	font-size: 12px;
 	color: #5b6a74;
+}
+
+.doctor-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.doctor-list p {
+	margin: 0;
+	font-size: 12px;
+	color: #5b6a74;
+	line-height: 1.5;
 }
 
 .admin-pill {
