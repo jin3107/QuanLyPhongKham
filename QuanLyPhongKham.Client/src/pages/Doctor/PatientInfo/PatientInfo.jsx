@@ -12,7 +12,7 @@ export default function PatientInfo() {
     <div className="doctor-page patient-info-page">
       <div className="doctor-page__header">
         <div>
-          <h1>Ghi thông tin bệnh nhân</h1>
+          <h1>Thông tin bệnh nhân</h1>
           <p>
             Ghi nhận triệu chứng, chẩn đoán và hướng điều trị cho lần khám hiện
             tại theo yêu cầu quản lý khám bệnh.

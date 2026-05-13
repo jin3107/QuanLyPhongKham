@@ -44,7 +44,7 @@ export default function Prescription() {
           <h1>Kê thuốc</h1>
           <p>
             Lập toa thuốc cho bệnh nhân, gồm tên thuốc, số lượng và ghi chú
-            liều dùng theo đúng đặc tả màn hình.
+            liều dùng.
           </p>
         </div>
         <Tag color="blue">Toa tạm lưu</Tag>
