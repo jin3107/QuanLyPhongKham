@@ -1,61 +1,90 @@
-$navy:      #0b4f84;
-$navy-dark: #083b66;
-$navy-mid:  #1565a8;
-$blue-lt:   #e8f2ff;
-$blue-mid:  #c5dcf8;
-$green:     #00a884;
-$green-lt:  #e6f9f4;
-$danger:    #e63946;
-$border:    #dce6f0;
-$bg:        #f0f4f9;
-$white:     #ffffff;
-$gray-50:   #f7f9fc;
-$gray-txt:  #6b7d96;
+$primary: #0b4f84;
+$primary-soft: #edf4fb;
+$text: #1f2937;
+$muted: #64748b;
+$border: #dbe6f1;
+$bg: #f6f7f9;
+$white: #ffffff;
+$success: #16a34a;
+$warning: #f59e0b;
 
-$shadow-sm: 0 2px 8px rgba(11,79,132,.07);
-$radius:    12px;
+$shadow-sm: 0 6px 20px rgba(15, 23, 42, 0.06);
+$radius: 10px;
 $radius-sm: 8px;
 
 // ══════════════════════════════════════════════════════
 .payment-page {
   background: $bg;
-  height: 100%;
-  overflow: auto;
+  min-height: 100vh;
+  background: url("../../../assets/image/background3.jpg") no-repeat center;
+  background-size: cover, cover;
+  background-attachment: fixed;
   font-family: "Segoe UI", system-ui, sans-serif;
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  padding: 16px;
 
   * {
     box-sizing: border-box;
   }
 
-  // ── Stats bar ──────────────────────────────────────
-  .stats-bar {
+  // ── Header ─────────────────────────────────────────
+  .payment-header {
     display: flex;
-    gap: 10px;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
     flex-wrap: wrap;
-    padding: 14px 20px 0;
-    flex-shrink: 0;
+
+    h2 {
+      margin: 0;
+      color: $primary;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: $muted;
+      font-size: 14px;
+    }
   }
 
-  .stat-chip {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 14px; border-radius: 40px;
-    font-size: 12.5px; font-weight: 500;
-    .sc-num { font-weight: 700; margin: 0 2px; }
-    &.chip-warn { background: #fff3cd; border: 1.5px solid #ffd777; color: #7a5900; }
-    &.chip-ok   { background: $green-lt; border: 1.5px solid #a8edd8; color: #065f46; }
-    &.chip-blue { background: $blue-lt;  border: 1.5px solid $blue-mid; color: $navy; }
+  .stat-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    background: $white;
+    border: 1px solid $border;
+    border-radius: $radius;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    span {
+      color: $muted;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    strong {
+      color: $text;
+      font-size: 16px;
+      font-weight: 700;
+    }
   }
 
   // ── Main 2-column layout ───────────────────────────
   // LEFT wider (bảng + info BN/PK), RIGHT fixed (chi phí + thanh toán)
   .main-layout {
     display: grid;
-    grid-template-columns: 1fr 390px;
+    grid-template-columns: 1fr 360px;
     gap: 16px;
-    padding: 14px 20px 20px;
-    flex: 1;
     align-items: start;
   }
 
@@ -67,7 +96,7 @@ $radius-sm: 8px;
 
   .right-col {
     position: sticky;
-    top: 14px;
+    top: 16px;
   }
 
   // ── Ant Card base ──────────────────────────────────
@@ -76,237 +105,515 @@ $radius-sm: 8px;
     border: 1px solid $border !important;
     box-shadow: $shadow-sm !important;
     .ant-card-head {
-      background: $gray-50 !important;
-      border-bottom: 1.5px solid $border !important;
+      background: $white !important;
+      border-bottom: 1px solid $border !important;
       min-height: 44px !important;
       padding: 0 16px !important;
     }
-    .ant-card-body { padding: 0 !important; }
+    .ant-card-body {
+      padding: 0 !important;
+    }
   }
 
   .card-title {
-    font-size: 13px; font-weight: 600; color: $navy;
-    display: flex; align-items: center; gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: $primary;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
   // ── Table – giống ảnh lịch khám ───────────────────
   .pay-table {
     .ant-table-thead > tr > th {
-      background: $navy !important;
-      color: $white !important;
+      background: $primary-soft !important;
+      color: $primary !important;
       font-weight: 700 !important;
       font-size: 12px !important;
-      letter-spacing: .05em;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
       border-bottom: none !important;
       padding: 11px 16px !important;
       white-space: nowrap;
-      &::before { background-color: rgba(255,255,255,.18) !important; }
+      &::before {
+        background-color: transparent !important;
+      }
     }
     .ant-table-tbody > tr > td {
       border-color: $border !important;
       padding: 12px 16px !important;
       vertical-align: middle;
-      font-size: 13.5px;
-      color: #1e293b;
+      font-size: 13px;
+      color: $text;
     }
-    .ant-table-tbody > tr:hover > td      { background: $blue-lt !important; }
-    .ant-table-tbody > tr.row-sel > td    { background: $blue-lt !important; }
-    .ant-table-container { border: none !important; }
+    .ant-table-tbody > tr:hover > td {
+      background: #f1f5f9 !important;
+    }
+    .ant-table-tbody > tr.row-sel > td {
+      background: #eef6ff !important;
+    }
+    .ant-table-container {
+      border: none !important;
+    }
   }
 
-  .pname { font-weight: 600; font-size: 13.5px; color: #1e293b; }
+  .patient-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .patient-name {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: $text;
+  }
+  .patient-sub {
+    font-size: 11px;
+    color: $muted;
+  }
 
   .sel-btn {
-    background: $navy !important; border-color: $navy !important;
-    border-radius: 6px !important; font-weight: 600 !important;
+    background: $primary !important;
+    border-color: $primary !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
   }
 
-  .ant-pagination { padding: 10px 16px !important; margin: 0 !important; }
+  .ant-pagination {
+    padding: 10px 16px !important;
+    margin: 0 !important;
+  }
   .ant-pagination .ant-pagination-item-active {
-    background: $navy !important; border-color: $navy !important;
-    a { color: $white !important; }
+    background: $primary !important;
+    border-color: $primary !important;
+    a {
+      color: $white !important;
+    }
   }
 
   // ── 2-col info row (BN left, PK right) ────────────
-  .info-row-2col {
+  .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
   }
 
-  .info-block {
-    background: $blue-lt;
-    border: 1px solid $blue-mid;
+  .info-card {
+    background: $white;
+    border: 1px solid $border;
     border-radius: $radius-sm;
-    padding: 14px 16px;
+    padding: 12px 14px;
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
 
-  .ib-title {
+  .info-title {
     font-size: 11px;
     font-weight: 700;
-    color: $navy-mid;
+    color: $primary;
     text-transform: uppercase;
-    letter-spacing: .07em;
-    padding-bottom: 7px;
-    border-bottom: 1.5px solid $blue-mid;
-    margin-bottom: 2px;
+    letter-spacing: 0.04em;
   }
 
-  .ib-row {
+  .info-row {
     display: flex;
-    align-items: baseline;
-    gap: 8px;
+    justify-content: space-between;
+    gap: 12px;
   }
 
-  .ib-lbl {
-    font-size: 10.5px;
-    font-weight: 700;
-    color: $gray-txt;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    min-width: 100px;
-    flex-shrink: 0;
+  .info-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $muted;
+    min-width: 110px;
   }
 
-  .ib-val {
+  .info-value {
     font-size: 13px;
-    color: #1e293b;
-    &.bold { font-weight: 700; font-size: 14px; color: $navy; }
+    color: $text;
+    &.strong {
+      font-weight: 700;
+      color: $primary;
+    }
   }
 
   // ── Right panel card ───────────────────────────────
-  .pay-card { .ant-card-body { padding: 16px !important; } }
+  .pay-card {
+    .ant-card-body {
+      padding: 16px !important;
+    }
+  }
 
-  .empty-right { .ant-card-body { padding: 50px 20px !important; } }
+  .empty-right {
+    .ant-card-body {
+      padding: 50px 20px !important;
+    }
+  }
 
   .empty-state {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 12px; color: $gray-txt; text-align: center;
-    p { font-size: 13px; }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: $muted;
+    text-align: center;
+    p {
+      font-size: 13px;
+    }
   }
 
   .empty-icon {
-    font-size: 40px; color: $blue-mid; background: $blue-lt;
-    padding: 16px; border-radius: 50%; border: 2px dashed $blue-mid;
+    font-size: 40px;
+    color: #93a4ba;
+    background: #f1f5f9;
+    padding: 16px;
+    border-radius: 50%;
+    border: 2px dashed #cbd5e1;
+  }
+
+  .invoice-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .invoice-status {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    span {
+      color: $muted;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    strong {
+      color: $text;
+      font-size: 13px;
+    }
   }
 
   // ── Service table (right) ──────────────────────────
   .svc-table {
     .ant-table-thead > tr > th {
-      background: $navy !important; color: $white !important;
-      font-weight: 600 !important; font-size: 12px !important;
-      padding: 9px 10px !important; border-bottom: none !important;
-      &::before { background-color: rgba(255,255,255,.18) !important; }
+      background: #f8fafc !important;
+      color: $primary !important;
+      font-weight: 600 !important;
+      font-size: 12px !important;
+      padding: 9px 10px !important;
+      border-bottom: none !important;
+      &::before {
+        background-color: transparent !important;
+      }
     }
     .ant-table-tbody > tr > td {
-      border-color: $border !important; padding: 8px 10px !important; font-size: 12.5px;
+      border-color: $border !important;
+      padding: 8px 10px !important;
+      font-size: 12.5px;
     }
-    .ant-table-tbody > tr:nth-child(even) > td { background: $gray-50; }
-    .ant-table-tbody > tr:hover > td { background: $blue-lt !important; }
-    .ant-table-container { border: none !important; }
+    .ant-table-tbody > tr:nth-child(even) > td {
+      background: #f8fafc;
+    }
+    .ant-table-tbody > tr:hover > td {
+      background: #f1f5f9 !important;
+    }
+    .ant-table-container {
+      border: none !important;
+    }
   }
 
-  .svc-summary td { background: $blue-lt !important; border-top: 2px solid $blue-mid !important; }
+  .svc-summary td {
+    background: #f8fafc !important;
+    border-top: 1px solid $border !important;
+  }
 
-  .price-cell { font-variant-numeric: tabular-nums; color: #1e3a5f; }
-  .total-sum  { color: $navy; font-size: 14px; font-weight: 700; }
+  .price-cell {
+    font-variant-numeric: tabular-nums;
+    color: $text;
+  }
+  .total-sum {
+    color: $primary;
+    font-size: 14px;
+    font-weight: 700;
+  }
 
   // ── Total box ──────────────────────────────────────
   .total-box {
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(90deg, #fff1f2 0%, #ffe4e6 100%);
-    border: 1.5px solid #fca5a5; border-radius: $radius-sm;
-    padding: 10px 14px; margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8fafc;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    padding: 10px 14px;
+    margin-top: 10px;
   }
 
-  .total-label  { font-size: 13px; font-weight: 600; color: #7f1d1d; }
-  .total-amount { font-size: 20px; font-weight: 800; color: $danger; font-variant-numeric: tabular-nums; }
+  .total-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: $muted;
+  }
+  .total-amount {
+    font-size: 20px;
+    font-weight: 800;
+    color: $primary;
+    font-variant-numeric: tabular-nums;
+  }
 
   // ── Payment method ─────────────────────────────────
   .method-label {
-    font-size: 11px; font-weight: 700; color: $gray-txt;
-    text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: $muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
   }
 
-  .method-btns { display: flex; gap: 8px; }
+  .method-btns {
+    display: flex;
+    gap: 8px;
+  }
 
   .method-btn {
-    flex: 1; padding: 10px 6px; border-radius: $radius-sm;
-    border: 1.5px solid $border; background: $white;
-    cursor: pointer; font-size: 13px; font-weight: 500;
-    color: #374151; display: flex; align-items: center; justify-content: center; gap: 6px;
-    transition: all .15s; font-family: inherit;
-    &:hover { border-color: $navy; color: $navy; background: $blue-lt; }
+    flex: 1;
+    padding: 10px 6px;
+    border-radius: $radius-sm;
+    border: 1.5px solid $border;
+    background: $white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s;
+    font-family: inherit;
+    &:hover {
+      border-color: $primary;
+      color: $primary;
+      background: #f8fafc;
+    }
     &.active {
-      border-color: $navy; background: $navy; color: $white;
-      box-shadow: 0 3px 12px rgba(11,79,132,.28);
+      border-color: $primary;
+      background: $primary;
+      color: $white;
+      box-shadow: 0 3px 10px rgba(11, 79, 132, 0.2);
     }
   }
 
   // ── Action row ─────────────────────────────────────
-  .action-row { display: flex; gap: 8px; margin-top: 12px; }
+  .action-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .action-row .ant-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px !important;
+    line-height: 1 !important;
+    padding: 0 16px !important;
+  }
 
   .print-btn {
-    flex: 1; border-radius: $radius-sm !important; height: 40px !important;
-    border-color: $border !important; color: $navy !important; font-weight: 600 !important;
-    &:hover { border-color: $navy !important; background: $blue-lt !important; }
+    flex: 1;
+    border-radius: $radius-sm !important;
+    height: 40px !important;
+    border-color: $border !important;
+    color: $primary !important;
+    font-weight: 600 !important;
+    &:hover {
+      border-color: $primary !important;
+      background: #f8fafc !important;
+    }
   }
 
   .pay-btn {
-    flex: 2; background: $navy !important; border-color: $navy !important;
-    border-radius: $radius-sm !important; height: 40px !important; font-weight: 700 !important;
-    &:disabled { background: #b0b8c4 !important; border-color: #b0b8c4 !important; }
+    flex: 2;
+    background: $primary !important;
+    border-color: $primary !important;
+    border-radius: $radius-sm !important;
+    height: 40px !important;
+    width: 100px !important;
+    font-weight: 700 !important;
+    &:disabled {
+      background: #b0b8c4 !important;
+      border-color: #b0b8c4 !important;
+    }
   }
 
-  .ant-tag { border-radius: 4px; font-size: 11px; }
+  .ant-tag {
+    border-radius: 4px;
+    font-size: 11px;
+  }
 }
 
 // ══════════════════════════════════════════════════════
 // MODAL
 // ══════════════════════════════════════════════════════
-.print-modal .ant-modal-content { border-radius: 12px !important; }
+.print-modal .ant-modal-content {
+  border-radius: 12px !important;
+}
 
-.invoice-preview { padding: 4px 0; font-size: 13px; color: #1e3a5f; }
-.inv-clinic { text-align: center; font-size: 12px; font-weight: 700; color: #0b4f84; text-transform: uppercase; letter-spacing: .1em; }
-.inv-title  { text-align: center; font-size: 17px; font-weight: 800; color: #0b4f84; margin: 5px 0 12px; text-transform: uppercase; }
+.invoice-preview {
+  padding: 4px 0;
+  font-size: 13px;
+  color: $text;
+}
+.inv-clinic {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: $primary;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.inv-title {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  color: $primary;
+  margin: 5px 0 12px;
+  text-transform: uppercase;
+}
 
 .inv-meta-box {
-  border: 1px solid #d9e4f0; border-radius: 8px;
-  padding: 10px 14px; display: flex; flex-direction: column;
-  gap: 4px; font-size: 13px; line-height: 1.75; background: #fafcff;
+  border: 1px solid $border;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 1.75;
+  background: #fafcff;
 }
 
 .inv-table {
-  width: 100%; border-collapse: collapse;
-  th, td { padding: 8px 10px; font-size: 12.5px; border-bottom: 1px solid #d9e4f0; }
-  th { background: #f0f4f9; font-weight: 700; color: #0b4f84; }
-  .inv-price { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  width: 100%;
+  border-collapse: collapse;
+  th,
+  td {
+    padding: 8px 10px;
+    font-size: 12.5px;
+    border-bottom: 1px solid $border;
+  }
+  th {
+    background: #f0f4f9;
+    font-weight: 700;
+    color: $primary;
+  }
+  .inv-price {
+    text-align: right;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 .inv-total {
-  display: flex; justify-content: space-between;
-  font-weight: 800; font-size: 16px; color: #e63946; padding: 2px 4px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 16px;
+  color: $primary;
+  padding: 2px 4px;
 }
-.inv-total-num { font-variant-numeric: tabular-nums; }
+.inv-total-num {
+  font-variant-numeric: tabular-nums;
+}
 
-.toa-title { font-size: 13px; font-weight: 700; color: #0b4f84; margin-bottom: 8px; }
-.toa-list  { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.toa-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: $primary;
+  margin-bottom: 8px;
+}
+.toa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
 
 .toa-item {
-  background: #f0f9ff; border: 1px solid #bae6fd;
-  border-radius: 8px; padding: 10px 14px;
-  display: flex; flex-direction: column; gap: 3px;
+  background: #f8fafc;
+  border: 1px solid $border;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-.toa-name { font-size: 13px; font-weight: 700; color: #0b4f84; }
-.toa-lieu { font-size: 12px; color: #374151; }
-.toa-ccd  {
-  font-size: 12px; font-weight: 600; color: #b45309;
-  display: flex; align-items: center; gap: 5px; margin-top: 2px;
-  .anticon { color: #f59e0b; }
+.toa-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: $primary;
+}
+.toa-lieu {
+  font-size: 12px;
+  color: #374151;
+}
+.toa-ccd {
+  font-size: 12px;
+  font-weight: 600;
+  color: #b45309;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  .anticon {
+    color: #f59e0b;
+  }
 }
 
-.inv-footer { text-align: center; color: #6b7d96; font-size: 12px; font-style: italic; margin-top: 4px; }
+.inv-footer {
+  text-align: center;
+  color: $muted;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+@media (max-width: 1100px) {
+  .payment-page {
+    .main-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .right-col {
+      position: static;
+    }
+
+    .stat-group {
+      grid-template-columns: repeat(2, minmax(140px, 1fr));
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .payment-page {
+    padding: 12px;
+
+    .stat-group {
+      grid-template-columns: 1fr;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
