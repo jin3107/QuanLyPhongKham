@@ -50,61 +50,34 @@ const patientRecords = [
   {
     key: 1,
     date: "08/05/2026",
-    name: "Nguyễn Văn A",
-    age: 29,
-    type: "Mới",
-    status: "Đã đến",
-    doctor: "BS. Trần Thị B",
+    name: "Nguyễn Thị Hằng",
+    bhyt: "0123456789",
+    status: "Đã khám",
+    doctor: "BS. Nguyễn Hoàng Vy",
   },
   {
-    key: 2,
+    key: 1,
     date: "09/05/2026",
-    name: "Lê Thị C",
-    age: 42,
-    type: "Tái khám",
-    status: "Đang chờ",
-    doctor: "BS. Nguyễn Văn D",
+    name: "Trần Minh Tâm",
+    bhyt: "3264105942",
+    status: "Đã khám",
+    doctor: "BS. Trần Thị Lan",
   },
   {
     key: 3,
     date: "10/05/2026",
-    name: "Phạm Thị E",
-    age: 35,
-    type: "Mới",
-    status: "Không đến",
-    doctor: "BS. Lê Thị H",
-  },
-  {
-    key: 4,
-    date: "11/05/2026",
-    name: "Hoàng Văn F",
-    age: 50,
-    type: "Tái khám",
-    status: "Đã đến",
-    doctor: "BS. Trần Thị B",
-  },
-  {
-    key: 5,
-    date: "12/05/2026",
-    name: "Đỗ Thị G",
-    age: 27,
-    type: "Mới",
-    status: "Đang chờ",
-    doctor: "BS. Nguyễn Văn D",
-  },
+    name: "Phạm Thị Hai",
+    bhyt: "66414874354",
+    status: "Chưa khám",
+    doctor: "BS. Lê Ngọc Thảo",
+  }
+
 ];
 
 const statusColor = {
-  "Đã đến": "success",
-  "Đang chờ": "warning",
-  "Không đến": "error",
+  "Đã khám": "#52c41a", // Xanh lá
+  "Chưa khám": "#faad14", // Cam nhạt
 };
-
-const patientTypes = [
-  { label: "Tất cả", value: "all" },
-  { label: "Mới", value: "Mới" },
-  { label: "Tái khám", value: "Tái khám" },
-];
 
 export default function PatientCount() {
   const [range, setRange] = useState(null);
@@ -140,46 +113,41 @@ export default function PatientCount() {
     return records;
   }, [patientType, range, searchText]);
 
-  const columns = [
-    {
-      title: "Ngày",
-      dataIndex: "date",
-      key: "date",
-      width: 120,
+const columns = [
+  {
+    title: "Ngày",
+    dataIndex: "date",
+    key: "date",
+  },
+  {
+    title: "Bệnh nhân",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "BHYT",
+    dataIndex: "bhyt",
+    key: "bhyt",
+    align: "center",
+    render: (text) => <span>{text}</span>, // Chữ bình thường, không dùng Tag
+  },
+  {
+    title: "Bác sĩ",
+    dataIndex: "doctor",
+    key: "doctor",
+  },
+  {
+    title: "Trạng thái",
+    dataIndex: "status",
+    key: "status",
+    render: (status) => {
+      // Chuyển class dựa trên giá trị status
+      const statusClass = status === "Đã khám" ? "status-success" : "status-pending";
+      return <span className={`status-label ${statusClass}`}>{status}</span>;
     },
-    {
-      title: "Bệnh nhân",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <strong>{text}</strong>,
-    },
-    {
-      title: "Tuổi",
-      dataIndex: "age",
-      key: "age",
-      width: 80,
-    },
-    {
-      title: "Loại khám",
-      dataIndex: "type",
-      key: "type",
-      width: 120,
-    },
-    {
-      title: "Bác sĩ",
-      dataIndex: "doctor",
-      key: "doctor",
-    },
-    {
-      title: "Trạng thái",
-      dataIndex: "status",
-      key: "status",
-      width: 120,
-      render: (status) => (
-        <Tag color={statusColor[status] || "default"}>{status}</Tag>
-      ),
-    },
-  ];
+  },
+];
+
 
   return (
     <div className="patientCountPage">
