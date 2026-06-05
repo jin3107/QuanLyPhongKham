@@ -259,7 +259,6 @@ export default function Doctors() {
             >
               Thêm bác sĩ
             </Button>
-            <Button>Xuất danh sách</Button>
           </Space>
         </header>
 
