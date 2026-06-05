@@ -14,6 +14,8 @@
 
 A full-stack clinic management system with role-based access control for Admins, Doctors, Receptionists, and Patients.
 
+> This is a personal learning project. It is public for reference, but it is not currently maintained as a community contribution project.
+
 </div>
 
 ---
@@ -258,15 +260,6 @@ Full interactive docs available at `/swagger` when running in Development mode.
 | `1` | BacSi (Doctor) | Clinical features |
 | `2` | LeTan (Receptionist) | Front-desk features |
 | `3` | BenhNhan (Patient) | Patient self-service |
-
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feat/your-feature`
-3. Commit your changes: `git commit -m "feat: add your feature"`
-4. Push and open a Pull Request
 
 ---
 
