@@ -40,6 +40,10 @@ namespace QuanLyPhongKham.Services.Implementations
                 if (user == null) 
                     return result.BuildError("Unauthorized");
 
+                var validationError = await ValidateScheduleAsync(request);
+                if (validationError != null)
+                    return result.BuildError(validationError);
+
                 var entity = LichLamViecMapper.ToEntity(request);
                 entity.MaLLV = Guid.NewGuid();
                 entity.CreatedBy = user.Email;
@@ -93,6 +97,10 @@ namespace QuanLyPhongKham.Services.Implementations
                     .FirstOrDefaultAsync();
                 if (entity == null) 
                     return result.BuildError("Thông tin lịch làm việc không tồn tại.");
+
+                var validationError = await ValidateScheduleAsync(request, entity.MaLLV);
+                if (validationError != null)
+                    return result.BuildError(validationError);
 
                 entity.NgayLamViec = request.NgayLamViec;
                 entity.GioBatDau = request.GioBatDau;
@@ -195,6 +203,35 @@ namespace QuanLyPhongKham.Services.Implementations
             }
             predicate = predicate.And(x => x.IsDeleted == false);
             return predicate;
+        }
+
+        private async Task<string?> ValidateScheduleAsync(
+            LichLamViecRequest request,
+            Guid? excludedScheduleId = null)
+        {
+            if (request.MaBS == null)
+                return "Vui lòng chọn bác sĩ.";
+
+            if (request.GioBatDau >= request.GioKetThuc)
+                return "Giờ kết thúc phải sau giờ bắt đầu.";
+
+            var workDate = request.NgayLamViec.Date;
+            var nextDate = workDate.AddDays(1);
+
+            var schedules = _lichLamViecRepository.FindBy(x =>
+                    x.IsDeleted == false
+                    && x.MaBS == request.MaBS
+                    && x.NgayLamViec >= workDate
+                    && x.NgayLamViec < nextDate
+                    && x.GioBatDau < request.GioKetThuc
+                    && request.GioBatDau < x.GioKetThuc);
+
+            if (excludedScheduleId.HasValue)
+                schedules = schedules.Where(x => x.MaLLV != excludedScheduleId.Value);
+
+            var isOverlapping = await schedules.AnyAsync();
+
+            return isOverlapping ? "Lịch bị trùng." : null;
         }
     }
 }

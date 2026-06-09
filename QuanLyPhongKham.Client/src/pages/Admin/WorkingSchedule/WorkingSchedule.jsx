@@ -60,6 +60,8 @@ const extractTime = (timeString) => {
   return timeString.substring(0, 5);
 };
 
+const getAppResponse = (response) => response?.data ?? {};
+
 export default function WorkingSchedule() {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
@@ -135,9 +137,13 @@ export default function WorkingSchedule() {
       return;
     }
 
+    if (gioBatDau >= gioKetThuc) {
+      messageApi.warning("Giờ kết thúc phải sau giờ bắt đầu.");
+      return;
+    }
+
     setSubmitLoading(true);
     try {
-      // Ép kiểu chuẩn ISO cho DateTime để tránh lỗi 400 từ Backend
       const dateStr = ngayLamViec.format("YYYY-MM-DD");
       const payload = {
         maBS,
@@ -146,24 +152,34 @@ export default function WorkingSchedule() {
         gioKetThuc: `${dateStr}T${gioKetThuc}:00`,
       };
 
+      let response;
       if (maLLV) {
         payload.maLLV = maLLV;
-        await updateLichLamViec(payload);
-        messageApi.success("Cập nhật thành công!");
+        response = await updateLichLamViec(payload);
       } else {
-        await createLichLamViec(payload);
-        messageApi.success("Phân công thành công!");
+        response = await createLichLamViec(payload);
       }
 
+      const appResponse = getAppResponse(response);
+      const isSuccess = appResponse?.isSuccess ?? appResponse?.IsSuccess;
+      if (isSuccess === false) {
+        messageApi.error(
+          appResponse?.message ?? appResponse?.Message ?? "Không thể lưu lịch làm việc.",
+        );
+        return;
+      }
+
+      messageApi.success(maLLV ? "Cập nhật thành công!" : "Phân công thành công!");
       resetForm();
-      loadData();
+      await loadData();
     } catch (error) {
       console.error("Chi tiết lỗi API:", error.response?.data || error);
       const errorMsg =
         error.response?.data?.message ||
+        error.response?.data?.Message ||
         error.response?.data?.title ||
-        "Sai định dạng dữ liệu, kiểm tra Console (F12)";
-      messageApi.error(`Có lỗi khi lưu: ${errorMsg}`);
+        "Không thể lưu lịch làm việc.";
+      messageApi.error(errorMsg);
     } finally {
       setSubmitLoading(false);
     }
