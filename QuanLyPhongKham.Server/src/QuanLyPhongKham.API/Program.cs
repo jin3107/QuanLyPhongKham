@@ -1,35 +1,24 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using QuanLyPhongKham.API.Extentions;
-using QuanLyPhongKham.Models.Data;
-using QuanLyPhongKham.Models.Entities;
+using QuanLyPhongKham.API.Middleware;
+using QuanLyPhongKham.Application;
+using QuanLyPhongKham.Infrastructure;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddHttpContextAccessor();
 
-// Add database configuration
-builder.Services.AddDatabaseConfiguration(builder.Configuration);
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
-// Add Service Application
-builder.Services.AddApplicationServices().AddRepositories();
-
-// Add Swagger configuration
 builder.Services.AddSwaggerConfiguration();
 
-// Add Cors and JWT
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
-// Add Cors configuration
 builder.Services.AddCorsConfiguration(builder.Configuration);
 
-// Add Identity configuration
-builder.Services.AddIdentityConfiguration();
+builder.Services.AddQuartzConfiguration();
 
-// Add Serilog
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
@@ -37,7 +26,8 @@ builder.Host.UseSerilog();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseGlobalExceptionMiddleware();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

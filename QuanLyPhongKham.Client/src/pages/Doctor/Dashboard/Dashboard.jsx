@@ -59,10 +59,7 @@ export default function Dashboard() {
     }
 
     const userName = sessionStorage.getItem("userName") || "";
-    const matched =
-      items.find((item) => item.email === userName) ||
-      items.find((item) => item.hoTen === userName) ||
-      (items.length === 1 ? items[0] : null);
+    const matched = items.find((item) => item.email === userName);
 
     if (matched?.maBS) {
       sessionStorage.setItem("doctorId", matched.maBS);
@@ -75,10 +72,10 @@ export default function Dashboard() {
     try {
       const today = new Date();
       const [bacSiRes, benhNhanRes, lichHenRes, phieuKhamRes] = await Promise.all([
-        searchBacSi(null, 1, 200),
-        searchBenhNhan(null, 1, 200),
-        searchLichHen([createFilter("Thời gian khám", toLocalDateString(today))], 1, 200),
-        searchPhieuKham([createFilter("Ngày khám", toLocalDateString(today))], 1, 200),
+        searchBacSi(null, 1, 2000),
+        searchBenhNhan(null, 1, 2000),
+        searchLichHen([createFilter("Thời gian khám", toLocalDateString(today))], 1, 2000),
+        searchPhieuKham([createFilter("Ngày khám", toLocalDateString(today))], 1, 2000),
       ]);
 
       const doctors = Array.isArray(getSearchRows(bacSiRes))

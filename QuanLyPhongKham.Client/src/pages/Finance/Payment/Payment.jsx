@@ -107,12 +107,12 @@ export default function Payment() {
     try {
       const [phieuRes, benhNhanRes, lichHenRes, donThuocRes, thuocRes, hoaDonRes] =
         await Promise.all([
-          searchPhieuKham(null, 1, 200),
-          searchBenhNhan(null, 1, 200),
-          searchLichHen(null, 1, 200),
-          searchDonThuoc(null, 1, 200),
-          searchDanhMucThuoc(null, 1, 200),
-          searchHoaDon(null, 1, 200),
+          searchPhieuKham(null, 1, 2000),
+          searchBenhNhan(null, 1, 2000),
+          searchLichHen(null, 1, 2000),
+          searchDonThuoc(null, 1, 2000),
+          searchDanhMucThuoc(null, 1, 2000),
+          searchHoaDon(null, 1, 2000),
         ]);
 
       const phieuRows = getSearchRows(phieuRes);
@@ -185,7 +185,13 @@ export default function Payment() {
 
   const items = selected ? buildMedicineItems(selectedDonThuoc, danhMucThuocs) : [];
   const total = items.reduce((sum, item) => sum + item.thanhTien, 0);
-  const invoiceTotal = selectedHoaDon?.tongTien > 0 ? selectedHoaDon.tongTien : total;
+  // Only trust the invoice's own tongTien once it's already been paid — before that,
+  // an existing HoaDon row may still carry a placeholder 0, which must not silently
+  // override the freshly computed medication total (see finding 4.4).
+  const invoiceTotal =
+    selectedHoaDon && selectedHoaDon.trangThaiThanhToan === "Đã thanh toán"
+      ? selectedHoaDon.tongTien
+      : total;
 
   const stats = {
     chua: waiting.length,
@@ -324,7 +330,10 @@ export default function Payment() {
       align: "right",
       render: (value, record) => {
         const invoice = hoaDons.find((h) => h.maPK === record.maPK);
-        const totalValue = invoice?.tongTien > 0 ? invoice.tongTien : calcTotalByPhieu(record.maPK);
+        const totalValue =
+          invoice?.trangThaiThanhToan === "Đã thanh toán"
+            ? invoice.tongTien
+            : calcTotalByPhieu(record.maPK);
         return <span className="price-cell">{formatMoney(totalValue)}</span>;
       },
     },

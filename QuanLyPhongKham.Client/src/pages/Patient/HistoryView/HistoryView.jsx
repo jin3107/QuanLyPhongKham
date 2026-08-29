@@ -38,8 +38,8 @@ export default function HistoryView() {
     setLoading(true);
     try {
       const [phieuKhamRes, hoaDonRes] = await Promise.all([
-        searchPhieuKham(null, 1, 200),
-        searchHoaDon(null, 1, 200),
+        searchPhieuKham(null, 1, 2000),
+        searchHoaDon(null, 1, 2000),
       ]);
 
       const phieuKhamRows = getSearchRows(phieuKhamRes);

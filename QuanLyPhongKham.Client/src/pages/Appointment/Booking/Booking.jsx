@@ -174,13 +174,13 @@ export default function Booking() {
   };
 
   const loadDoctors = async () => {
-    const response = await searchBacSi(null, 1, 200);
+    const response = await searchBacSi(null, 1, 2000);
     const rows = getSearchRows(response);
     setDoctors(Array.isArray(rows) ? rows.map(normalizeBacSi) : []);
   };
 
   const loadPatients = async () => {
-    const response = await searchBenhNhan(null, 1, 200);
+    const response = await searchBenhNhan(null, 1, 2000);
     const rows = getSearchRows(response);
     const normalized = Array.isArray(rows) ? rows.map(normalizeBenhNhan) : [];
     setPatients(normalized);
@@ -190,7 +190,7 @@ export default function Booking() {
   const loadTodayAppointments = async () => {
     const today = new Date();
     const filters = [createFilter("Thời gian khám", toLocalDateString(today))];
-    const response = await searchLichHen(filters, 1, 200);
+    const response = await searchLichHen(filters, 1, 2000);
     const rows = getSearchRows(response);
     setAppointments(Array.isArray(rows) ? rows.map(normalizeLichHen) : []);
   };
@@ -201,12 +201,10 @@ export default function Booking() {
       if (found) return found;
     }
 
-    const userName = sessionStorage.getItem("userName") || "";
-    if (!userName) return null;
+    const phoneNumber = sessionStorage.getItem("phoneNumber") || "";
+    if (!phoneNumber) return null;
 
-    const matched =
-      items.find((item) => item.soDienThoai === userName) ||
-      items.find((item) => item.hoTen === userName);
+    const matched = items.find((item) => item.soDienThoai === phoneNumber);
 
     if (matched?.maBN) {
       setPatientId(matched.maBN);
@@ -257,7 +255,7 @@ export default function Booking() {
     try {
       const date = toDateValue(dateValue);
       const filters = [createFilter("Ngày làm việc", toLocalDateString(date))];
-      const response = await searchLichLamViec(filters, 1, 200);
+      const response = await searchLichLamViec(filters, 1, 2000);
       const rows = getSearchRows(response);
       const shifts = Array.isArray(rows)
         ? rows
@@ -586,6 +584,11 @@ export default function Booking() {
                         <Select
                           placeholder="Chọn khoa"
                           options={departmentOptions}
+                          onChange={() => {
+                            form.setFieldsValue({ doctor: undefined });
+                            setSelectedDoctorId(null);
+                            setTimeOptions([]);
+                          }}
                         />
                       </Form.Item>
                     </Col>

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import "./cancellation.scss";
 import doctorImage from "../../../assets/image/doctor.jpg";
 import {
+  Alert,
   Table,
   Tag,
   Row,
@@ -68,14 +69,15 @@ const formatTime = (value) => {
   return `${hours}:${minutes}`;
 };
 
-const getCurrentUserName = () =>
-  sessionStorage.getItem("userName") || sessionStorage.getItem("UserName") || "";
+const getCurrentPhoneNumber = () =>
+  sessionStorage.getItem("phoneNumber") || "";
 
 export default function Cancellation() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [doctors, setDoctors] = useState([]);
+  const [noPatientProfile, setNoPatientProfile] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
   const features = [
@@ -88,10 +90,9 @@ export default function Cancellation() {
     const storedId = sessionStorage.getItem("patientId");
     if (storedId && items.some((item) => item.maBN === storedId)) return storedId;
 
-    const userName = sessionStorage.getItem("userName") || "";
-    const matched =
-      items.find((item) => item.soDienThoai === userName) ||
-      items.find((item) => item.hoTen === userName);
+    const phoneNumber = getCurrentPhoneNumber();
+    if (!phoneNumber) return "";
+    const matched = items.find((item) => item.soDienThoai === phoneNumber);
 
     if (matched?.maBN) {
       sessionStorage.setItem("patientId", matched.maBN);
@@ -104,9 +105,9 @@ export default function Cancellation() {
     setLoading(true);
     try {
       const [lichHenRes, bacSiRes, benhNhanRes] = await Promise.all([
-        searchLichHen(null, 1, 200),
-        searchBacSi(null, 1, 200),
-        searchBenhNhan(null, 1, 200),
+        searchLichHen(null, 1, 2000),
+        searchBacSi(null, 1, 2000),
+        searchBenhNhan(null, 1, 2000),
       ]);
 
       const lichHenRows = getSearchRows(lichHenRes);
@@ -124,18 +125,10 @@ export default function Cancellation() {
         : [];
 
       const patientId = resolvePatientId(normalizedPatients);
-      const currentUserName = getCurrentUserName();
-      const byPatientId = patientId
+      setNoPatientProfile(!patientId);
+      const filteredAppointments = patientId
         ? normalizedAppointments.filter((item) => item.maBN === patientId)
         : [];
-      const byCreatedBy = currentUserName
-        ? normalizedAppointments.filter((item) => item.createdBy === currentUserName)
-        : [];
-      const filteredAppointments = byPatientId.length
-        ? byPatientId
-        : byCreatedBy.length
-          ? byCreatedBy
-          : normalizedAppointments;
 
       setAppointments(filteredAppointments);
       setDoctors(normalizedDoctors);
@@ -306,6 +299,16 @@ export default function Cancellation() {
                   </Button>
                 </Popconfirm>
               </div>
+
+              {noPatientProfile && !loading && (
+                <Alert
+                  style={{ marginBottom: 16 }}
+                  type="warning"
+                  showIcon
+                  message="Không tìm thấy hồ sơ bệnh nhân khớp với số điện thoại tài khoản của bạn."
+                  description="Vui lòng liên hệ lễ tân để liên kết tài khoản với hồ sơ bệnh nhân."
+                />
+              )}
 
               <Spin spinning={loading} description="Đang tải...">
                 <Table

@@ -64,10 +64,7 @@ export default function ServiceRequest() {
     if (storedId && items.some((item) => item.maBS === storedId)) return storedId;
 
     const userName = sessionStorage.getItem("userName") || "";
-    const matched =
-      items.find((item) => item.email === userName) ||
-      items.find((item) => item.hoTen === userName) ||
-      (items.length === 1 ? items[0] : null);
+    const matched = items.find((item) => item.email === userName);
 
     if (matched?.maBS) {
       sessionStorage.setItem("doctorId", matched.maBS);
@@ -81,10 +78,10 @@ export default function ServiceRequest() {
     try {
       const today = new Date();
       const [serviceRes, benhNhanRes, lichHenRes, bacSiRes] = await Promise.all([
-        searchDanhMucDichVu(null, 1, 200),
-        searchBenhNhan(null, 1, 200),
-        searchLichHen([createFilter("Thời gian khám", toLocalDateString(today))], 1, 200),
-        searchBacSi(null, 1, 200),
+        searchDanhMucDichVu(null, 1, 2000),
+        searchBenhNhan(null, 1, 2000),
+        searchLichHen([createFilter("Thời gian khám", toLocalDateString(today))], 1, 2000),
+        searchBacSi(null, 1, 2000),
       ]);
 
       const serviceRows = getSearchRows(serviceRes);

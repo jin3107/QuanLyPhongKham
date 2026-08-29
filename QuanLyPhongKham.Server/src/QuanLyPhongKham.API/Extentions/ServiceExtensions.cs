@@ -1,82 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using QuanLyPhongKham.Models.Data;
-using QuanLyPhongKham.Models.Entities;
-using QuanLyPhongKham.Repositories.Implementations;
-using QuanLyPhongKham.Repositories.Interfaces;
-using QuanLyPhongKham.Services.Implementations;
-using QuanLyPhongKham.Services.Interfaces;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace QuanLyPhongKham.API.Extentions
 {
     public static class ServiceExtensions
     {
-        #region Application Services
-        public static IServiceCollection AddRepositories(this IServiceCollection services)
-        {
-            // Add repositories
-            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-            services.AddScoped<INhanVienRepository, NhanVienRepository>();
-            services.AddScoped<IBacSiRepository, BacSiRepository>();
-            services.AddScoped<IDanhMucThuocRepository, DanhMucThuocRepository>();
-            services.AddScoped<IDanhMucDichVuRepository, DanhMucDichVuRepository>();
-            services.AddScoped<ILichHenRepository, LichHenRepository>();
-            services.AddScoped<IChiTietDonThuocRepository, ChiTietDonThuocRepository>();
-            services.AddScoped<IDonThuocRepository, DonThuocRepository>();
-            services.AddScoped<IBenhNhanRepository, BenhNhanRepository>();
-            services.AddScoped<ILichLamViecRepository, LichLamViecRepository>();
-            services.AddScoped<IPhieuKhamRepository, PhieuKhamRepository>();
-            services.AddScoped<IHoaDonRepository, HoaDonRepository>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
-        {
-            // Add applicaiton services
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<INhanVienService, NhanVienService>();
-            services.AddScoped<IBacSiService, BacSiService>();
-            services.AddScoped<IDanhMucThuocService, DanhMucThuocService>();
-            services.AddScoped<IDanhMucDichVuService, DanhMucDichVuService>();
-            services.AddScoped<ILichHenService, LichHenService>();
-            services.AddScoped<IDonThuocService, DonThuocService>();
-            services.AddScoped<IBenhNhanService, BenhNhanService>();
-            services.AddScoped<ILichLamViecService, LichLamViecService>();
-            services.AddScoped<IPhieuKhamService, PhieuKhamService>();
-            services.AddScoped<IHoaDonService, HoaDonService>();
-
-            return services;
-        }
-        #endregion
-
-        #region Database Configuration
-        public static IServiceCollection AddDatabaseConfiguration(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(
-                    configuration.GetConnectionString("DefaultConnection"),
-                    new MySqlServerVersion(new Version(8, 0, 44)),
-                    mySqlOptions =>
-                    {
-                        mySqlOptions.CommandTimeout(300);
-                        mySqlOptions.EnableRetryOnFailure(
-                            maxRetryCount: 3,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                            errorNumbersToAdd: null
-                        );
-                    }
-                )
-            );
-
-            return services;
-        }
-        #endregion
-
-        #region Cors configuration
+        #region CORS configuration
         public static IServiceCollection AddCorsConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddCors(options =>
@@ -97,39 +28,7 @@ namespace QuanLyPhongKham.API.Extentions
         }
         #endregion
 
-        #region Swagger configuration
-        public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
-        {
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-
-            return services;
-        }
-        #endregion
-
-        #region Identity configuration
-        public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services)
-        {
-            services.AddIdentityCore<ApplicationUser>(options =>
-            {
-                options.User.RequireUniqueEmail = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-            })
-                .AddRoles<IdentityRole>()
-                .AddSignInManager()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            return services;
-        }
-        #endregion
-
-        #region Jwt authentication
+        #region JWT authentication
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
@@ -145,40 +44,64 @@ namespace QuanLyPhongKham.API.Extentions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ClockSkew = TimeSpan.Zero, // Không cho phép token hết hạn vẫn dùng được
+                    ClockSkew = TimeSpan.Zero,
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
                 };
 
-                // Đọc token từ Cookie nếu không có trong Header
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>
                     {
-                        string? token = null;
-
-                        // Kiểm tra Authorization Header với format đúng "Bearer <token>"
                         var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
-                        if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                        if (!string.IsNullOrEmpty(authHeader) &&
+                            authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
                         {
-                            token = authHeader.Substring("Bearer ".Length).Trim();
+                            context.Token = authHeader["Bearer ".Length..].Trim();
                         }
 
-                        // Nếu không có trong header, đọc từ cookie (chỉ cho phép khi có HttpOnly cookie)
-                        if (string.IsNullOrEmpty(token))
-                        {
-                            token = context.Request.Cookies["AuthToken"];
-                        }
-
-                        if (!string.IsNullOrEmpty(token))
-                        {
-                            context.Token = token;
-                        }
+                        if (string.IsNullOrEmpty(context.Token))
+                            context.Token = context.Request.Cookies["AuthToken"];
 
                         return Task.CompletedTask;
                     }
                 };
+            });
+
+            return services;
+        }
+        #endregion
+
+        #region Swagger
+        public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
+        {
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Quản Lý Phòng Khám API", Version = "v1" });
+
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Nhập JWT token (không cần tiền tố 'Bearer').",
+                };
+                c.AddSecurityDefinition("Bearer", securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
 
             return services;

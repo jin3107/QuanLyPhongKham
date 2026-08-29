@@ -2,6 +2,7 @@ import "./reschedule.scss";
 import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import {
+  Alert,
   Form,
   DatePicker,
   Select,
@@ -87,8 +88,8 @@ const buildTimeSlots = (startValue, endValue, stepMinutes = 30) => {
   return slots;
 };
 
-const getCurrentUserName = () =>
-  sessionStorage.getItem("userName") || sessionStorage.getItem("UserName") || "";
+const getCurrentPhoneNumber = () =>
+  sessionStorage.getItem("phoneNumber") || "";
 
 const isCancelledAppointment = (appointment) => appointment?.trangThai === "Đã hủy";
 
@@ -101,15 +102,16 @@ export default function Reschedule() {
   const [patients, setPatients] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [timeOptions, setTimeOptions] = useState([]);
+  const [bookedTimes, setBookedTimes] = useState([]);
+  const [noPatientProfile, setNoPatientProfile] = useState(false);
 
   const resolvePatientId = (items) => {
     const storedId = sessionStorage.getItem("patientId");
     if (storedId && items.some((item) => item.maBN === storedId)) return storedId;
 
-    const userName = sessionStorage.getItem("userName") || "";
-    const matched =
-      items.find((item) => item.soDienThoai === userName) ||
-      items.find((item) => item.hoTen === userName);
+    const phoneNumber = getCurrentPhoneNumber();
+    if (!phoneNumber) return "";
+    const matched = items.find((item) => item.soDienThoai === phoneNumber);
 
     if (matched?.maBN) {
       sessionStorage.setItem("patientId", matched.maBN);
@@ -122,9 +124,9 @@ export default function Reschedule() {
     setLoading(true);
     try {
       const [lichHenRes, bacSiRes, benhNhanRes] = await Promise.all([
-        searchLichHen(null, 1, 200),
-        searchBacSi(null, 1, 200),
-        searchBenhNhan(null, 1, 200),
+        searchLichHen(null, 1, 2000),
+        searchBacSi(null, 1, 2000),
+        searchBenhNhan(null, 1, 2000),
       ]);
 
       const lichHenRows = getSearchRows(lichHenRes);
@@ -142,18 +144,10 @@ export default function Reschedule() {
         : [];
 
       const patientId = resolvePatientId(normalizedPatients);
-      const currentUserName = getCurrentUserName();
-      const byPatientId = patientId
+      setNoPatientProfile(!patientId);
+      const filteredAppointments = patientId
         ? normalizedAppointments.filter((item) => item.maBN === patientId)
         : [];
-      const byCreatedBy = currentUserName
-        ? normalizedAppointments.filter((item) => item.createdBy === currentUserName)
-        : [];
-      const filteredAppointments = byPatientId.length
-        ? byPatientId
-        : byCreatedBy.length
-          ? byCreatedBy
-          : normalizedAppointments;
 
       setAppointments(filteredAppointments);
       setDoctors(normalizedDoctors);
@@ -176,7 +170,7 @@ export default function Reschedule() {
               : null,
             newTime: formatTime(storedAppointment.thoiGianKham),
           });
-          loadTimeSlots(storedAppointment.thoiGianKham, storedAppointment.maBS);
+          loadTimeSlots(storedAppointment.thoiGianKham, storedAppointment.maBS, storedAppointment.maLH);
         } else {
           sessionStorage.removeItem("currentLichHenId");
           setSelectedAppointment(null);
@@ -246,7 +240,7 @@ export default function Reschedule() {
     },
   ];
 
-  const loadTimeSlots = async (dateValue, doctorId) => {
+  const loadTimeSlots = async (dateValue, doctorId, excludeAppointmentId) => {
     if (!dateValue || !doctorId) {
       setTimeOptions([]);
       return;
@@ -255,7 +249,7 @@ export default function Reschedule() {
     try {
       const date = toDateValue(dateValue);
       const filters = [createFilter("Ngày làm việc", toLocalDateString(date))];
-      const response = await searchLichLamViec(filters, 1, 200);
+      const response = await searchLichLamViec(filters, 1, 2000);
       const rows = getSearchRows(response);
       const shifts = Array.isArray(rows)
         ? rows.map(normalizeLichLamViec).filter((item) => item.maBS === doctorId)
@@ -263,7 +257,28 @@ export default function Reschedule() {
       const timeSlots = shifts.length
         ? buildTimeSlots(shifts[0].gioBatDau, shifts[0].gioKetThuc)
         : ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30"];
-      setTimeOptions(timeSlots);
+
+      const appointmentFilters = [
+        createFilter("Thời gian khám", toLocalDateString(date)),
+      ];
+      const appointmentResponse = await searchLichHen(appointmentFilters, 1, 2000);
+      const appointmentRows = getSearchRows(appointmentResponse);
+      const normalizedAppointments = Array.isArray(appointmentRows)
+        ? appointmentRows.map(normalizeLichHen)
+        : [];
+
+      const occupiedTimes = normalizedAppointments
+        .filter(
+          (item) =>
+            item.maBS === doctorId &&
+            item.trangThai !== "Đã hủy" &&
+            item.maLH !== excludeAppointmentId &&
+            item.thoiGianKham,
+        )
+        .map((item) => formatTime(item.thoiGianKham));
+
+      setBookedTimes(occupiedTimes);
+      setTimeOptions(timeSlots.filter((time) => !occupiedTimes.includes(time)));
     } catch {
       messageApi.error("Không lấy được giờ trống.");
     }
@@ -290,7 +305,7 @@ export default function Reschedule() {
       newTime: formatTime(appointment.thoiGianKham),
     });
 
-    loadTimeSlots(appointment.thoiGianKham, appointment.maBS);
+    loadTimeSlots(appointment.thoiGianKham, appointment.maBS, appointment.maLH);
   };
 
   const handleSubmit = async (values) => {
@@ -404,7 +419,7 @@ export default function Reschedule() {
                     >
                       <DatePicker
                         style={{ width: "100%" }}
-                        onChange={(value) => loadTimeSlots(value, form.getFieldValue("doctor"))}
+                        onChange={(value) => loadTimeSlots(value, form.getFieldValue("doctor"), selectedAppointment?.maLH)}
                       />
                     </Form.Item>
                   </Col>
@@ -418,7 +433,7 @@ export default function Reschedule() {
                       <Select
                         placeholder="Chọn bác sĩ"
                         options={doctorOptions}
-                        onChange={(value) => loadTimeSlots(form.getFieldValue("newDate"), value)}
+                        onChange={(value) => loadTimeSlots(form.getFieldValue("newDate"), value, selectedAppointment?.maLH)}
                       />
                     </Form.Item>
                   </Col>
@@ -454,6 +469,15 @@ export default function Reschedule() {
           <Spin spinning={loading} description="Đang tải...">
             <div className="reschedule-card">
               <h3 className="reschedule-card-title">Lịch khám của tôi</h3>
+              {noPatientProfile && !loading && (
+                <Alert
+                  style={{ marginBottom: 16 }}
+                  type="warning"
+                  showIcon
+                  message="Không tìm thấy hồ sơ bệnh nhân khớp với số điện thoại tài khoản của bạn."
+                  description="Vui lòng liên hệ lễ tân để liên kết tài khoản với hồ sơ bệnh nhân."
+                />
+              )}
               <Table
                 columns={columns}
                 dataSource={tableRows}
@@ -473,6 +497,19 @@ export default function Reschedule() {
                 <li>Không được đổi lịch quá 2 lần</li>
               </ul>
             </div>
+
+            {bookedTimes.length > 0 && (
+              <div className="reschedule-card reschedule-notes">
+                <h3 className="reschedule-card-title">Khung giờ đã đặt</h3>
+                <div className="notes-list">
+                  {bookedTimes.map((time) => (
+                    <Tag key={time} color="red">
+                      {time}
+                    </Tag>
+                  ))}
+                </div>
+              </div>
+            )}
           </Spin>
         </Col>
       </Row>

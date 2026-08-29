@@ -83,11 +83,11 @@ export default function Prescription() {
     try {
       const today = new Date();
       const [thuocRes, phieuKhamRes, donThuocRes, lichHenRes, benhNhanRes] = await Promise.all([
-        searchDanhMucThuoc(null, 1, 200),
-        searchPhieuKham([createFilter("Ngày khám", toLocalDateString(today))], 1, 200),
-        searchDonThuoc(null, 1, 200),
-        searchLichHen([createFilter("Thời gian khám", toLocalDateString(today))], 1, 200),
-        searchBenhNhan(null, 1, 200),
+        searchDanhMucThuoc(null, 1, 2000),
+        searchPhieuKham([createFilter("Ngày khám", toLocalDateString(today))], 1, 2000),
+        searchDonThuoc(null, 1, 2000),
+        searchLichHen([createFilter("Thời gian khám", toLocalDateString(today))], 1, 2000),
+        searchBenhNhan(null, 1, 2000),
       ]);
 
       const thuocRows = getSearchRows(thuocRes);
@@ -169,6 +169,13 @@ export default function Prescription() {
   const handleAddMedicine = (values) => {
     const medicine = medicines.find((item) => item.maThuoc === values.medicine);
     if (!medicine) return;
+
+    if (prescriptionItems.some((item) => item.maThuoc === medicine.maThuoc)) {
+      messageApi.warning(
+        `${medicine.tenThuoc} đã có trong toa. Vui lòng sửa số lượng ở dòng hiện có thay vì thêm mới.`,
+      );
+      return;
+    }
 
     const newItem = {
       maThuoc: medicine.maThuoc,

@@ -101,7 +101,15 @@ export default function Register() {
               <Form.Item
                 label="Mật khẩu"
                 name="password"
-                rules={[{ required: true, message: "Tạo mật khẩu" }]}
+                rules={[
+                  { required: true, message: "Tạo mật khẩu" },
+                  { min: 8, message: "Mật khẩu phải có ít nhất 8 ký tự" },
+                  {
+                    pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9])/,
+                    message:
+                      "Mật khẩu cần chữ hoa, chữ thường, số và ký tự đặc biệt",
+                  },
+                ]}
               >
                 <Input.Password
                   placeholder="Tạo mật khẩu"

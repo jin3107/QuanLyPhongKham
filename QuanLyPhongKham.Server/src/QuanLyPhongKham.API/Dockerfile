@@ -13,9 +13,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["QuanLyPhongKham.API/QuanLyPhongKham.API.csproj", "QuanLyPhongKham.API/"]
-COPY ["QuanLyPhongKham.Models/QuanLyPhongKham.Models.csproj", "QuanLyPhongKham.Models/"]
-COPY ["QuanLyPhongKham.Services/QuanLyPhongKham.Services.csproj", "QuanLyPhongKham.Services/"]
-COPY ["QuanLyPhongKham.Repositories/QuanLyPhongKham.Repositories.csproj", "QuanLyPhongKham.Repositories/"]
+COPY ["QuanLyPhongKham.Domain/QuanLyPhongKham.Domain.csproj", "QuanLyPhongKham.Domain/"]
+COPY ["QuanLyPhongKham.Application/QuanLyPhongKham.Application.csproj", "QuanLyPhongKham.Application/"]
+COPY ["QuanLyPhongKham.Infrastructure/QuanLyPhongKham.Infrastructure.csproj", "QuanLyPhongKham.Infrastructure/"]
 COPY ["QuanLyPhongKham.Commons/QuanLyPhongKham.Commons.csproj", "QuanLyPhongKham.Commons/"]
 COPY ["QuanLyPhongKham.DTOs/QuanLyPhongKham.DTOs.csproj", "QuanLyPhongKham.DTOs/"]
 COPY ["MayNghien.Infrastructures/MayNghien.Infrastructures.csproj", "MayNghien.Infrastructures/"]

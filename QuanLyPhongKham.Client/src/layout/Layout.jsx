@@ -86,6 +86,8 @@ export default function AppLayout() {
     return "/patient/dashboard";
   };
 
+  const [authChecked, setAuthChecked] = useState(false);
+
   useEffect(() => {
     const storedRole =
       sessionStorage.getItem("role") ||
@@ -95,22 +97,25 @@ export default function AppLayout() {
     const storedName =
       sessionStorage.getItem("userName") || sessionStorage.getItem("UserName");
 
-    if (storedRole && storedName) return;
+    if (storedRole && storedName) {
+      setAuthChecked(true);
+      return;
+    }
 
     const token =
       sessionStorage.getItem("accessToken") ||
       sessionStorage.getItem("AccessToken");
-    const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+
+    if (!token) {
+      setAuthChecked(true);
+      return;
+    }
 
     const loadProfile = async () => {
       try {
-        const response = await apiClient.get("/authentication/me", {
-          headers,
-          withCredentials: true,
-        });
+        const response = await apiClient.get("/authentication/me");
         const raw = response?.data;
-        if (!raw) return;
-        if (raw?.isSuccess === false || raw?.IsSuccess === false) return;
+        if (!raw || raw?.isSuccess === false || raw?.IsSuccess === false) return;
         const payload = raw?.data || raw?.Data || raw;
         const resolvedRole = normalizeRole(payload?.role || payload?.Role);
         if (resolvedRole) setApiRole(resolvedRole);
@@ -120,8 +125,12 @@ export default function AppLayout() {
           payload?.name ||
           payload?.Name;
         if (resolvedName) setApiUserName(resolvedName);
+        const resolvedPhone = payload?.phoneNumber || payload?.PhoneNumber;
+        if (resolvedPhone) sessionStorage.setItem("phoneNumber", resolvedPhone);
       } catch {
-        // ignore
+        // ignore — authChecked still flips below, guard effect will redirect if needed
+      } finally {
+        setAuthChecked(true);
       }
     };
 
@@ -129,29 +138,43 @@ export default function AppLayout() {
   }, []);
 
   useEffect(() => {
-    const isAdminPath = pathname.startsWith("/admin");
-    const isDoctorPath = pathname.startsWith("/doctor");
-    const isReceptionistPath = pathname.startsWith("/receptionist");
+    if (!authChecked) return;
 
-    if ((isAdminPath || isDoctorPath || isReceptionistPath) && !authRole) {
+    if (!authRole) {
       navigate("/login", { replace: true });
       return;
     }
 
-    if (isAdminPath && authRole && authRole !== "admin") {
+    const isAdminPath = pathname.startsWith("/admin");
+    const isDoctorPath = pathname.startsWith("/doctor");
+    const isReceptionistPath =
+      pathname.startsWith("/receptionist") || pathname === "/payment";
+    const isPatientPath =
+      pathname.startsWith("/patient") ||
+      ["/scheduleview", "/booking", "/cancellation", "/reschedule"].includes(
+        pathname,
+      );
+    const isAdminOnlyReportPath = ["/revenue", "/patientcount"].includes(pathname);
+
+    if ((isAdminPath || isAdminOnlyReportPath) && authRole !== "admin") {
       navigate(getDefaultRoute(authRole), { replace: true });
       return;
     }
 
-    if (isDoctorPath && authRole && authRole !== "doctor") {
+    if (isDoctorPath && authRole !== "doctor") {
       navigate(getDefaultRoute(authRole), { replace: true });
       return;
     }
 
-    if (isReceptionistPath && authRole && authRole !== "receptionist") {
+    if (isReceptionistPath && authRole !== "receptionist") {
+      navigate(getDefaultRoute(authRole), { replace: true });
+      return;
+    }
+
+    if (isPatientPath && authRole !== "patient") {
       navigate(getDefaultRoute(authRole), { replace: true });
     }
-  }, [authRole, navigate, pathname]);
+  }, [authChecked, authRole, navigate, pathname]);
 
   const menuItems = useMemo(() => {
     const patientMenu = [
@@ -281,6 +304,11 @@ export default function AppLayout() {
       label: <Link to="/logout">Đăng xuất</Link>,
     },
   ];
+
+  if (!authChecked || !authRole) {
+    return <div className="app-route-loading">Đang tải...</div>;
+  }
+
   return (
     <Layout className="app-layout">
       {/* SIDEBAR */}

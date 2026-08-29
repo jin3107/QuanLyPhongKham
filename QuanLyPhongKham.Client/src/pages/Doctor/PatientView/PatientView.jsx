@@ -36,9 +36,9 @@ export default function PatientView() {
     setLoading(true);
     try {
       const [benhNhanRes, phieuKhamRes, donThuocRes] = await Promise.all([
-        searchBenhNhan(null, 1, 200),
-        searchPhieuKham(null, 1, 200),
-        searchDonThuoc(null, 1, 200),
+        searchBenhNhan(null, 1, 2000),
+        searchPhieuKham(null, 1, 2000),
+        searchDonThuoc(null, 1, 2000),
       ]);
 
       const benhNhanRows = getSearchRows(benhNhanRes);

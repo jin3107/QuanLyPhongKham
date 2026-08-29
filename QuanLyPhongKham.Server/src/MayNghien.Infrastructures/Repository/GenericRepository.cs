@@ -105,9 +105,9 @@ namespace MayNghien.Infrastructures.Repository
                 if (isCommit)
                     _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw; // Fix #11: preserve original stack trace
             }
 
         }
@@ -133,9 +133,9 @@ namespace MayNghien.Infrastructures.Repository
                 _context.RemoveRange(entities);
                 _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw; // Fix #11: preserve original stack trace
             }
 
         }

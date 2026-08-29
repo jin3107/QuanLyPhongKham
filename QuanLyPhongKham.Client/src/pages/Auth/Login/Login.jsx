@@ -49,6 +49,8 @@ export default function Login() {
 			if (data.accessToken) sessionStorage.setItem("accessToken", data.accessToken);
 			if (data.role) sessionStorage.setItem("role", data.role);
 			if (data.userName) sessionStorage.setItem("userName", data.userName);
+			if (data.phoneNumber) sessionStorage.setItem("phoneNumber", data.phoneNumber);
+			else sessionStorage.removeItem("phoneNumber");
 
 			navigate(getDefaultRoute(data.role));
 		} catch {

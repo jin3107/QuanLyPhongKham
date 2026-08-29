@@ -15,61 +15,128 @@ import {
   Steps,
   Typography,
 } from "antd";
-import { createChangePasswordRequest } from "../../../interfaces";
-import { changePassword as changePasswordApi } from "../../../apis";
+import {
+  createSendOtpRequest,
+  createVerifyOtpRequest,
+  createResetPasswordRequest,
+} from "../../../interfaces";
+import {
+  sendOtp as sendOtpApi,
+  verifyOtp as verifyOtpApi,
+  resetPassword as resetPasswordApi,
+} from "../../../apis";
 
 const { Title, Paragraph } = Typography;
+
+const getErrorMessage = (error, fallback) => {
+  const data = error?.response?.data;
+  const validationErrors = data?.errors ?? data?.Errors;
+  const firstValidationMsg = validationErrors
+    ? Object.values(validationErrors).flat().find(Boolean)
+    : null;
+  const msg = data?.message ?? data?.Message ?? data?.title ?? data?.Title;
+  return firstValidationMsg || msg || fallback;
+};
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const [verifyData, setVerifyData] = useState({ email: "", phoneNumber: "" });
+  const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
-  const [verifyForm] = Form.useForm();
+  const [emailForm] = Form.useForm();
+  const [otpForm] = Form.useForm();
   const [passwordForm] = Form.useForm();
 
-  const handleVerify = (values) => {
-    setVerifyData({ email: values.email, phoneNumber: values.phoneNumber });
-    setCurrentStep(1);
-  };
-
-  const handleChangePassword = async (values) => {
+  const handleSendOtp = async (values) => {
     setError("");
     setSubmitting(true);
     try {
-      const response = await changePasswordApi(
-        createChangePasswordRequest(
-          verifyData.email,
-          verifyData.phoneNumber,
-          values.newPassword,
-          values.confirmNewPassword,
-        ),
-      );
-
+      const response = await sendOtpApi(createSendOtpRequest(values.email));
       const res = response?.data ?? {};
       const isSuccess = res?.isSuccess ?? res?.IsSuccess;
       const msg = res?.message ?? res?.Message;
 
       if (!isSuccess) {
-        const isVerifyError =
-          msg?.toLowerCase().includes("phone") ||
-          msg?.toLowerCase().includes("not found");
-        setError(msg || "Không thể đổi mật khẩu.");
-        if (isVerifyError) setCurrentStep(0);
+        setError(msg || "Không thể gửi mã OTP.");
+        return;
+      }
+
+      setEmail(values.email);
+      setCurrentStep(1);
+    } catch (err) {
+      setError(getErrorMessage(err, "Không thể gửi mã OTP."));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleVerifyOtp = async (values) => {
+    setError("");
+    setSubmitting(true);
+    try {
+      const response = await verifyOtpApi(
+        createVerifyOtpRequest(email, values.code),
+      );
+      const res = response?.data ?? {};
+      const isSuccess = res?.isSuccess ?? res?.IsSuccess;
+      const msg = res?.message ?? res?.Message;
+
+      if (!isSuccess) {
+        setError(msg || "Mã OTP không đúng.");
+        return;
+      }
+
+      setCurrentStep(2);
+    } catch (err) {
+      setError(getErrorMessage(err, "Không thể xác thực mã OTP."));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleResetPassword = async (values) => {
+    setError("");
+    setSubmitting(true);
+    try {
+      const response = await resetPasswordApi(
+        createResetPasswordRequest(
+          email,
+          values.newPassword,
+          values.confirmNewPassword,
+        ),
+      );
+      const res = response?.data ?? {};
+      const isSuccess = res?.isSuccess ?? res?.IsSuccess;
+      const msg = res?.message ?? res?.Message;
+
+      if (!isSuccess) {
+        const isExpiredSession =
+          msg?.toLowerCase().includes("otp") || msg?.toLowerCase().includes("xác thực");
+        setError(msg || "Không thể đặt lại mật khẩu.");
+        if (isExpiredSession) setCurrentStep(0);
         return;
       }
 
       setDone(true);
     } catch (err) {
-      const data = err?.response?.data;
-      const validationErrors = data?.errors ?? data?.Errors;
-      const firstValidationMsg = validationErrors
-        ? Object.values(validationErrors).flat().find(Boolean)
-        : null;
-      const msg = data?.message ?? data?.Message ?? data?.title ?? data?.Title;
-      setError(firstValidationMsg || msg || "Không thể đổi mật khẩu.");
+      setError(getErrorMessage(err, "Không thể đặt lại mật khẩu."));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setError("");
+    setSubmitting(true);
+    try {
+      const response = await sendOtpApi(createSendOtpRequest(email));
+      const res = response?.data ?? {};
+      const isSuccess = res?.isSuccess ?? res?.IsSuccess;
+      if (!isSuccess) setError(res?.message || res?.Message || "Không thể gửi lại mã OTP.");
+    } catch (err) {
+      setError(getErrorMessage(err, "Không thể gửi lại mã OTP."));
     } finally {
       setSubmitting(false);
     }
@@ -90,8 +157,7 @@ export default function ForgotPassword() {
             </div>
             <Title level={2}>Quên mật khẩu?</Title>
             <Paragraph>
-              Xác minh email và số điện thoại để đặt lại mật khẩu tài khoản của
-              bạn.
+              Nhập email đã đăng ký để nhận mã xác thực (OTP) đặt lại mật khẩu.
             </Paragraph>
             <img
               className="auth-illustration"
@@ -121,11 +187,22 @@ export default function ForgotPassword() {
                   <Title level={2}>Đặt lại mật khẩu</Title>
                 </div>
 
+                <Steps
+                  current={currentStep}
+                  size="small"
+                  style={{ marginBottom: 24 }}
+                  items={[
+                    { title: "Email" },
+                    { title: "Xác thực OTP" },
+                    { title: "Mật khẩu mới" },
+                  ]}
+                />
+
                 {currentStep === 0 && (
                   <Form
-                    form={verifyForm}
+                    form={emailForm}
                     layout="vertical"
-                    onFinish={handleVerify}
+                    onFinish={handleSendOtp}
                     autoComplete="off"
                     className="auth-form"
                   >
@@ -140,28 +217,17 @@ export default function ForgotPassword() {
                       <Input placeholder="Email đăng ký tài khoản" />
                     </Form.Item>
 
-                    <Form.Item
-                      label="Số điện thoại"
-                      name="phoneNumber"
-                      rules={[
-                        { required: true, message: "Nhập số điện thoại" },
-                        {
-                          pattern: /^(0[35789])\d{8}$/,
-                          message: "Số điện thoại Việt Nam không hợp lệ",
-                        },
-                      ]}
-                    >
-                      <Input
-                        placeholder="Số điện thoại đăng ký"
-                        maxLength={10}
-                      />
-                    </Form.Item>
+                    {error && <Alert message={error} type="error" showIcon />}
 
                     <Space className="auth-actions" wrap>
-                      <Button type="primary" htmlType="submit">
-                        Tiếp tục
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        loading={submitting}
+                      >
+                        Gửi mã OTP
                       </Button>
-                      <Button onClick={() => navigate("/login")}>
+                      <Button onClick={() => navigate("/login")} disabled={submitting}>
                         Quay lại đăng nhập
                       </Button>
                     </Space>
@@ -170,9 +236,59 @@ export default function ForgotPassword() {
 
                 {currentStep === 1 && (
                   <Form
+                    form={otpForm}
+                    layout="vertical"
+                    onFinish={handleVerifyOtp}
+                    autoComplete="off"
+                    className="auth-form"
+                  >
+                    <Paragraph type="secondary">
+                      Mã OTP gồm 6 chữ số đã được gửi tới <b>{email}</b>. Mã có
+                      hiệu lực trong 5 phút.
+                    </Paragraph>
+
+                    <Form.Item
+                      label="Mã OTP"
+                      name="code"
+                      rules={[
+                        { required: true, message: "Nhập mã OTP" },
+                        { len: 6, message: "Mã OTP gồm 6 chữ số" },
+                      ]}
+                    >
+                      <Input placeholder="Nhập mã OTP" maxLength={6} />
+                    </Form.Item>
+
+                    {error && <Alert message={error} type="error" showIcon />}
+
+                    <Space className="auth-actions" wrap>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        loading={submitting}
+                      >
+                        Xác thực
+                      </Button>
+                      <Button onClick={handleResendOtp} disabled={submitting}>
+                        Gửi lại mã
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setError("");
+                          setCurrentStep(0);
+                        }}
+                        disabled={submitting}
+                      >
+                        Quay lại
+                      </Button>
+                    </Space>
+                  </Form>
+                )}
+
+                {currentStep === 2 && (
+                  <Form
                     form={passwordForm}
                     layout="vertical"
-                    onFinish={handleChangePassword}
+                    onFinish={handleResetPassword}
                     autoComplete="off"
                     className="auth-form"
                   >
@@ -224,7 +340,7 @@ export default function ForgotPassword() {
                       <Button
                         onClick={() => {
                           setError("");
-                          setCurrentStep(0);
+                          setCurrentStep(1);
                         }}
                         disabled={submitting}
                       >
