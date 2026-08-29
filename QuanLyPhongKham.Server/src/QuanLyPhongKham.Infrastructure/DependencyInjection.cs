@@ -50,6 +50,7 @@ namespace QuanLyPhongKham.Infrastructure
             services.AddScoped<IMedicalExaminationRepository, MedicalExaminationRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IOtpCodeRepository, OtpCodeRepository>();
+            services.AddScoped<IMedicalExaminationServiceRepository, MedicalExaminationServiceRepository>();
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICurrentUserService, CurrentUserService>();

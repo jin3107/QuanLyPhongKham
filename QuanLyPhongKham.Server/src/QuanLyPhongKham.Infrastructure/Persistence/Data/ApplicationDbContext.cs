@@ -25,6 +25,7 @@ namespace QuanLyPhongKham.Infrastructure.Persistence.Data
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<RefreshTokenModel> RefreshTokenModels { get; set; }
         public DbSet<OtpCode> OtpCodes { get; set; }
+        public DbSet<MedicalExaminationService> MedicalExaminationServices { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

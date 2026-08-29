@@ -19,6 +19,9 @@ import {
   searchBenhNhan,
   searchLichHen,
   searchBacSi,
+  searchPhieuKham,
+  createPhieuKhamDichVu,
+  getPhieuKhamDichVuByExam,
 } from "../../../apis";
 import { createFilter, toLocalDateString } from "../../../helpers";
 import {
@@ -26,9 +29,8 @@ import {
   normalizeBenhNhan,
   normalizeLichHen,
   normalizeBacSi,
+  normalizePhieuKham,
 } from "../../../models";
-
-const STORAGE_KEY = "doctorServiceRequests";
 
 const getSearchRows = (response) => {
   const payload = response?.data ?? {};
@@ -36,28 +38,26 @@ const getSearchRows = (response) => {
   return searchData?.data ?? searchData?.Data ?? [];
 };
 
+const getListPayload = (response) => {
+  const payload = response?.data ?? {};
+  return payload?.data ?? payload?.Data ?? [];
+};
+
+const formatMoney = (value) => Number(value || 0).toLocaleString("vi-VN") + " ₫";
+
 export default function ServiceRequest() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [services, setServices] = useState([]);
+  const [phieuKhams, setPhieuKhams] = useState([]);
+  const [lichHens, setLichHens] = useState([]);
   const [patients, setPatients] = useState([]);
-  const [requests, setRequests] = useState([]);
+  const [selectedExamId, setSelectedExamId] = useState(
+    sessionStorage.getItem("currentPhieuKhamId") || "",
+  );
+  const [examServices, setExamServices] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
-
-  const loadRequests = () => {
-    const stored = sessionStorage.getItem(STORAGE_KEY);
-    if (!stored) return [];
-    try {
-      return JSON.parse(stored);
-    } catch {
-      return [];
-    }
-  };
-
-  const saveRequests = (items) => {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    setRequests(items);
-  };
 
   const resolveDoctorId = (items) => {
     const storedId = sessionStorage.getItem("doctorId");
@@ -77,45 +77,45 @@ export default function ServiceRequest() {
     setLoading(true);
     try {
       const today = new Date();
-      const [serviceRes, benhNhanRes, lichHenRes, bacSiRes] = await Promise.all([
-        searchDanhMucDichVu(null, 1, 2000),
-        searchBenhNhan(null, 1, 2000),
-        searchLichHen([createFilter("Thời gian khám", toLocalDateString(today))], 1, 2000),
-        searchBacSi(null, 1, 2000),
-      ]);
+      const [serviceRes, benhNhanRes, lichHenRes, bacSiRes, phieuKhamRes] =
+        await Promise.all([
+          searchDanhMucDichVu(null, 1, 2000),
+          searchBenhNhan(null, 1, 2000),
+          searchLichHen([createFilter("Thời gian khám", toLocalDateString(today))], 1, 2000),
+          searchBacSi(null, 1, 2000),
+          searchPhieuKham([createFilter("Ngày khám", toLocalDateString(today))], 1, 2000),
+        ]);
 
-      const serviceRows = getSearchRows(serviceRes);
-      const benhNhanRows = getSearchRows(benhNhanRes);
-      const lichHenRows = getSearchRows(lichHenRes);
-      const bacSiRows = getSearchRows(bacSiRes);
-
-      const normalizedServices = Array.isArray(serviceRows)
-        ? serviceRows.map(normalizeDanhMucDichVu)
+      const normalizedServices = Array.isArray(getSearchRows(serviceRes))
+        ? getSearchRows(serviceRes).map(normalizeDanhMucDichVu)
         : [];
-      const normalizedPatients = Array.isArray(benhNhanRows)
-        ? benhNhanRows.map(normalizeBenhNhan)
+      const normalizedPatients = Array.isArray(getSearchRows(benhNhanRes))
+        ? getSearchRows(benhNhanRes).map(normalizeBenhNhan)
         : [];
-      const normalizedAppointments = Array.isArray(lichHenRows)
-        ? lichHenRows.map(normalizeLichHen)
+      const normalizedAppointments = Array.isArray(getSearchRows(lichHenRes))
+        ? getSearchRows(lichHenRes).map(normalizeLichHen)
         : [];
-      const normalizedDoctors = Array.isArray(bacSiRows)
-        ? bacSiRows.map(normalizeBacSi)
+      const normalizedDoctors = Array.isArray(getSearchRows(bacSiRes))
+        ? getSearchRows(bacSiRes).map(normalizeBacSi)
+        : [];
+      const normalizedExams = Array.isArray(getSearchRows(phieuKhamRes))
+        ? getSearchRows(phieuKhamRes).map(normalizePhieuKham)
         : [];
 
       const doctorId = resolveDoctorId(normalizedDoctors);
-      const filteredAppointments = doctorId
-        ? normalizedAppointments.filter((item) => item.maBS === doctorId)
-        : normalizedAppointments;
-      const appointmentPatientIds = new Set(
-        filteredAppointments.map((item) => item.maBN).filter(Boolean),
+      const doctorAppointmentIds = new Set(
+        normalizedAppointments
+          .filter((item) => !doctorId || item.maBS === doctorId)
+          .map((item) => item.maLH),
       );
-      const appointmentPatients = normalizedPatients.filter((p) =>
-        appointmentPatientIds.has(p.maBN),
+      const doctorExams = normalizedExams.filter((exam) =>
+        doctorAppointmentIds.has(exam.maLH),
       );
 
       setServices(normalizedServices);
-      setPatients(appointmentPatients.length ? appointmentPatients : normalizedPatients);
-      setRequests(loadRequests());
+      setPatients(normalizedPatients);
+      setLichHens(normalizedAppointments);
+      setPhieuKhams(doctorExams.length ? doctorExams : normalizedExams);
     } catch {
       messageApi.error("Không tải được danh mục dịch vụ.");
     } finally {
@@ -127,47 +127,93 @@ export default function ServiceRequest() {
     loadData();
   }, []);
 
+  const loadExamServices = async (maPK) => {
+    if (!maPK) {
+      setExamServices([]);
+      return;
+    }
+    try {
+      const response = await getPhieuKhamDichVuByExam(maPK);
+      const rows = getListPayload(response);
+      setExamServices(Array.isArray(rows) ? rows : []);
+    } catch {
+      messageApi.error("Không tải được danh sách dịch vụ của phiếu khám.");
+    }
+  };
+
+  useEffect(() => {
+    loadExamServices(selectedExamId);
+  }, [selectedExamId]);
+
+  const examOptions = useMemo(() => {
+    return phieuKhams.map((exam) => {
+      const appointment = lichHens.find((lh) => lh.maLH === exam.maLH);
+      const patient = patients.find((p) => p.maBN === appointment?.maBN);
+      return {
+        value: exam.maPK,
+        label: `${patient?.hoTen || exam.tenBenhNhan || "Bệnh nhân"} - ${
+          appointment ? new Date(appointment.thoiGianKham).toLocaleString("vi-VN") : ""
+        }`,
+      };
+    });
+  }, [phieuKhams, lichHens, patients]);
+
   const serviceOptions = useMemo(() => {
-    return services.map((service) => ({
-      value: service.maDV,
-      label: service.tenDV,
-    }));
-  }, [services]);
+    const alreadyOrdered = new Set(examServices.map((item) => item.maDV ?? item.MaDV));
+    return services
+      .filter((service) => !alreadyOrdered.has(service.maDV))
+      .map((service) => ({
+        value: service.maDV,
+        label: `${service.tenDV} - ${formatMoney(service.donGia)}`,
+      }));
+  }, [services, examServices]);
 
-  const patientOptions = useMemo(() => {
-    return patients.map((patient) => ({
-      value: patient.maBN,
-      label: patient.hoTen,
-    }));
-  }, [patients]);
+  const handleExamChange = (value) => {
+    setSelectedExamId(value);
+    sessionStorage.setItem("currentPhieuKhamId", value);
+    form.setFieldsValue({ services: undefined });
+  };
 
-  const handleSubmit = (values) => {
-    const selectedPatient = patients.find((p) => p.maBN === values.patient);
-    const selectedServices = services.filter((service) =>
-      values.services.includes(service.maDV),
-    );
+  const handleSubmit = async (values) => {
+    if (!selectedExamId) {
+      messageApi.warning("Vui lòng chọn phiếu khám.");
+      return;
+    }
 
-    const newRequest = {
-      key: `DV-${Date.now()}`,
-      patient: selectedPatient?.hoTen || "Bệnh nhân",
-      services: selectedServices.map((s) => s.tenDV).join(", "),
-      status: "Đã gửi yêu cầu",
-    };
+    setSubmitting(true);
+    try {
+      const response = await createPhieuKhamDichVu({
+        maPK: selectedExamId,
+        maDichVus: values.services,
+      });
+      const res = response?.data ?? {};
+      const isSuccess = res?.isSuccess ?? res?.IsSuccess;
+      const msg = res?.message ?? res?.Message;
 
-    const nextRequests = [newRequest, ...requests];
-    saveRequests(nextRequests);
-    form.resetFields();
-    messageApi.success("Đã gửi yêu cầu dịch vụ.");
+      if (!isSuccess) {
+        messageApi.error(msg || "Không thể gửi yêu cầu dịch vụ.");
+        return;
+      }
+
+      messageApi.success("Đã gửi yêu cầu dịch vụ.");
+      form.resetFields(["services"]);
+      await loadExamServices(selectedExamId);
+    } catch (error) {
+      const data = error?.response?.data;
+      messageApi.error(data?.message ?? data?.Message ?? "Không thể gửi yêu cầu dịch vụ.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const columns = [
-    { title: "Bệnh nhân", dataIndex: "patient", key: "patient" },
-    { title: "Dịch vụ", dataIndex: "services", key: "services" },
+    { title: "Dịch vụ", dataIndex: "tenDV", key: "tenDV" },
     {
-      title: "Trạng thái",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => <Tag color="processing">{status}</Tag>,
+      title: "Đơn giá",
+      dataIndex: "donGia",
+      key: "donGia",
+      align: "right",
+      render: (value) => formatMoney(value),
     },
   ];
 
@@ -191,7 +237,7 @@ export default function ServiceRequest() {
                 className="request-alert"
                 type="info"
                 showIcon
-                message="Yêu cầu sẽ được chuyển đến bộ phận thực hiện dịch vụ và cập nhật vào hồ sơ khám."
+                message="Dịch vụ được gắn vào phiếu khám và sẽ cộng vào hóa đơn khi thanh toán."
               />
 
               <Form
@@ -201,16 +247,18 @@ export default function ServiceRequest() {
                 onFinish={handleSubmit}
               >
                 <div className="note-group">
-                  <label>Tên bệnh nhân</label>
+                  <label>Phiếu khám</label>
                   <Form.Item
-                    name="patient"
-                    rules={[{ required: true, message: "Chọn bệnh nhân" }]}
+                    name="exam"
+                    initialValue={selectedExamId || undefined}
+                    rules={[{ required: true, message: "Chọn phiếu khám" }]}
                   >
                     <Select
                       showSearch
                       optionFilterProp="label"
-                      options={patientOptions}
-                      notFoundContent="Không có bệnh nhân"
+                      options={examOptions}
+                      notFoundContent="Không có phiếu khám hôm nay"
+                      onChange={handleExamChange}
                     />
                   </Form.Item>
                 </div>
@@ -225,29 +273,53 @@ export default function ServiceRequest() {
                       showSearch
                       optionFilterProp="label"
                       options={serviceOptions}
+                      disabled={!selectedExamId}
                       notFoundContent="Chưa có dịch vụ trong danh mục"
                     />
                   </Form.Item>
                 </div>
                 <Space wrap>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={submitting}>
                     Gửi yêu cầu
                   </Button>
-                  <Button onClick={() => form.resetFields()}>Xóa</Button>
+                  <Button onClick={() => form.resetFields(["services"])} disabled={submitting}>
+                    Xóa
+                  </Button>
                 </Space>
               </Form>
             </Card>
           </Col>
 
           <Col xs={24} xl={15}>
-            <Card title="Yêu cầu dịch vụ trong ngày" className="doctor-card">
+            <Card title="Dịch vụ của phiếu khám đang chọn" className="doctor-card">
               <Table
                 className="doctor-table"
                 columns={columns}
-                dataSource={requests}
+                dataSource={examServices}
+                rowKey={(row) => row.id ?? row.Id}
                 pagination={false}
-                scroll={{ x: 720 }}
-                locale={{ emptyText: "Chưa có yêu cầu dịch vụ." }}
+                scroll={{ x: 480 }}
+                locale={{
+                  emptyText: selectedExamId
+                    ? "Chưa có dịch vụ nào cho phiếu khám này."
+                    : "Chọn phiếu khám để xem dịch vụ đã yêu cầu.",
+                }}
+                summary={(rows) =>
+                  rows.length ? (
+                    <Table.Summary.Row>
+                      <Table.Summary.Cell index={0}>
+                        <b>Tổng cộng</b>
+                      </Table.Summary.Cell>
+                      <Table.Summary.Cell index={1} align="right">
+                        <b>
+                          {formatMoney(
+                            rows.reduce((sum, row) => sum + Number(row.donGia || 0), 0),
+                          )}
+                        </b>
+                      </Table.Summary.Cell>
+                    </Table.Summary.Row>
+                  ) : null
+                }
               />
             </Card>
           </Col>

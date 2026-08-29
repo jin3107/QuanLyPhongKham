@@ -19,6 +19,7 @@ import {
   searchDonThuoc,
   searchDanhMucThuoc,
   updatePhieuKham,
+  getPhieuKhamDichVuByExam,
 } from "../../../apis";
 import { searchHoaDon, createHoaDon, updateHoaDon } from "../../../apis/HoaDonAPI";
 import { createPhieuKhamRequest } from "../../../interfaces";
@@ -31,6 +32,7 @@ import {
   normalizeDanhMucThuoc,
 } from "../../../models";
 import { normalizeHoaDon } from "../../../models/HoaDon";
+import { buildVietQrUrl } from "../../../config/payment";
 
 /* ── Helpers ── */
 const METHOD_MAP = {
@@ -97,6 +99,7 @@ export default function Payment() {
   const [selectedId, setSelectedId] = useState(null);
   const [method, setMethod] = useState(null);
   const [printModal, setPrintModal] = useState(false);
+  const [examServices, setExamServices] = useState([]);
   const handlePrintNow = () => {
     window.print();
     setPrintModal(false);
@@ -183,8 +186,34 @@ export default function Payment() {
     [donThuocs, selected],
   );
 
+  useEffect(() => {
+    let active = true;
+    if (!selected?.maPK) {
+      setExamServices([]);
+      return;
+    }
+    getPhieuKhamDichVuByExam(selected.maPK)
+      .then((response) => {
+        if (!active) return;
+        const payload = response?.data ?? {};
+        const rows = payload?.data ?? payload?.Data ?? [];
+        setExamServices(Array.isArray(rows) ? rows : []);
+      })
+      .catch(() => {
+        if (active) setExamServices([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, [selected?.maPK]);
+
   const items = selected ? buildMedicineItems(selectedDonThuoc, danhMucThuocs) : [];
-  const total = items.reduce((sum, item) => sum + item.thanhTien, 0);
+  const medicineTotal = items.reduce((sum, item) => sum + item.thanhTien, 0);
+  const serviceTotal = examServices.reduce(
+    (sum, item) => sum + Number(item.donGia ?? item.DonGia ?? 0),
+    0,
+  );
+  const total = medicineTotal + serviceTotal;
   // Only trust the invoice's own tongTien once it's already been paid — before that,
   // an existing HoaDon row may still carry a placeholder 0, which must not silently
   // override the freshly computed medication total (see finding 4.4).
@@ -471,13 +500,45 @@ export default function Payment() {
                   summary={() => (
                     <Table.Summary.Row className="svc-summary">
                       <Table.Summary.Cell index={0} colSpan={3}>
-                        <b>Tổng tiền ({items.length} mục)</b>
+                        <b>Tổng tiền thuốc ({items.length} mục)</b>
                       </Table.Summary.Cell>
                       <Table.Summary.Cell index={3} align="right">
-                        <b className="total-sum">{formatMoney(total)}</b>
+                        <b className="total-sum">{formatMoney(medicineTotal)}</b>
                       </Table.Summary.Cell>
                     </Table.Summary.Row>
                   )}
+                />
+
+                <Table
+                  dataSource={examServices}
+                  rowKey={(row) => row.id ?? row.Id}
+                  pagination={false}
+                  size="small"
+                  className="svc-table"
+                  style={{ marginTop: 12 }}
+                  columns={[
+                    { title: "Dịch vụ", dataIndex: "tenDV", key: "tenDV" },
+                    {
+                      title: "Đơn giá",
+                      dataIndex: "donGia",
+                      key: "donGia",
+                      align: "right",
+                      render: (value) => formatMoney(value),
+                    },
+                  ]}
+                  locale={{ emptyText: "Chưa có dịch vụ chỉ định." }}
+                  summary={() =>
+                    examServices.length ? (
+                      <Table.Summary.Row className="svc-summary">
+                        <Table.Summary.Cell index={0}>
+                          <b>Tổng tiền dịch vụ ({examServices.length} mục)</b>
+                        </Table.Summary.Cell>
+                        <Table.Summary.Cell index={1} align="right">
+                          <b className="total-sum">{formatMoney(serviceTotal)}</b>
+                        </Table.Summary.Cell>
+                      </Table.Summary.Row>
+                    ) : null
+                  }
                 />
 
                 <div className="total-box">
@@ -499,6 +560,25 @@ export default function Payment() {
                     </button>
                   ))}
                 </div>
+
+                {method === "bank" && (
+                  <div className="qr-box">
+                    <img
+                      className="qr-image"
+                      src={buildVietQrUrl(
+                        invoiceTotal,
+                        `Thanh toan kham benh ${selected.maPK.slice(0, 8)}`,
+                      )}
+                      alt="Mã QR chuyển khoản"
+                    />
+                    <p className="qr-hint">
+                      Quét mã bằng ứng dụng ngân hàng để chuyển khoản{" "}
+                      <b>{formatMoney(invoiceTotal)}</b>. Sau khi bệnh nhân đã
+                      chuyển khoản thành công, nhấn "Xác nhận thanh toán" bên
+                      dưới.
+                    </p>
+                  </div>
+                )}
 
                 <div className="action-row">
                   <Button
@@ -564,7 +644,7 @@ export default function Payment() {
             </div>
             <Divider style={{ margin: "10px 0" }} />
             <table className="inv-table">
-              <thead><tr><th>Thuốc</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead>
+              <thead><tr><th>Thuốc / Dịch vụ</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead>
               <tbody>
                 {items.map((s) => (
                   <tr key={s.key}>
@@ -572,6 +652,14 @@ export default function Payment() {
                     <td>{s.soLuong || "—"}</td>
                     <td className="inv-price">{formatMoney(s.donGia)}</td>
                     <td className="inv-price">{formatMoney(s.thanhTien)}</td>
+                  </tr>
+                ))}
+                {examServices.map((s) => (
+                  <tr key={s.id ?? s.Id}>
+                    <td>{s.tenDV ?? s.TenDV}</td>
+                    <td>—</td>
+                    <td className="inv-price">{formatMoney(s.donGia ?? s.DonGia)}</td>
+                    <td className="inv-price">{formatMoney(s.donGia ?? s.DonGia)}</td>
                   </tr>
                 ))}
               </tbody>

@@ -9,3 +9,4 @@ export * from "./DanhMucThuocAPI";
 export * from "./DanhMucDichVuAPI";
 export * from "./LichLamViecAPI";
 export * from "./HoaDonAPI";
+export * from "./PhieuKhamDichVuAPI";

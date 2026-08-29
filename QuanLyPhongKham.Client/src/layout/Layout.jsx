@@ -1,7 +1,7 @@
 import "./layout.scss";
 import { useEffect, useMemo, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Layout, Button, Dropdown, Avatar } from "antd";
+import { Layout, Button, Dropdown, Avatar, message } from "antd";
 import {
   UserSwitchOutlined,
   DollarCircleOutlined,
@@ -14,6 +14,7 @@ import {
   SwapOutlined,
   TeamOutlined,
   LogoutOutlined,
+  LockOutlined,
   FileAddOutlined,
   HistoryOutlined,
   FileSearchOutlined,
@@ -27,6 +28,7 @@ import {
 } from "@ant-design/icons";
 import logo from "../assets/image/LogoBYT.png";
 import apiClient from "../config/axios";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -37,6 +39,8 @@ export default function AppLayout() {
   const pathname = location.pathname.toLowerCase();
   const [apiRole, setApiRole] = useState(null);
   const [apiUserName, setApiUserName] = useState(null);
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const normalizeRole = (value) => {
     if (!value) return null;
@@ -299,6 +303,12 @@ export default function AppLayout() {
 
   const items = [
     {
+      key: "changePassword",
+      icon: <LockOutlined />,
+      label: "Đổi mật khẩu",
+      onClick: () => setChangePasswordOpen(true),
+    },
+    {
       key: "logout",
       icon: <LogoutOutlined />,
       label: <Link to="/logout">Đăng xuất</Link>,
@@ -408,6 +418,15 @@ export default function AppLayout() {
           </Footer>
         </Content>
       </Layout>
+
+      {contextHolder}
+      <ChangePasswordModal
+        open={changePasswordOpen}
+        onClose={(success) => {
+          setChangePasswordOpen(false);
+          if (success) messageApi.success("Đổi mật khẩu thành công.");
+        }}
+      />
     </Layout>
   );
 }

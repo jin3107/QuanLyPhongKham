@@ -9,6 +9,7 @@ using QuanLyPhongKham.Application.Implementations.Appointments;
 using QuanLyPhongKham.Application.Implementations.WorkSchedules;
 using QuanLyPhongKham.Application.Implementations.Staffs;
 using QuanLyPhongKham.Application.Implementations.MedicalExaminations;
+using QuanLyPhongKham.Application.Implementations.MedicalExaminationServices;
 using QuanLyPhongKham.Application.Interfaces.Doctors;
 using QuanLyPhongKham.Application.Interfaces.Patients;
 using QuanLyPhongKham.Application.Interfaces.MedicalServices;
@@ -19,6 +20,7 @@ using QuanLyPhongKham.Application.Interfaces.Appointments;
 using QuanLyPhongKham.Application.Interfaces.WorkSchedules;
 using QuanLyPhongKham.Application.Interfaces.Staffs;
 using QuanLyPhongKham.Application.Interfaces.MedicalExaminations;
+using QuanLyPhongKham.Application.Interfaces.MedicalExaminationServices;
 
 namespace QuanLyPhongKham.Application
 {
@@ -85,6 +87,10 @@ namespace QuanLyPhongKham.Application
             services.AddScoped<IDeleteMedicalExaminationHandler, DeleteMedicalExaminationHandler>();
             services.AddScoped<IGetMedicalExaminationByIdHandler, GetMedicalExaminationByIdHandler>();
             services.AddScoped<ISearchMedicalExaminationHandler, SearchMedicalExaminationHandler>();
+
+            services.AddScoped<ICreateMedicalExaminationServiceHandler, CreateMedicalExaminationServiceHandler>();
+            services.AddScoped<IGetMedicalExaminationServicesByExamHandler, GetMedicalExaminationServicesByExamHandler>();
+            services.AddScoped<IDeleteMedicalExaminationServiceHandler, DeleteMedicalExaminationServiceHandler>();
 
             return services;
         }
