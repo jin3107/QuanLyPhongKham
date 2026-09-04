@@ -12,8 +12,8 @@ using QuanLyPhongKham.Infrastructure.Persistence.Data;
 namespace QuanLyPhongKham.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260829133936_AddOtpCodes")]
-    partial class AddOtpCodes
+    [Migration("20260829153239_DbInitial")]
+    partial class DbInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -333,6 +333,45 @@ namespace QuanLyPhongKham.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("MedicalExaminations");
+                });
+
+            modelBuilder.Entity("QuanLyPhongKham.Domain.Entities.MedicalExaminationService", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("DonGia")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("MaDV")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("MaPK")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaDV");
+
+                    b.HasIndex("MaPK");
+
+                    b.ToTable("MedicalExaminationServices");
                 });
 
             modelBuilder.Entity("QuanLyPhongKham.Domain.Entities.MedicalService", b =>
@@ -863,6 +902,25 @@ namespace QuanLyPhongKham.Infrastructure.Persistence.Migrations
                     b.Navigation("Appointment");
 
                     b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("QuanLyPhongKham.Domain.Entities.MedicalExaminationService", b =>
+                {
+                    b.HasOne("QuanLyPhongKham.Domain.Entities.MedicalService", "MedicalService")
+                        .WithMany()
+                        .HasForeignKey("MaDV")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyPhongKham.Domain.Entities.MedicalExamination", "MedicalExamination")
+                        .WithMany()
+                        .HasForeignKey("MaPK")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("MedicalExamination");
+
+                    b.Navigation("MedicalService");
                 });
 
             modelBuilder.Entity("QuanLyPhongKham.Domain.Entities.Prescription", b =>

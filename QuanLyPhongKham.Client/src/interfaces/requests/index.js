@@ -11,3 +11,5 @@ export * from "./BenhNhanRequest";
 export * from "./PhieuKhamRequest";
 export * from "./ChiTietDonThuocRequest";
 export * from "./DonThuocRequest";
+export * from "./DanhMucThuocRequest";
+export * from "./DanhMucDichVuRequest";

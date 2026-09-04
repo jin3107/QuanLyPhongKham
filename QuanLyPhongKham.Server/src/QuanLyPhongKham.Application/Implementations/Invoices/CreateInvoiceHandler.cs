@@ -30,7 +30,7 @@ namespace QuanLyPhongKham.Application.Implementations.Invoices
 
             var entity = InvoiceMapper.ToEntity(request);
             entity.MaHD = Guid.NewGuid();
-            entity.MaLeTan = callerId;   // current Identity user's ID
+            entity.MaLeTan = callerId;
             entity.CreatedBy = callerEmail;
             entity.CreatedOn = DateTime.UtcNow;
             entity.IsDeleted = false;

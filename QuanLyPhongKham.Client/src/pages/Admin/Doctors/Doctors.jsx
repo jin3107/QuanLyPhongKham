@@ -244,7 +244,7 @@ export default function Doctors() {
 
   return (
     <div className="admin-doctors-page">
-        {/* {contextHolder} */}
+        {contextHolder}
         <header className="admin-header">
           <div>
             <Text type="secondary" className="admin-subtitle">

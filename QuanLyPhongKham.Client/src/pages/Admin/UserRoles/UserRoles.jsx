@@ -205,7 +205,7 @@ export default function UserRoles() {
 
   return (
       <div className="admin-page user-roles-page">
-      {/* {contextHolder} */}
+        {contextHolder}
         <header className="admin-header">
           <div>
             <Text type="secondary" className="admin-subtitle">

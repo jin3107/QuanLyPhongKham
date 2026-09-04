@@ -43,6 +43,8 @@ const AdminUserRoles = lazyWithPreload(() =>
   import("./pages/Admin/UserRoles/UserRoles"),
 );
 const AdminDoctors = lazyWithPreload(() => import("./pages/Admin/Doctors/Doctors"));
+const AdminMedicines = lazyWithPreload(() => import("./pages/Admin/Medicines/Medicines"));
+const AdminServices = lazyWithPreload(() => import("./pages/Admin/Services/Services"));
 const DoctorDashboard = lazyWithPreload(() =>
   import("./pages/Doctor/Dashboard/Dashboard"),
 );
@@ -75,7 +77,7 @@ const HistoryView = lazyWithPreload(() =>
 );
 
 const routePreloads = {
-  admin: [AdminDashboard, AdminUserRoles, AdminDoctors, WorkingSchedule],
+  admin: [AdminDashboard, AdminUserRoles, AdminDoctors, AdminMedicines, AdminServices, WorkingSchedule],
   doctor: [DoctorDashboard, PatientInfo, PatientView, Prescription, ServiceRequest],
   receptionist: [ReceptionistDashboard, MedicalRecord, PatientIntake, HistoryView, Payment],
   patient: [PatientDashboard, ScheduleView, Booking, Cancellation, Reschedule],
@@ -143,6 +145,8 @@ function App() {
           <Route path="Admin/User-roles" element={<Navigate to="/admin/user-roles" replace />} />
           <Route path="admin/doctors" element={<AdminDoctors />} />
           <Route path="Admin/Doctors" element={<Navigate to="/admin/doctors" replace />} />
+          <Route path="admin/medicines" element={<AdminMedicines />} />
+          <Route path="admin/services" element={<AdminServices />} />
           <Route path="admin/working-schedule" element={<WorkingSchedule />} />
           {/* Đường dẫn cũ: /WorkingSchedule. Giữ redirect để không làm hỏng link đã có. */}
           <Route path="WorkingSchedule" element={<Navigate to="/admin/working-schedule" replace />} />

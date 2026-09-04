@@ -156,6 +156,51 @@ export default function Dashboard() {
     return sortedDoctors;
   }, [phieuKhams, bacSis]);
 
+  const handleCreateReport = () => {
+    const today = dayjs();
+    const lines = [];
+
+    lines.push(`Báo cáo tổng quan phòng khám - ${today.format("DD/MM/YYYY")}`);
+    lines.push("");
+    lines.push("CHỈ SỐ TỔNG QUAN");
+    metricData.forEach((item) => lines.push(`${item.title},${item.value}`));
+
+    lines.push("");
+    lines.push("LỊCH LÀM VIỆC HÔM NAY");
+    lines.push("Khoa,Bác sĩ trực,Trạng thái");
+    if (schedulesData.length) {
+      schedulesData.forEach((item) =>
+        lines.push(`${item.title},"${item.description.join("; ")}",${item.status}`),
+      );
+    } else {
+      lines.push("Không có lịch làm việc nào được xếp trong hôm nay.,,");
+    }
+
+    lines.push("");
+    lines.push("TOP BÁC SĨ THEO LƯỢT KHÁM (TOÀN THỜI GIAN)");
+    lines.push("Bác sĩ,Chuyên khoa,Lượt khám");
+    if (topDoctors.length) {
+      topDoctors.forEach((item) =>
+        lines.push(`${item.doctor},${item.department},${item.visits}`),
+      );
+    } else {
+      lines.push("Chưa có dữ liệu lượt khám.,,");
+    }
+
+    const csvContent = "﻿" + lines.join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `bao-cao-tong-quan-${today.format("YYYY-MM-DD")}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    message.success("Đã tạo báo cáo tổng quan.");
+  };
+
   return (
     <div className="admin-page admin-dashboard-page">
       <header className="admin-header">
@@ -165,7 +210,9 @@ export default function Dashboard() {
           </Text>
         </div>
         <Space wrap>
-          <Button type="primary">Tạo báo cáo</Button>
+          <Button type="primary" onClick={handleCreateReport}>
+            Tạo báo cáo
+          </Button>
         </Space>
       </header>
 

@@ -107,7 +107,7 @@ namespace MayNghien.Infrastructures.Repository
             }
             catch
             {
-                throw; // Fix #11: preserve original stack trace
+                throw;
             }
 
         }
@@ -135,7 +135,7 @@ namespace MayNghien.Infrastructures.Repository
             }
             catch
             {
-                throw; // Fix #11: preserve original stack trace
+                throw;
             }
 
         }

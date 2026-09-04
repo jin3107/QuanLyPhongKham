@@ -234,6 +234,16 @@ export default function AppLayout() {
         label: "Quản lý bác sĩ",
       },
       {
+        path: "/admin/medicines",
+        icon: <MedicineBoxOutlined />,
+        label: "Danh mục thuốc",
+      },
+      {
+        path: "/admin/services",
+        icon: <ExperimentOutlined />,
+        label: "Danh mục dịch vụ",
+      },
+      {
         path: "/admin/working-schedule",
         icon: <CalendarOutlined />,
         label: "Phân công lịch",

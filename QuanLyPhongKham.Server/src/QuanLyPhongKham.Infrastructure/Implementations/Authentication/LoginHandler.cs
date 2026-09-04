@@ -75,8 +75,14 @@ namespace QuanLyPhongKham.Infrastructure.Implementations.Authentication
             });
         }
 
-        private async Task<ApplicationUser> SeedAdminAsync(string email, string password)
+        private async Task<ApplicationUser?> SeedAdminAsync(string email, string password)
         {
+            // A previous seed attempt may have already created the user (e.g. this ran
+            // on an earlier login that failed later, or two requests raced). Re-check
+            // before creating again instead of blindly retrying CreateAsync.
+            var existing = await _userManager.FindByEmailAsync(email);
+            if (existing != null) return existing;
+
             var admin = new ApplicationUser
             {
                 Email = email,
@@ -85,13 +91,18 @@ namespace QuanLyPhongKham.Infrastructure.Implementations.Authentication
                 Role = Role.SuperAdmin,
             };
 
-            await _userManager.CreateAsync(admin, password);
+            var createResult = await _userManager.CreateAsync(admin, password);
+            if (!createResult.Succeeded)
+            {
+                // Someone else created it concurrently between the check above and here.
+                return await _userManager.FindByEmailAsync(email);
+            }
 
             if (!await _roleManager.RoleExistsAsync("SuperAdmin"))
                 await _roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
 
             await _userManager.AddToRoleAsync(admin, "SuperAdmin");
-            return await _userManager.FindByEmailAsync(email) ?? admin;
+            return admin;
         }
 
         internal static List<Claim> BuildClaims(string email, string? phoneNumber, IList<string> roles)
